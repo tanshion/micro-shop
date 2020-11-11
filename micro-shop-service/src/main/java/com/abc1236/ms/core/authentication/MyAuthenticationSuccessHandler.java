@@ -91,10 +91,11 @@ public class MyAuthenticationSuccessHandler extends SavedRequestAwareAuthenticat
         AccessToken accessToken;
         Set<String> grantTypes = clientDetails.getAuthorizedGrantTypes();
         if (grantTypes.contains("stateless")) {
-            accessToken = new AccessToken(oAuth2AccessToken.getValue());
+            accessToken = new AccessToken();
+            accessToken.setToken(oAuth2AccessToken.getValue());
         } else {
             String jti = (String) oAuth2AccessToken.getAdditionalInformation().get("jti");
-            accessToken = new AccessToken(clientDetails.getClientId(), "" + authorizationUser.getId(), jti);
+            accessToken = tokenService.buildToken(clientDetails.getClientId(), "" + authorizationUser.getId(), jti);
             tokenService.saveToken(accessToken.getToken(), oAuth2AccessToken.getValue());
         }
         return accessToken;

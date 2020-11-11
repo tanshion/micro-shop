@@ -2,7 +2,7 @@ package com.abc1236.ms.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
-import com.abc1236.ms.config.mybatis.wrapper.QueryChainWrapper;
+import com.abc1236.ms.config.mybatis.wrapper.QueryChain;
 import com.abc1236.ms.core.authentication.service.MyUserDetailsService;
 import com.abc1236.ms.core.authentication.token.AuthorizationUser;
 import com.abc1236.ms.dao.mapper.*;
@@ -31,7 +31,7 @@ public class UserDetailsServiceImpl implements MyUserDetailsService {
     @Override
     public User getSysUserByUsername(String username) {
         log.debug("根据用户名查询用户");
-        return new QueryChainWrapper<>(userMapper)
+        return new QueryChain<>(userMapper)
             .eq(User::getAccount, username)
             .one();
     }
@@ -39,7 +39,7 @@ public class UserDetailsServiceImpl implements MyUserDetailsService {
     @Override
     public User getSysUserByMobile(String mobile) throws UsernameNotFoundException {
         log.debug("根据手机号查询用户");
-        return new QueryChainWrapper<>(userMapper)
+        return new QueryChain<>(userMapper)
             .eq(User::getPhone, mobile)
             .one();
     }
@@ -47,7 +47,7 @@ public class UserDetailsServiceImpl implements MyUserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.debug("根据用户名查询用户");
-        User sysUser = new QueryChainWrapper<>(userMapper)
+        User sysUser = new QueryChain<>(userMapper)
             .eq(User::getPhone, username)
             .one();
         return getUserDetails(sysUser);
@@ -65,20 +65,20 @@ public class UserDetailsServiceImpl implements MyUserDetailsService {
         Set<String> permissions = new HashSet<>();
         Set<String> resUrls = new HashSet<>();
         CollectionUtil.addAll(roleList, roleArray);
-        List<Role> roles = new QueryChainWrapper<>(roleMapper)
+        List<Role> roles = new QueryChain<>(roleMapper)
             .in(Role::getId, roleList)
             .list();
         Optional.ofNullable(roles).orElse(new ArrayList<>()).forEach(role -> {
             roleNameList.add(role.getName());
             roleCodeList.add(role.getTips());
         });
-        List<Relation> relations = new QueryChainWrapper<>(relationMapper)
+        List<Relation> relations = new QueryChain<>(relationMapper)
             .in(Relation::getRoleid, roleList)
             .list();
         List<Long> menuList = Optional.ofNullable(relations).orElse(new ArrayList<>()).stream()
             .map(Relation::getMenuid)
             .collect(Collectors.toList());
-        List<Menu> menus = new QueryChainWrapper<>(menuMapper)
+        List<Menu> menus = new QueryChain<>(menuMapper)
             .in(Menu::getId, menuList)
             .list();
         Optional.ofNullable(menus).orElse(new ArrayList<>()).forEach(menu -> {

@@ -22,25 +22,25 @@ import java.util.function.Predicate;
  * @email 843565561@qq.com
  */
 @SuppressWarnings({"serial"})
-public class QueryChainWrapper<T> extends AbstractChainWrapper<T, SFunction<T, ?>, QueryChainWrapper<T>, LambdaQueryWrapper<T>>
-    implements ChainQuery<T>, Query<QueryChainWrapper<T>, T, SFunction<T, ?>> {
+public class QueryChain<T> extends AbstractChainWrapper<T, SFunction<T, ?>, QueryChain<T>, LambdaQueryWrapper<T>>
+    implements ChainQuery<T>, Query<QueryChain<T>, T, SFunction<T, ?>> {
     protected Log log = LogFactory.getLog(this.getClass());
 
     private final BaseMapper<T> baseMapper;
 
-    public QueryChainWrapper(BaseMapper<T> baseMapper) {
+    public QueryChain(BaseMapper<T> baseMapper) {
         super();
         this.baseMapper = baseMapper;
         super.wrapperChildren = new LambdaQueryWrapper<>();
     }
 
     @SafeVarargs
-    public final QueryChainWrapper<T> select(SFunction<T, ?>... columns) {
+    public final QueryChain<T> select(SFunction<T, ?>... columns) {
         wrapperChildren.select(columns);
         return typedThis;
     }
 
-    public QueryChainWrapper<T> select(Class<T> entityClass, Predicate<TableFieldInfo> predicate) {
+    public QueryChain<T> select(Class<T> entityClass, Predicate<TableFieldInfo> predicate) {
         wrapperChildren.select(entityClass, predicate);
         return typedThis;
     }

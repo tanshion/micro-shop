@@ -1,7 +1,6 @@
 package com.abc1236.ms.controller;
 
 import com.abc1236.ms.bo.JwtUser;
-import com.abc1236.ms.cache.CacheDao;
 import com.abc1236.ms.core.authentication.token.AccessToken;
 import com.abc1236.ms.core.log.LogManager;
 import com.abc1236.ms.core.log.LogTaskFactory;
@@ -17,13 +16,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.security.PermitAll;
-
 @RequiredArgsConstructor
 @Slf4j
 @RestController
-@RequestMapping("/account")
 @PreAuthorize("isAuthenticated()")
+@RequestMapping("/account")
 public class AccountController {
     private final AccountService accountService;
 
@@ -34,7 +31,7 @@ public class AccountController {
      * @param password password
      * @return AccessToken
      */
-    @PermitAll
+    @PreAuthorize("permitAll")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResultEntity<AccessToken> login(@RequestParam("username") String userName, @RequestParam("password") String password) {
         AccessToken accessToken = accountService.login(userName, password);
