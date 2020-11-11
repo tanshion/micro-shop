@@ -10,4 +10,6 @@ public interface AccountService {
     void logout(String token);
 
     UserInfoVO info(JwtUser jwtUser);
+
+    void updatePwd(String oldPassword, String password, String rePassword);
 }

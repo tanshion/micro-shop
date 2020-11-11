@@ -1,6 +1,7 @@
 package com.abc1236.ms.service.impl;
 
 import com.abc1236.ms.bo.JwtUser;
+import com.abc1236.ms.cache.CacheDao;
 import com.abc1236.ms.client.AuthClient;
 import com.abc1236.ms.core.authentication.service.TokenService;
 import com.abc1236.ms.core.authentication.token.AccessToken;
@@ -68,5 +69,30 @@ public class AccountServiceImpl implements AccountService {
         profile.setRoles(jwtUser.getRoleNames());
         userInfoVO.setProfile(profile);
         return userInfoVO;
+    }
+
+    @Override
+    public void updatePwd(String oldPassword, String password, String rePassword) {
+        //try {
+        //    managerService.getUserById()
+        //    User user = managerService.get(getIdUser(HttpUtil.getRequest()));
+        //    logger.info("oldPassword:{},password:{},rePassword:{}",MD5.md5(oldPassword, user.getSalt()),password,rePassword);
+        //
+        //    if(!MD5.md5(oldPassword, user.getSalt()).equals(user.getPassword())){
+        //        return Rets.failure("旧密码输入错误");
+        //    }
+        //    if(!password.equals(rePassword)){
+        //        return Rets.failure("新密码前后不一致");
+        //    }
+        //    user.setPassword(MD5.md5(password, user.getSalt()));
+        //    managerService.update(user);
+        //    //清空缓存
+        //    cacheDao.hset(CacheDao.SESSION,user.getAccount(),null);
+        //    return Rets.success();
+        //} catch (Exception e) {
+        //    logger.error(e.getMessage(), e);
+        //}
+        //return Rets.failure("更改密码失败");
+
     }
 }

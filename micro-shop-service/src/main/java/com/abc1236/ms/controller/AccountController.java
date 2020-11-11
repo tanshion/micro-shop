@@ -1,6 +1,7 @@
 package com.abc1236.ms.controller;
 
 import com.abc1236.ms.bo.JwtUser;
+import com.abc1236.ms.cache.CacheDao;
 import com.abc1236.ms.core.authentication.token.AccessToken;
 import com.abc1236.ms.core.log.LogManager;
 import com.abc1236.ms.core.log.LogTaskFactory;
@@ -16,10 +17,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.security.PermitAll;
+
 @RequiredArgsConstructor
 @Slf4j
 @RestController
 @RequestMapping("/account")
+@PreAuthorize("isAuthenticated()")
 public class AccountController {
     private final AccountService accountService;
 
@@ -30,6 +34,7 @@ public class AccountController {
      * @param password password
      * @return AccessToken
      */
+    @PermitAll
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResultEntity<AccessToken> login(@RequestParam("username") String userName, @RequestParam("password") String password) {
         AccessToken accessToken = accountService.login(userName, password);
@@ -50,11 +55,18 @@ public class AccountController {
         return ResultEntity.success();
     }
 
-    @PreAuthorize("isAuthenticated()")
+
     @RequestMapping(value = "/info", method = RequestMethod.GET)
     public ResultEntity<UserInfoVO> info() {
         JwtUser jwtUser = HttpUtil.getJwtUser();
         UserInfoVO userInfoVO = accountService.info(jwtUser);
         return ResultEntity.success(userInfoVO);
+    }
+
+    @RequestMapping(value = "/updatePwd", method = RequestMethod.POST)
+    public ResultEntity<String> updatePwd(String oldPassword, String password, String rePassword) {
+        accountService.updatePwd(oldPassword, password, rePassword);
+
+        return ResultEntity.success();
     }
 }
