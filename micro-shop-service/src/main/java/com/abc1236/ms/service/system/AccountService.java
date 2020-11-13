@@ -1,4 +1,4 @@
-package com.abc1236.ms.service;
+package com.abc1236.ms.service.system;
 
 import com.abc1236.ms.bo.JwtUser;
 import com.abc1236.ms.core.authentication.token.AccessToken;

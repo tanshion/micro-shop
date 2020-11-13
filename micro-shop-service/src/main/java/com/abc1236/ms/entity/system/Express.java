@@ -30,7 +30,7 @@ public class Express {
     private String code;
 
     @ApiModelProperty(value = "是否禁用")
-    private Byte disabled;
+    private boolean disabled;
 
     @ApiModelProperty(value = "公司名称")
     private String name;

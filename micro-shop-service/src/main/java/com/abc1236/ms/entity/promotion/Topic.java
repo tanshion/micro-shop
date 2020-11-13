@@ -27,7 +27,7 @@ public class Topic {
     private Date modifyTime;
 
     @ApiModelProperty(value = "是否禁用")
-    private Byte disabled;
+    private boolean disabled;
 
     @ApiModelProperty(value = "专题文章")
     private Long idArticle;

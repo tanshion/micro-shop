@@ -1,11 +1,11 @@
-package com.abc1236.ms.controller;
+package com.abc1236.ms.controller.system;
 
 import com.abc1236.ms.bo.JwtUser;
 import com.abc1236.ms.core.authentication.token.AccessToken;
 import com.abc1236.ms.core.log.LogManager;
 import com.abc1236.ms.core.log.LogTaskFactory;
 import com.abc1236.ms.core.result.ResultEntity;
-import com.abc1236.ms.service.AccountService;
+import com.abc1236.ms.service.system.AccountService;
 import com.abc1236.ms.util.HttpUtil;
 import com.abc1236.ms.vo.UserInfoVO;
 import lombok.RequiredArgsConstructor;

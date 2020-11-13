@@ -3,7 +3,6 @@ package com.abc1236.ms.exception;
 import cn.hutool.core.util.StrUtil;
 import com.abc1236.ms.core.result.ResultEntity;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,7 +21,6 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Slf4j
 @RestController
-@ConditionalOnWebApplication
 public class GlobalErrorController implements ErrorController {
     private static final String ERROR_PATH = "error";
 

@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Primary;
  * @email 843565561@qq.com
  */
 @Configuration
-public class JackjsonConfig {
+public class JacksonConfig {
     @Bean
     @Primary  //表示优先使用这个mapper
     public MyObjectMapper getMapper() {

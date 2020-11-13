@@ -2,9 +2,8 @@ package com.abc1236.ms.core.authentication.resource;
 
 import cn.hutool.core.util.StrUtil;
 import com.abc1236.ms.bo.JwtUser;
-import com.abc1236.ms.cache.CacheDao;
-import com.abc1236.ms.constant.cache.Cache;
 import com.abc1236.ms.core.authentication.constant.TokenConstant;
+import com.abc1236.ms.core.cache.CacheDao;
 import com.abc1236.ms.util.JsonUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.RequiredArgsConstructor;
@@ -49,7 +48,7 @@ public class MyBearerTokenExtractor extends BearerTokenExtractor {
 
     private String initToken(String tokenValue) {
         if (StrUtil.contains(tokenValue, TokenConstant.STATELESS_ACCESS_TOKEN)) {
-            return cacheDao.hget(Cache.SESSION, tokenValue);
+            return cacheDao.get(tokenValue);
         }
         return tokenValue;
     }

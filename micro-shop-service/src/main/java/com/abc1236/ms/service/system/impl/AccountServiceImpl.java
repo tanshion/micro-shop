@@ -1,19 +1,18 @@
-package com.abc1236.ms.service.impl;
+package com.abc1236.ms.service.system.impl;
 
 import cn.hutool.core.util.StrUtil;
 import com.abc1236.ms.bo.JwtUser;
 import com.abc1236.ms.client.AuthClient;
-import com.abc1236.ms.config.mybatis.wrapper.QueryChain;
 import com.abc1236.ms.core.authentication.service.TokenService;
 import com.abc1236.ms.core.authentication.token.AccessToken;
 import com.abc1236.ms.core.log.LogManager;
 import com.abc1236.ms.core.log.LogTaskFactory;
 import com.abc1236.ms.core.result.ResultEntity;
-import com.abc1236.ms.dao.mapper.UserMapper;
 import com.abc1236.ms.entity.system.User;
 import com.abc1236.ms.exception.MyAssert;
 import com.abc1236.ms.exception.ServiceException;
-import com.abc1236.ms.service.AccountService;
+import com.abc1236.ms.service.system.AccountService;
+import com.abc1236.ms.service.system.UserService;
 import com.abc1236.ms.util.HttpUtil;
 import com.abc1236.ms.vo.Profile;
 import com.abc1236.ms.vo.UserInfoVO;
@@ -31,7 +30,7 @@ public class AccountServiceImpl implements AccountService {
     private final PasswordEncoder passwordEncoder;
     private final AuthClient authClient;
     private final TokenService tokenService;
-    private final UserMapper userMapper;
+    private final UserService userService;
 
     /**
      * 用户登录<br>
@@ -41,13 +40,11 @@ public class AccountServiceImpl implements AccountService {
      */
     @Override
     public AccessToken login(String username, String password) {
-        User user = new QueryChain<>(userMapper)
-            .eq(User::getAccount, username)
-            .one();
         ResultEntity<AccessToken> resultEntity = authClient.loginByUsername(username, password);
         if (!resultEntity.isSuccess()) {
             throw new ServiceException(resultEntity.getMsg());
         }
+        User user = userService.findByAccount(username);
         LogManager.me().executeLog(LogTaskFactory.loginLog(user.getId(), HttpUtil.getIp()));
         return resultEntity.getData();
     }
@@ -60,7 +57,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public UserInfoVO info(JwtUser jwtUser) {
         MyAssert.notEmpty(jwtUser.getRoleList(), "该用户未配置权限");
-        User user = userMapper.selectById(jwtUser.getId());
+        User user = userService.findById(jwtUser.getId());
         UserInfoVO userInfoVO = new UserInfoVO();
         userInfoVO.setName(jwtUser.getName());
         userInfoVO.setRole("admin");
@@ -76,10 +73,10 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void updatePwd(String oldPassword, String password, String rePassword) {
         Long id = HttpUtil.getJwtUser().getId();
-        User user = userMapper.selectById(id);
+        User user = userService.findById(id);
         MyAssert.isTrue(passwordEncoder.matches(oldPassword, user.getPassword()), "旧密码输入错误");
         MyAssert.isTrue(StrUtil.equals(password, rePassword), "新密码前后不一致");
         user.setPassword(passwordEncoder.encode(password));
-        userMapper.updateById(user);
+        userService.updateById(user);
     }
 }

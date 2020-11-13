@@ -1,18 +1,3 @@
-/**
- * Copyright (c) 2011-2014, hubin (jobob@qq.com).
- * <p>
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
- */
 package com.abc1236.ms.util;
 
 import javax.servlet.http.Cookie;
@@ -24,14 +9,15 @@ import java.util.Map;
 /**
  * Request请求过滤包装
  * <p>
+ *
  * @author hubin
- * @Date 2014-5-8
+ * @date 2014-5-8
  */
 public class WafRequestWrapper extends HttpServletRequestWrapper {
 
-    private boolean filterXSS = true;
+    private final boolean filterXSS;
 
-    private boolean filterSQL = true;
+    private final boolean filterSQL;
 
 
     public WafRequestWrapper(HttpServletRequest request, boolean filterXSS, boolean filterSQL) {
@@ -47,10 +33,9 @@ public class WafRequestWrapper extends HttpServletRequestWrapper {
 
 
     /**
-     * @Description 数组参数过滤
-     * @param parameter
-     * 				过滤参数
-     * @return
+     * 数组参数过滤
+     *
+     * @param parameter 过滤参数
      */
     @Override
     public String[] getParameterValues(String parameter) {
@@ -69,10 +54,9 @@ public class WafRequestWrapper extends HttpServletRequestWrapper {
     }
 
     @Override
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    public Map getParameterMap() {
+    public Map<String, String[]> getParameterMap() {
         Map<String, String[]> primary = super.getParameterMap();
-        Map<String, String[]> result = new HashMap<String, String[]>(primary.size());
+        Map<String, String[]> result = new HashMap<>(primary.size());
         for (Map.Entry<String, String[]> entry : primary.entrySet()) {
             result.put(entry.getKey(), filterEntryString(entry.getValue()));
         }
@@ -88,10 +72,9 @@ public class WafRequestWrapper extends HttpServletRequestWrapper {
     }
 
     /**
-     * @Description 参数过滤
-     * @param parameter
-     * 				过滤参数
-     * @return
+     * 参数过滤
+     *
+     * @param parameter 过滤参数
      */
     @Override
     public String getParameter(String parameter) {
@@ -100,10 +83,9 @@ public class WafRequestWrapper extends HttpServletRequestWrapper {
 
 
     /**
-     * @Description 请求头过滤
-     * @param name
-     * 				过滤内容
-     * @return
+     * 请求头过滤
+     *
+     * @param name 过滤内容
      */
     @Override
     public String getHeader(String name) {
@@ -112,15 +94,13 @@ public class WafRequestWrapper extends HttpServletRequestWrapper {
 
 
     /**
-     * @Description Cookie内容过滤
-     * @return
+     * Cookie内容过滤
      */
     @Override
     public Cookie[] getCookies() {
         Cookie[] existingCookies = super.getCookies();
         if (existingCookies != null) {
-            for (int i = 0; i < existingCookies.length; ++i) {
-                Cookie cookie = existingCookies[i];
+            for (Cookie cookie : existingCookies) {
                 cookie.setValue(filterParamString(cookie.getValue()));
             }
         }
@@ -128,10 +108,9 @@ public class WafRequestWrapper extends HttpServletRequestWrapper {
     }
 
     /**
-     * @Description 过滤字符串内容
-     * @param rawValue
-     * 				待处理内容
-     * @return
+     * 过滤字符串内容
+     *
+     * @param rawValue 待处理内容
      */
     protected String filterParamString(String rawValue) {
         if (null == rawValue) {

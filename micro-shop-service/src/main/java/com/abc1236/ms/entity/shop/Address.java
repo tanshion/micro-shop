@@ -36,10 +36,10 @@ public class Address {
     private Long idUser;
 
     @ApiModelProperty(value = "是否默认")
-    private Byte isDefault;
+    private boolean isDefault;
 
     @ApiModelProperty(value = "是否删除")
-    private Byte isDelete;
+    private boolean isDelete;
 
     @ApiModelProperty(value = "收件人")
     private String name;

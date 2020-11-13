@@ -5,8 +5,12 @@ import cn.hutool.core.util.StrUtil;
 import com.abc1236.ms.config.mybatis.wrapper.QueryChain;
 import com.abc1236.ms.core.authentication.service.MyUserDetailsService;
 import com.abc1236.ms.core.authentication.token.AuthorizationUser;
-import com.abc1236.ms.dao.mapper.*;
+import com.abc1236.ms.dao.mapper.DeptMapper;
+import com.abc1236.ms.dao.mapper.MenuMapper;
+import com.abc1236.ms.dao.mapper.RelationMapper;
+import com.abc1236.ms.dao.mapper.RoleMapper;
 import com.abc1236.ms.entity.system.*;
+import com.abc1236.ms.service.system.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -22,7 +26,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class UserDetailsServiceImpl implements MyUserDetailsService {
 
-    private final UserMapper userMapper;
+    private final UserService userService;
     private final DeptMapper deptMapper;
     private final RoleMapper roleMapper;
     private final MenuMapper menuMapper;
@@ -31,26 +35,20 @@ public class UserDetailsServiceImpl implements MyUserDetailsService {
     @Override
     public User getSysUserByUsername(String username) {
         log.debug("根据用户名查询用户");
-        return new QueryChain<>(userMapper)
-            .eq(User::getAccount, username)
-            .one();
+        return userService.findByAccount(username);
     }
 
     @Override
     public User getSysUserByMobile(String mobile) throws UsernameNotFoundException {
         log.debug("根据手机号查询用户");
-        return new QueryChain<>(userMapper)
-            .eq(User::getPhone, mobile)
-            .one();
+        return userService.findByPhone(mobile);
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.debug("根据用户名查询用户");
-        User sysUser = new QueryChain<>(userMapper)
-            .eq(User::getPhone, username)
-            .one();
-        return getUserDetails(sysUser);
+        User user = userService.findByAccount(username);
+        return getUserDetails(user);
     }
 
     @Override

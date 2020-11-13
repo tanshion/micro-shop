@@ -36,16 +36,16 @@ public class Goods {
     private Long idCategory;
 
     @ApiModelProperty(value = "是否删除")
-    private Byte isDelete;
+    private boolean isDelete;
 
     @ApiModelProperty(value = "是否人气商品")
-    private Byte isHot;
+    private boolean isHot;
 
     @ApiModelProperty(value = "是否新品推荐")
-    private Byte isNew;
+    private boolean isNew;
 
     @ApiModelProperty(value = "是否上架")
-    private Byte isOnSale;
+    private boolean isOnSale;
 
     @ApiModelProperty(value = "收藏数")
     private Integer likeNum;

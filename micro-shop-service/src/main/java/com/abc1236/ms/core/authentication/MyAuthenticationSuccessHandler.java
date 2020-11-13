@@ -7,7 +7,6 @@ import com.abc1236.ms.core.result.ResultEntity;
 import com.abc1236.ms.util.JsonUtils;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -22,6 +21,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.util.Base64Utils;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -37,14 +37,14 @@ import java.util.Set;
 @Slf4j
 @Component("myAuthenticationSuccessHandler")
 public class MyAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
-    @Autowired
+    @Resource
     private TokenService tokenService;
-    @Autowired
+    @Resource
     private ClientDetailsService clientDetailsService;
-    @Autowired
+    @Resource
     private PasswordEncoder passwordEncoder;
     @Lazy
-    @Autowired
+    @Resource
     private AuthorizationServerTokenServices defaultAuthorizationServerTokenServices;
 
     /*

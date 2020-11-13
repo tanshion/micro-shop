@@ -36,7 +36,7 @@ public class GoodsSku {
     private Long idGoods;
 
     @ApiModelProperty(value = "是否删除1:是,0:否")
-    private Byte isDeleted;
+    private boolean isDeleted;
 
     @ApiModelProperty(value = "市场价,原价")
     private String marketingPrice;
