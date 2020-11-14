@@ -1,13 +1,14 @@
 package com.abc1236.ms.core.authentication.mobile;
 
 import com.abc1236.ms.core.authentication.service.MyUserDetailsService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
 
 /**
  * 短信登录验证逻辑
@@ -20,7 +21,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
 
-    @Autowired
+    @Resource
     private MyUserDetailsService myUserDetailsService;
 
 

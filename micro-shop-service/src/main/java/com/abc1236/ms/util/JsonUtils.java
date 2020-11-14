@@ -21,6 +21,7 @@ import java.util.*;
  * @author tanshion
  * @email 843565561@qq.com
  */
+@SuppressWarnings("unused")
 public class JsonUtils {
     private static final Logger log = LoggerFactory.getLogger(JsonUtils.class);
 
@@ -455,7 +456,9 @@ public class JsonUtils {
      */
     public static String deepRemove(String json, String... keys) {
         try {
-            if (keys == null) return json;
+            if (keys == null) {
+                return json;
+            }
             JsonNode jsonNode = mapper.readTree(json);
             List<String> keyList = Arrays.asList(keys);
             JsonNode node = deepRemove(jsonNode, keyList);
@@ -468,7 +471,9 @@ public class JsonUtils {
 
 
     public static JsonNode deepRemove(JsonNode node, List<String> keys) {
-        if (keys == null) return node;
+        if (keys == null) {
+            return node;
+        }
         if (node.isObject()) {
             ObjectNode objectNode = (ObjectNode) node;
             objectNode.remove(Lists.newArrayList(keys));

@@ -6,7 +6,6 @@ import com.abc1236.ms.core.authentication.constant.TokenConstant;
 import com.abc1236.ms.core.cache.CacheDao;
 import com.abc1236.ms.util.JsonUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.jwt.Jwt;
@@ -17,15 +16,17 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
 @Component
-@RequiredArgsConstructor
 public class MyBearerTokenExtractor extends BearerTokenExtractor {
 
-    private final CacheDao cacheDao;
-    private final TokenStore jwtTokenStore;
+    @Resource
+    private CacheDao cacheDao;
+    @Resource
+    private TokenStore jwtTokenStore;
 
     @Override
     public Authentication extract(HttpServletRequest request) {

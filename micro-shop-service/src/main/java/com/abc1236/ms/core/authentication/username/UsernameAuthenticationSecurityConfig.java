@@ -1,6 +1,5 @@
 package com.abc1236.ms.core.authentication.username;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -9,6 +8,8 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
 
 /**
  * 短信登录配置
@@ -19,11 +20,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class UsernameAuthenticationSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
 
-    @Autowired
+    @Resource
     private AuthenticationSuccessHandler myAuthenticationSuccessHandler;
-    @Autowired
+    @Resource
     private AuthenticationFailureHandler myAuthenticationFailureHandler;
-    @Autowired
+    @Resource
     private UsernameAuthenticationProvider usernameAuthenticationProvider;
 
     /* (non-Javadoc)

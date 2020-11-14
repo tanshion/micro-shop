@@ -3,13 +3,14 @@ package com.abc1236.ms.core.authentication.resource;
 import com.abc1236.ms.core.authentication.MyAuthenticationEntryPoint;
 import com.abc1236.ms.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
 import com.abc1236.ms.core.authentication.username.UsernameAuthenticationSecurityConfig;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
+
+import javax.annotation.Resource;
 
 
 /**
@@ -21,15 +22,15 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)//激活方法上的PreAuthorize注解
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
-    @Autowired
+    @Resource
     private MyAuthenticationEntryPoint myAuthenticationEntryPoint;
-    @Autowired
+    @Resource
     private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
-    @Autowired
+    @Resource
     private UsernameAuthenticationSecurityConfig usernameAuthenticationSecurityConfig;
-    @Autowired
+    @Resource
     private MyAccessDeniedHandler handler;
-    @Autowired
+    @Resource
     private MyBearerTokenExtractor myBearerTokenExtractor;
 
     @Override

@@ -1,20 +1,21 @@
-package com.abc1236.ms.constant.state;
+package com.abc1236.ms.vo.node;
 
 /**
- * 菜单的状态
+ * 是否是菜单的枚举
  *
  * @author fengshuonan
- * @Date 2017年1月22日 下午12:14:59
+ * @date 2017年6月1日22:50:11
  */
-public enum MenuStatus {
-
-    ENABLE(1, "启用"),
-    DISABLE(0, "禁用");
+public enum IsMenu {
+    //是菜单
+    YES(1, "是"),
+    //不是菜单的是按钮
+    NO(0, "不是");
 
     int code;
     String message;
 
-    MenuStatus(int code, String message) {
+    IsMenu(int code, String message) {
         this.code = code;
         this.message = message;
     }
@@ -39,7 +40,7 @@ public enum MenuStatus {
         if (status == null) {
             return "";
         } else {
-            for (MenuStatus s : MenuStatus.values()) {
+            for (IsMenu s : IsMenu.values()) {
                 if (s.getCode() == status) {
                     return s.getMessage();
                 }

@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
         user = new QueryChain<>(userMapper)
             .eq(User::getAccount, username)
             .one();
-        cacheDao.set(DBCacheKey.sys_user_account, username);
+        cacheDao.set(MessageFormat.format(DBCacheKey.sys_user_account, username), user);
         return user;
     }
 
@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
         user = new QueryChain<>(userMapper)
             .eq(User::getId, id)
             .one();
-        cacheDao.set(DBCacheKey.sys_user_id, id);
+        cacheDao.set(MessageFormat.format(DBCacheKey.sys_user_id, id), id);
         return user;
     }
 

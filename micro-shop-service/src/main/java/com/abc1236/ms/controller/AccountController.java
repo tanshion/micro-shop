@@ -1,4 +1,4 @@
-package com.abc1236.ms.controller.system;
+package com.abc1236.ms.controller;
 
 import com.abc1236.ms.bo.JwtUser;
 import com.abc1236.ms.core.authentication.token.AccessToken;
@@ -33,15 +33,14 @@ public class AccountController {
      */
     @PreAuthorize("permitAll")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResultEntity<AccessToken> login(@RequestParam("username") String userName, @RequestParam("password") String password) {
+    public ResultEntity<AccessToken> login(@RequestParam("username") String userName,
+        @RequestParam("password") String password) {
         AccessToken accessToken = accountService.login(userName, password);
         return ResultEntity.success(accessToken);
     }
 
     /**
      * 退出登录
-     *
-     * @return
      */
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
     public ResultEntity<String> logout() {
@@ -51,7 +50,6 @@ public class AccountController {
         LogManager.me().executeLog(LogTaskFactory.exitLog(idUser, HttpUtil.getIp()));
         return ResultEntity.success();
     }
-
 
     @RequestMapping(value = "/info", method = RequestMethod.GET)
     public ResultEntity<UserInfoVO> info() {
@@ -63,7 +61,6 @@ public class AccountController {
     @RequestMapping(value = "/updatePwd", method = RequestMethod.POST)
     public ResultEntity<String> updatePwd(String oldPassword, String password, String rePassword) {
         accountService.updatePwd(oldPassword, password, rePassword);
-
         return ResultEntity.success();
     }
 }

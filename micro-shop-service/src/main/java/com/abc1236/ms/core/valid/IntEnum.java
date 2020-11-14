@@ -64,6 +64,7 @@ public @interface IntEnum {
          * @param value 需要校验的 值
          * @return 布尔值结果
          */
+        @Override
         public boolean isValid(Object value, ConstraintValidatorContext context) {
             if (value == null) {
                 return true;

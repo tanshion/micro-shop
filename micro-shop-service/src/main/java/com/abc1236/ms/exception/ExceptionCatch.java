@@ -71,7 +71,7 @@ public class ExceptionCatch {
     @ResponseBody
     private ResultEntity<Object> exceptionHandle(AccessDeniedException exception, HttpServletRequest request) {
         String authorization = request.getHeader("Authorization");
-        if (StrUtil.isEmpty(authorization) || authorization.trim().equals("Bearer")) {
+        if (StrUtil.isEmpty(authorization) || "Bearer".equals(authorization.trim())) {
             ResultEntity<Object> resultEntity = ResultEntity.fail(ResultStatus.UNAUTHENTICATED);
             return getResultData(resultEntity, exception);
         }

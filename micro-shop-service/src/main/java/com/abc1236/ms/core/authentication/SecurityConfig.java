@@ -1,7 +1,6 @@
 package com.abc1236.ms.core.authentication;
 
 import com.abc1236.ms.core.authentication.token.TokenJwtEnhancer;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +11,8 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
+import javax.annotation.Resource;
+
 /**
  * @author tanshion
  * @email 843565561@qq.com
@@ -19,7 +20,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 @EnableConfigurationProperties(AuthProperties.class)
 @Configuration
 public class SecurityConfig {
-    @Autowired
+    @Resource
     AuthProperties authProperties;
 
     @Bean

@@ -7,6 +7,7 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.ParameterBuilderPlugin;
 import springfox.documentation.spi.service.contexts.ParameterContext;
 
+import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,11 +26,8 @@ public class EnumValueParameterBuilderPlugin implements ParameterBuilderPlugin {
             IEnum[] values = (IEnum[]) rawPrimaryType.getEnumConstants();
             final List<String> displayValues = Arrays.stream(values).map(enumValue -> enumValue.getValue().toString()).collect(Collectors.toList());
             final AllowableListValues allowableListValues = new AllowableListValues(displayValues, rawPrimaryType.getTypeName());
-            context.requestParameterBuilder().query(paramBuilder -> {
-                paramBuilder.enumerationFacet(enumerationElementFacetBuilder -> {
-                    enumerationElementFacetBuilder.allowedValues(allowableListValues);
-                });
-            });
+            context.requestParameterBuilder().query(paramBuilder -> paramBuilder.enumerationFacet(
+                enumerationElementFacetBuilder -> enumerationElementFacetBuilder.allowedValues(allowableListValues)));
         }
 
     }

@@ -1,6 +1,5 @@
 package com.abc1236.ms.service.impl;
 
-import com.abc1236.ms.constant.cache.Cache;
 import com.abc1236.ms.core.authentication.constant.TokenConstant;
 import com.abc1236.ms.core.authentication.service.TokenService;
 import com.abc1236.ms.core.authentication.token.AccessToken;
@@ -23,7 +22,7 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     public void removeToken(String tokenKey) {
-        cacheDao.delete(Cache.SESSION, tokenKey);
+        cacheDao.delete(tokenKey);
     }
 
     @Override

@@ -23,6 +23,11 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 public class GlobalErrorController implements ErrorController {
     private static final String ERROR_PATH = "error";
+    private static final int ERROR_400 = 400;
+    private static final int ERROR_401 = 401;
+    private static final int ERROR_403 = 403;
+    private static final int ERROR_404 = 404;
+
 
     @Override
     public String getErrorPath() {
@@ -48,13 +53,13 @@ public class GlobalErrorController implements ErrorController {
 
 
     public String getErrMsgByStatus(Integer status) {
-        if (status.equals(400)) {
+        if (status.equals(ERROR_400)) {
             return "客户端错误";
-        } else if (status.equals(401)) {
+        } else if (status.equals(ERROR_401)) {
             return "身份验证不通过";
-        } else if (status.equals(403)) {
+        } else if (status.equals(ERROR_403)) {
             return "访问被拒绝";
-        } else if (status.equals(404)) {
+        } else if (status.equals(ERROR_404)) {
             return "访问资源不存在";
         }
         return "";

@@ -1,6 +1,5 @@
 package com.abc1236.ms.core.authentication.token;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -11,18 +10,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author zhailiang
+ * @author tanshion
  */
 @Slf4j
-@RequiredArgsConstructor
 public class TokenJwtEnhancer implements TokenEnhancer {
 
     /* (non-Javadoc)
      * @see org.springframework.security.oauth2.provider.token.TokenEnhancer#enhance(org.springframework.security.oauth2.common.OAuth2AccessToken, org.springframework.security.oauth2.provider.OAuth2Authentication)
      */
+
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
-        Map<String, Object> info = new HashMap<>();
+        Map<String, Object> info = new HashMap<>(20);
         Object principal = authentication.getPrincipal();
         AuthorizationUser userJwt = (AuthorizationUser) principal;
         info.put("id", userJwt.getId());

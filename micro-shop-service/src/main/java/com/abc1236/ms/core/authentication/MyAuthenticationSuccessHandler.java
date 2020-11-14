@@ -35,7 +35,7 @@ import java.util.Set;
  * @email 843565561@qq.com
  */
 @Slf4j
-@Component("myAuthenticationSuccessHandler")
+@Component
 public class MyAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
     @Resource
     private TokenService tokenService;
@@ -43,7 +43,7 @@ public class MyAuthenticationSuccessHandler extends SavedRequestAwareAuthenticat
     private ClientDetailsService clientDetailsService;
     @Resource
     private PasswordEncoder passwordEncoder;
-    @Lazy
+    //@Lazy
     @Resource
     private AuthorizationServerTokenServices defaultAuthorizationServerTokenServices;
 

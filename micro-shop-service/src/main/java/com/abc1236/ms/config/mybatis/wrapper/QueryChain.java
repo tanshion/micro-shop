@@ -34,11 +34,13 @@ public class QueryChain<T> extends AbstractChainWrapper<T, SFunction<T, ?>, Quer
     }
 
     @SafeVarargs
+    @Override
     public final QueryChain<T> select(SFunction<T, ?>... columns) {
         wrapperChildren.select(columns);
         return typedThis;
     }
 
+    @Override
     public QueryChain<T> select(Class<T> entityClass, Predicate<TableFieldInfo> predicate) {
         wrapperChildren.select(entityClass, predicate);
         return typedThis;

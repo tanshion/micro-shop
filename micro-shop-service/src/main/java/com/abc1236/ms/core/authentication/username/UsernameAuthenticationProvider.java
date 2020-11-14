@@ -5,13 +5,14 @@ import com.abc1236.ms.core.authentication.AuthException;
 import com.abc1236.ms.core.authentication.service.MyUserDetailsService;
 import com.abc1236.ms.entity.system.User;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
 
 /**
  * 短信登录验证逻辑
@@ -25,9 +26,9 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class UsernameAuthenticationProvider implements AuthenticationProvider {
 
-    @Autowired
+    @Resource
     private MyUserDetailsService myUserDetailsService;
-    @Autowired
+    @Resource
     private PasswordEncoder passwordEncoder;
 
 

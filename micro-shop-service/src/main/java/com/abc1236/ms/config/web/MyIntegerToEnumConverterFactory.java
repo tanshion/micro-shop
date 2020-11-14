@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.IEnum;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.converter.ConverterFactory;
 
+import javax.annotation.Nonnull;
+
 /**
  * @author tanshion
  * @email 843565561@qq.com
@@ -13,7 +15,7 @@ import org.springframework.core.convert.converter.ConverterFactory;
 public final class MyIntegerToEnumConverterFactory implements ConverterFactory<Integer, IEnum> {
 
     @Override
-    public <T extends IEnum> Converter<Integer, T> getConverter(Class<T> targetType) {
+    public <T extends IEnum> Converter<Integer, T> getConverter(@Nonnull Class<T> targetType) {
         return new IntegerToEnum(targetType);
     }
 
@@ -26,7 +28,7 @@ public final class MyIntegerToEnumConverterFactory implements ConverterFactory<I
         }
 
         @Override
-        public T convert(Integer source) {
+        public T convert(@Nonnull Integer source) {
             return EnumValue.valueOf(this.enumType, source);
         }
     }

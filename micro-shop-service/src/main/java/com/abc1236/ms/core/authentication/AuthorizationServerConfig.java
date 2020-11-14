@@ -1,8 +1,6 @@
 package com.abc1236.ms.core.authentication;
 
 import com.abc1236.ms.core.authentication.service.MyUserDetailsService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,27 +17,27 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 
+import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
 
-@RequiredArgsConstructor
 @Configuration
 @EnableAuthorizationServer
 class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
-    @Autowired
+    @Resource
     private DataSource dataSource;
-    @Autowired
+    @Resource
     private AuthenticationManager authenticationManager;
-    @Autowired
+    @Resource
     private MyUserDetailsService userDetailsService;
-    @Autowired
+    @Resource
     private JwtAccessTokenConverter jwtAccessTokenConverter;
-    @Autowired
+    @Resource
     private TokenEnhancer jwtTokenEnhancer;
-    @Autowired
+    @Resource
     private TokenStore tokenStore;
-    @Autowired
+    @Resource
     private PasswordEncoder passwordEncoder;
 
     //客户端配置

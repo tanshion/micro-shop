@@ -2,7 +2,6 @@ package com.abc1236.ms.config.swagger;
 
 import com.baomidou.mybatisplus.annotation.IEnum;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.SneakyThrows;
 import springfox.documentation.schema.Annotations;
 import springfox.documentation.service.AllowableListValues;
 import springfox.documentation.spi.DocumentationType;
@@ -10,6 +9,7 @@ import springfox.documentation.spi.schema.ModelPropertyBuilderPlugin;
 import springfox.documentation.spi.schema.contexts.ModelPropertyContext;
 import springfox.documentation.swagger.schema.ApiModelProperties;
 
+import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  * @email 843565561@qq.com
  */
 public class EnumValuePropertyPlugin implements ModelPropertyBuilderPlugin {
-    @SneakyThrows
+
     @Override
     public void apply(ModelPropertyContext context) {
         Optional<ApiModelProperty> annotation = Optional.empty();
@@ -38,18 +38,18 @@ public class EnumValuePropertyPlugin implements ModelPropertyBuilderPlugin {
         if (annotation.isPresent() && IEnum.class.isAssignableFrom(rawPrimaryType)) {
             //获取EnumValue的value值
             IEnum[] values = (IEnum[]) rawPrimaryType.getEnumConstants();
-            final List<String> displayValues = Arrays.stream(values).map(enumValue -> enumValue.getValue().toString()).collect(Collectors.toList());
+            final List<String> displayValues = Arrays.stream(values).map(enumValue ->
+                enumValue.getValue().toString()).collect(Collectors.toList());
             final AllowableListValues allowableListValues = new AllowableListValues(displayValues, rawPrimaryType.getTypeName());
             //设置类型为EnumValue的value的类型
-            context.getSpecificationBuilder().enumerationFacet(enumerationElementFacetBuilder -> {
-                enumerationElementFacetBuilder.allowedValues(allowableListValues);
-            });
+            context.getSpecificationBuilder().enumerationFacet(enumerationElementFacetBuilder ->
+                enumerationElementFacetBuilder.allowedValues(allowableListValues));
         }
     }
 
 
     @Override
-    public boolean supports(DocumentationType documentationType) {
+    public boolean supports(@Nonnull DocumentationType documentationType) {
         return true;
     }
 }
