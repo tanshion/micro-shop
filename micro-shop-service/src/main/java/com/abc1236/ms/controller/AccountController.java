@@ -26,10 +26,6 @@ public class AccountController {
 
     /**
      * 用户登录<br>
-     *
-     * @param userName userName
-     * @param password password
-     * @return AccessToken
      */
     @PreAuthorize("permitAll")
     @RequestMapping(value = "/login", method = RequestMethod.POST)

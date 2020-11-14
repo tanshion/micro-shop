@@ -10,8 +10,12 @@ import org.springframework.context.annotation.Primary;
  */
 @Configuration
 public class JacksonConfig {
+
+    /**
+     * 表示优先使用这个自定义mapper
+     */
+    @Primary
     @Bean
-    @Primary  //表示优先使用这个mapper
     public MyObjectMapper getMapper() {
         return new MyObjectMapper();
     }

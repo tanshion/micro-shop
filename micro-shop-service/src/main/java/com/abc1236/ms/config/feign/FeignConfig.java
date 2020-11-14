@@ -27,8 +27,7 @@ public class FeignConfig {
 
     @Bean
     public Feign.Builder feignBuilder() {
-        final Client trustSSLSockets = feignClient();
-        return Feign.builder().client(trustSSLSockets);
+        return Feign.builder().client(feignClient());
     }
 
     @Bean

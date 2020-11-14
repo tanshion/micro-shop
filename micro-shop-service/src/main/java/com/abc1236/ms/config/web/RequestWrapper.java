@@ -2,6 +2,7 @@ package com.abc1236.ms.config.web;
 
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
+import com.abc1236.ms.constant.http.HttpMediaType;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.ReadListener;
@@ -26,7 +27,7 @@ public class RequestWrapper extends HttpServletRequestWrapper {
     private RequestWrapper(HttpServletRequest request) {
         super(request);
         this.customHeaders = new HashMap<>();
-        if (StrUtil.equalsIgnoreCase("application/json", request.getContentType())) {
+        if (StrUtil.equalsIgnoreCase(HttpMediaType.APPLICATION_JSON_VALUE, request.getContentType())) {
             this.body = getRequestBody(request);
         }
 

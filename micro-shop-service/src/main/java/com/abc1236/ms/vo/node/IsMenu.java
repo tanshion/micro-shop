@@ -9,7 +9,7 @@ package com.abc1236.ms.vo.node;
 public enum IsMenu {
     //是菜单
     YES(1, "是"),
-    //不是菜单的是按钮
+    //不是菜单而是按钮
     NO(0, "不是");
 
     int code;
@@ -37,15 +37,13 @@ public enum IsMenu {
     }
 
     public static String valueOf(Integer status) {
-        if (status == null) {
-            return "";
-        } else {
+        if (status != null) {
             for (IsMenu s : IsMenu.values()) {
                 if (s.getCode() == status) {
                     return s.getMessage();
                 }
             }
-            return "";
         }
+        return "";
     }
 }

@@ -2,6 +2,7 @@ package com.abc1236.ms.core.log;
 
 import java.util.TimerTask;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -13,14 +14,9 @@ import java.util.concurrent.TimeUnit;
 public class LogManager {
 
     /**
-     * 日志记录操作延时
-     */
-    private final int OPERATE_DELAY_TIME = 10;
-
-    /**
      * 异步操作记录日志的线程池
      */
-    private ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(10);
+    private final ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(10);
 
     private LogManager() {
     }
@@ -32,6 +28,8 @@ public class LogManager {
     }
 
     public void executeLog(TimerTask task) {
+        //日志记录操作延时
+        int OPERATE_DELAY_TIME = 10;
         executor.schedule(task, OPERATE_DELAY_TIME, TimeUnit.MILLISECONDS);
     }
 }

@@ -22,9 +22,21 @@ import java.util.regex.Pattern;
  * <p>
  *
  * @author hubin
- * @Date 2014-5-8
+ * @date 2014-5-8
  */
 public class WafKit {
+    private final static Pattern scriptPattern1 = Pattern.compile("<script>(.*?)</script>", Pattern.CASE_INSENSITIVE);
+    private final static Pattern scriptPattern2 = Pattern.compile("</script>", Pattern.CASE_INSENSITIVE);
+    private final static Pattern scriptPattern3 = Pattern.compile("<script(.*?)>", Pattern.CASE_INSENSITIVE
+        | Pattern.MULTILINE | Pattern.DOTALL);
+    private final static Pattern scriptPattern4 = Pattern.compile("eval\\((.*?)\\)", Pattern.CASE_INSENSITIVE
+        | Pattern.MULTILINE | Pattern.DOTALL);
+    private final static Pattern scriptPattern5 = Pattern.compile("expression\\((.*?)\\)", Pattern.CASE_INSENSITIVE
+        | Pattern.MULTILINE | Pattern.DOTALL);
+    private final static Pattern scriptPattern6 = Pattern.compile("javascript:", Pattern.CASE_INSENSITIVE);
+    private final static Pattern scriptPattern7 = Pattern.compile("vbscript:", Pattern.CASE_INSENSITIVE);
+    private final static Pattern scriptPattern8 = Pattern.compile("onload(.*?)=", Pattern.CASE_INSENSITIVE
+        | Pattern.MULTILINE | Pattern.DOTALL);
 
     /**
      * 过滤XSS脚本内容
@@ -43,41 +55,31 @@ public class WafKit {
             rlt = value.replaceAll("", "");
 
             // Avoid anything between script tags
-            Pattern scriptPattern = Pattern.compile("<script>(.*?)</script>", Pattern.CASE_INSENSITIVE);
-            rlt = scriptPattern.matcher(rlt).replaceAll("");
+
+            rlt = scriptPattern1.matcher(rlt).replaceAll("");
 
 
             // Remove any lonesome </script> tag
-            scriptPattern = Pattern.compile("</script>", Pattern.CASE_INSENSITIVE);
-            rlt = scriptPattern.matcher(rlt).replaceAll("");
+            rlt = scriptPattern2.matcher(rlt).replaceAll("");
 
             // Remove any lonesome <script ...> tag
-            scriptPattern = Pattern.compile("<script(.*?)>", Pattern.CASE_INSENSITIVE
-                | Pattern.MULTILINE | Pattern.DOTALL);
-            rlt = scriptPattern.matcher(rlt).replaceAll("");
+            rlt = scriptPattern3.matcher(rlt).replaceAll("");
 
             // Avoid eval(...) expressions
-            scriptPattern = Pattern.compile("eval\\((.*?)\\)", Pattern.CASE_INSENSITIVE
-                | Pattern.MULTILINE | Pattern.DOTALL);
-            rlt = scriptPattern.matcher(rlt).replaceAll("");
+            rlt = scriptPattern4.matcher(rlt).replaceAll("");
 
             // Avoid expression(...) expressions
-            scriptPattern = Pattern.compile("expression\\((.*?)\\)", Pattern.CASE_INSENSITIVE
-                | Pattern.MULTILINE | Pattern.DOTALL);
-            rlt = scriptPattern.matcher(rlt).replaceAll("");
+
+            rlt = scriptPattern5.matcher(rlt).replaceAll("");
 
             // Avoid javascript:... expressions
-            scriptPattern = Pattern.compile("javascript:", Pattern.CASE_INSENSITIVE);
-            rlt = scriptPattern.matcher(rlt).replaceAll("");
+            rlt = scriptPattern6.matcher(rlt).replaceAll("");
 
             // Avoid vbscript:... expressions
-            scriptPattern = Pattern.compile("vbscript:", Pattern.CASE_INSENSITIVE);
-            rlt = scriptPattern.matcher(rlt).replaceAll("");
+            rlt = scriptPattern7.matcher(rlt).replaceAll("");
 
             // Avoid onload= expressions
-            scriptPattern = Pattern.compile("onload(.*?)=", Pattern.CASE_INSENSITIVE
-                | Pattern.MULTILINE | Pattern.DOTALL);
-            rlt = scriptPattern.matcher(rlt).replaceAll("");
+            rlt = scriptPattern8.matcher(rlt).replaceAll("");
         }
 
         return rlt;

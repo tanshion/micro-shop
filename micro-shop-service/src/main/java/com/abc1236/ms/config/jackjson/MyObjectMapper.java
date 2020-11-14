@@ -35,7 +35,7 @@ public class MyObjectMapper extends ObjectMapper {
     private void configNullValue() {
         this.getSerializerProvider().setNullValueSerializer(new JsonSerializer<Object>() {
             @Override
-            public void serialize(Object o, JsonGenerator gen, SerializerProvider serializerProvider) throws IOException {
+            public void serialize(Object obj, JsonGenerator gen, SerializerProvider serializerProvider) throws IOException {
                 String fieldName = gen.getOutputContext().getCurrentName();
                 if (fieldName == null) {
                     gen.writeNull();
@@ -61,7 +61,7 @@ public class MyObjectMapper extends ObjectMapper {
         //module.addSerializer(BigInteger.class, ToStringSerializer.instance);
         //module.addSerializer(Long.class, ToStringSerializer.instance);
         //module.addSerializer(Long.TYPE, ToStringSerializer.instance);
-
+        //自定义枚举解析
         //module.addSerializer(EnumValue.class, new EnumValueSerializer());
         //module.addDeserializer(EnumValue.class, new EnumValueDeserializer());
         this.registerModule(module);

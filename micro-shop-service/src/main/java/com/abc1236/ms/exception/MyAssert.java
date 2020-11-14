@@ -11,9 +11,7 @@ import java.util.Map;
  * @author tanshion
  * @email 843565561@qq.com
  */
-public class MyAssert {
-    public MyAssert() {
-    }
+public abstract class MyAssert {
 
     public static void isTrue(boolean expression, String message) {
         if (!expression) {
