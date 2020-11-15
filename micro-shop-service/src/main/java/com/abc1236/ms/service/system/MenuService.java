@@ -13,5 +13,7 @@ public interface MenuService extends IService<Menu> {
 
     List<MenuNode> getMenus();
 
-    void save(MenuQuery menuQuery);
+    void saveMenu(MenuQuery menuQuery);
+
+    void removeMenu(Long id);
 }

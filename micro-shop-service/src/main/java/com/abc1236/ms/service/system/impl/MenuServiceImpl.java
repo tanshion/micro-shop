@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.abc1236.ms.config.mybatis.wrapper.QueryChain;
 import com.abc1236.ms.controller.state.MenuStatus;
 import com.abc1236.ms.controller.system.LogObjectHolder;
-import com.abc1236.ms.dao.mapper.MenuMapper;
+import com.abc1236.ms.dao.mapper.system.MenuMapper;
 import com.abc1236.ms.dao.system.MenuDAO;
 import com.abc1236.ms.entity.system.Menu;
 import com.abc1236.ms.exception.ServiceException;
@@ -19,28 +19,39 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class MenuServiceImpl extends ServiceImpl<MenuMapper,Menu> implements MenuService{
+public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements MenuService {
 
     private final MenuDAO menuDAO;
 
     @Override
     public boolean updateById(Menu entity) {
-        boolean success = super.updateById(entity);
-        cleanCache(entity);
-        return success;
+        //cleanCache(entity);
+        return super.updateById(entity);
     }
 
     @Override
     public boolean save(Menu entity) {
-        boolean success = super.save(entity);
-        cleanCache(entity);
-        return success;
+        //cleanCache(entity);
+        return super.save(entity);
+    }
+
+    @Override
+    public boolean removeById(Serializable id) {
+        //cleanCache(entity);
+        return super.removeById(id);
+    }
+
+    @Override
+    public boolean removeByIds(Collection<? extends Serializable> idList) {
+        //cleanCache(entity);
+        return super.removeByIds(idList);
     }
 
     /**
@@ -78,30 +89,53 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper,Menu> implements Men
     }
 
     @Override
-    public void save(MenuQuery menuQuery) {
+    public void saveMenu(MenuQuery menuQuery) {
         Menu menu = BeanCopyUtils.copyBean(menuQuery, Menu.class);
         //判断是否存在该编号
-        if(menu.getId()==null) {
-            Menu existedMenu =  new QueryChain<>(baseMapper)
+        if (menu.getId() == null) {
+            Menu existedMenu = new QueryChain<>(baseMapper)
                 .eq(Menu::getCode, menu.getCode())
                 .one();
-            if (existedMenu!=null) {
+            if (existedMenu != null) {
                 throw new ServiceException("菜单编号重复，不能添加");
             }
             menuQuery.setStatus(MenuStatus.ENABLE.getCode());
         }
         //设置父级菜单编号
         menuSetPcode(menu);
-        if(menuQuery.getId()==null){
+        if (menuQuery.getId() == null) {
             save(menu);
-        }else {
+        } else {
             Menu old = getById(menuQuery.getId());
             LogObjectHolder.me().set(old);
             updateById(menu);
         }
     }
 
+    @Override
+    public void removeMenu(Long id) {
+        //缓存菜单的名称
+        Menu menu = getById(id);
+        LogObjectHolder.me().set(menu);
+        delMenuContainSubMenus(id);
+    }
 
+
+    public void delMenuContainSubMenus(Long menuId) {
+        Menu menu = getById(menuId);
+        //删除所有子菜单
+        List<Menu> menus = new QueryChain<>(baseMapper)
+            .like(Menu::getCode, "%[" + menu.getCode() + "]%")
+            .list();
+        List<Long> ids = Optional.ofNullable(menus)
+            .orElse(new ArrayList<>()).stream()
+            .map(Menu::getId)
+            .collect(Collectors.toList());
+        removeByIds(ids);
+        //删除当前菜单
+        removeById(menuId);
+
+    }
 
     private void menuSetPcode(Menu menu) {
         if (StringUtil.isEmpty(menu.getPcode()) || "0".equals(menu.getPcode())) {

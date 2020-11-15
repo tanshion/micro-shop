@@ -4,17 +4,14 @@ import com.abc1236.ms.bo.JwtUser;
 import com.abc1236.ms.constant.PermissionConstant;
 import com.abc1236.ms.core.aop.BussinessLog;
 import com.abc1236.ms.core.result.ResultEntity;
-import com.abc1236.ms.exception.MyAssert;
 import com.abc1236.ms.exception.ServiceException;
 import com.abc1236.ms.query.MenuQuery;
 import com.abc1236.ms.service.system.MenuService;
 import com.abc1236.ms.util.HttpUtil;
 import com.abc1236.ms.vo.node.MenuNode;
 import com.abc1236.ms.vo.node.RouterMenu;
-import io.netty.util.internal.StringUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.omg.CORBA.portable.ApplicationException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -61,23 +58,22 @@ public class MenuController {
     @BussinessLog(value = "编辑菜单", key = "name")
     @PreAuthorize("hasAuthority('" + PermissionConstant.MENU_EDIT + "')")
     public ResultEntity<String> save(@ModelAttribute @Valid MenuQuery menu) {
-        menuService.save(menu);
+        menuService.saveMenu(menu);
         return ResultEntity.success();
     }
 
-    //@RequestMapping(method = RequestMethod.DELETE)
-    //@BussinessLog(value = "删除菜单", key = "id")
-    //@PreAuthorize("hasAuthority('" + PermissionConstant.MENU_DEL + "')")
-    //public ResultEntity<String> remove(@NotNull(message = "id不能为空") @RequestParam Long id) {
-    //    //演示环境不允许删除初始化的菜单
-    //    if(id.intValue()<70){
-    //        throw new ServiceException("演示环境不允许删除初始菜单");
-    //    }
-    //    //缓存菜单的名称
-    //    LogObjectHolder.me().set(ConstantFactory.me().getMenuName(id));
-    //    menuService.delMenuContainSubMenus(id);
-    //    return ResultEntity.success();
-    //}
+    @RequestMapping(method = RequestMethod.DELETE)
+    @BussinessLog(value = "删除菜单", key = "id")
+    @PreAuthorize("hasAuthority('" + PermissionConstant.MENU_DEL + "')")
+    public ResultEntity<String> remove(@NotNull(message = "id不能为空") @RequestParam Long id) {
+        //演示环境不允许删除初始化的菜单
+        if (id.intValue() < 70) {
+            throw new ServiceException("演示环境不允许删除初始菜单");
+        }
+        menuService.removeMenu(id);
+
+        return ResultEntity.success();
+    }
 
     ///**
     // * 获取菜单树

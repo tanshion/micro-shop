@@ -2,7 +2,7 @@ package com.abc1236.ms.service.impl;
 
 import cn.hutool.core.util.StrUtil;
 import com.abc1236.ms.config.mybatis.wrapper.QueryChain;
-import com.abc1236.ms.dao.mapper.NoticeMapper;
+import com.abc1236.ms.dao.mapper.system.NoticeMapper;
 import com.abc1236.ms.entity.system.Notice;
 import com.abc1236.ms.service.NoticeService;
 import lombok.RequiredArgsConstructor;

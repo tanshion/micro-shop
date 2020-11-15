@@ -3,7 +3,7 @@ package com.abc1236.ms.service.system.impl;
 import com.abc1236.ms.config.mybatis.wrapper.QueryChain;
 import com.abc1236.ms.constant.cache.DBCacheKey;
 import com.abc1236.ms.core.cache.CacheDao;
-import com.abc1236.ms.dao.mapper.UserMapper;
+import com.abc1236.ms.dao.mapper.system.UserMapper;
 import com.abc1236.ms.entity.system.User;
 import com.abc1236.ms.service.system.UserService;
 import com.fasterxml.jackson.core.type.TypeReference;

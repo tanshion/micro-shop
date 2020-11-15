@@ -2,7 +2,7 @@ package com.abc1236.ms.service.task;
 
 
 import com.abc1236.ms.config.mybatis.wrapper.QueryChain;
-import com.abc1236.ms.dao.mapper.TaskMapper;
+import com.abc1236.ms.dao.mapper.system.TaskMapper;
 import com.abc1236.ms.entity.system.Task;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

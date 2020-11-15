@@ -28,7 +28,7 @@ public class MenuQuery {
     @ApiModelProperty(value = "最后更新时间")
     private Date modifyTime;
 
-    @NotBlank(message="编号不能为空")
+    @NotBlank(message = "编号不能为空")
     @ApiModelProperty(value = "编号")
     private String code;
 

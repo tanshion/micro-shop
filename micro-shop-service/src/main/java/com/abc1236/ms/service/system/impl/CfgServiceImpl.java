@@ -1,6 +1,6 @@
 package com.abc1236.ms.service.system.impl;
 
-import com.abc1236.ms.dao.mapper.CfgMapper;
+import com.abc1236.ms.dao.mapper.system.CfgMapper;
 import com.abc1236.ms.entity.system.Cfg;
 import com.abc1236.ms.service.system.CfgService;
 import lombok.RequiredArgsConstructor;
