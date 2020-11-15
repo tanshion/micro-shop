@@ -1,7 +1,7 @@
 package com.abc1236.ms.vo.node;
 
 
-import com.abc1236.ms.entity.system.Menu;
+import com.abc1236.ms.bo.MenuBO;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,7 +13,22 @@ import java.util.List;
  * @Description 菜单的节点
  * @date 2016年12月6日 上午11:34:17
  */
-public class MenuNode extends Menu implements Comparable {
+public class MenuNode implements Comparable {
+
+    public MenuNode(MenuBO source) {
+        this.setId(source.getId());
+        this.setIcon(source.getIcon());
+        this.setParentId(source.getParentId());
+        this.setName(source.getName());
+        this.setUrl(source.getUrl());
+        this.setLevels(source.getLevels());
+        this.setIsmenu(source.getIsmenu());
+        this.setNum(source.getNum());
+        this.setCode(source.getCode());
+        this.setStatus(source.getStatus());
+        this.setComponent(source.getComponent());
+        this.setHidden(source.isHidden());
+    }
 
     /**
      * 节点id

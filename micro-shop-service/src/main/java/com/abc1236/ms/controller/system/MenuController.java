@@ -2,18 +2,25 @@ package com.abc1236.ms.controller.system;
 
 import com.abc1236.ms.bo.JwtUser;
 import com.abc1236.ms.constant.PermissionConstant;
+import com.abc1236.ms.core.aop.BussinessLog;
 import com.abc1236.ms.core.result.ResultEntity;
+import com.abc1236.ms.query.MenuQuery;
 import com.abc1236.ms.service.system.MenuService;
 import com.abc1236.ms.util.HttpUtil;
 import com.abc1236.ms.vo.node.MenuNode;
 import com.abc1236.ms.vo.node.RouterMenu;
+import io.netty.util.internal.StringUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.omg.CORBA.portable.ApplicationException;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -24,6 +31,7 @@ import java.util.List;
  */
 @Slf4j
 @RequiredArgsConstructor
+@Validated
 @RestController
 @RequestMapping("/menu")
 public class MenuController {
@@ -44,35 +52,35 @@ public class MenuController {
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('" + PermissionConstant.MENU + "')")
-    public Object list() {
+    public ResultEntity<List<MenuNode>> list() {
         List<MenuNode> list = menuService.getMenus();
         return ResultEntity.success(list);
     }
 
-    //@RequestMapping(method = RequestMethod.POST)
-    //@BussinessLog(value = "编辑菜单", key = "name")
-    //@RequiresPermissions(value = {Permission.MENU_EDIT})
-    //public Object save(@ModelAttribute @Valid Menu menu) {
-    //    //判断是否存在该编号
-    //    if(menu.getId()==null) {
-    //        String existedMenuName = ConstantFactory.me().getMenuNameByCode(menu.getCode());
-    //        if (StringUtil.isNotEmpty(existedMenuName)) {
-    //            throw new ApplicationException(ApplicationExceptionEnum.EXISTED_THE_MENU);
-    //        }
-    //        menu.setStatus(MenuStatus.ENABLE.getCode());
-    //    }
-    //
-    //    //设置父级菜单编号
-    //    menuService.menuSetPcode(menu);
-    //    if(menu.getId()==null){
-    //        menuService.insert(menu);
-    //    }else {
-    //        Menu old = menuService.get(menu.getId());
-    //        LogObjectHolder.me().set(old);
-    //        menuService.update(menu);
-    //    }
-    //    return Rets.success();
-    //}
+    @RequestMapping(method = RequestMethod.POST)
+    @BussinessLog(value = "编辑菜单", key = "name")
+    @PreAuthorize("hasAuthority('" + PermissionConstant.MENU_EDIT + "')")
+    public Object save(@ModelAttribute @Valid MenuQuery menu) {
+        ////判断是否存在该编号
+        //if(menu.getId()==null) {
+        //    String existedMenuName = ConstantFactory.me().getMenuNameByCode(menu.getCode());
+        //    if (StringUtil.isNotEmpty(existedMenuName)) {
+        //        throw new ApplicationException(ApplicationExceptionEnum.EXISTED_THE_MENU);
+        //    }
+        //    menu.setStatus(MenuStatus.ENABLE.getCode());
+        //}
+        //
+        ////设置父级菜单编号
+        //menuService.menuSetPcode(menu);
+        //if(menu.getId()==null){
+        //    menuService.insert(menu);
+        //}else {
+        //    Menu old = menuService.get(menu.getId());
+        //    LogObjectHolder.me().set(old);
+        //    menuService.update(menu);
+        //}
+        return ResultEntity.success();
+    }
     //
     //@RequestMapping(method = RequestMethod.DELETE)
     //@BussinessLog(value = "删除菜单", key = "id")
