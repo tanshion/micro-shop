@@ -1,6 +1,8 @@
 package com.abc1236.ms.vo.node;
 
 
+import com.abc1236.ms.entity.system.Menu;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -11,7 +13,7 @@ import java.util.List;
  * @Description 菜单的节点
  * @date 2016年12月6日 上午11:34:17
  */
-public class MenuNode implements Comparable {
+public class MenuNode extends Menu implements Comparable {
 
     /**
      * 节点id
@@ -50,7 +52,7 @@ public class MenuNode implements Comparable {
      * 节点的url
      */
     private String url;
-     private String path;
+    private String path;
 
     /**
      * 节点图标
@@ -179,7 +181,7 @@ public class MenuNode implements Comparable {
 
     public String getIsMenuName() {
 
-        return ismenu == 1 ?"是":"否";
+        return ismenu == 1 ? "是" : "否";
     }
 
     public void setIsMenuName(String isMenuName) {
@@ -203,11 +205,11 @@ public class MenuNode implements Comparable {
     }
 
     public String getStatusName() {
-        return status == 1 ?"启用":"禁用";
+        return status == 1 ? "启用" : "禁用";
     }
 
     public void setStatusName(String statusName) {
-       this.statusName = statusName;
+        this.statusName = statusName;
     }
 
     public Boolean getHidden() {
@@ -221,16 +223,16 @@ public class MenuNode implements Comparable {
     @Override
     public String toString() {
         return "MenuNode{" +
-                "id=" + id +
-                ", parentId=" + parentId +
-                ", name='" + name + '\'' +
-                ", levels=" + levels +
-                ", num=" + num +
-                ", url='" + url + '\'' +
-                ", icon='" + icon + '\'' +
-                ", children=" + children +
-                ", linkedList=" + linkedList +
-                '}';
+            "id=" + id +
+            ", parentId=" + parentId +
+            ", name='" + name + '\'' +
+            ", levels=" + levels +
+            ", num=" + num +
+            ", url='" + url + '\'' +
+            ", icon='" + icon + '\'' +
+            ", children=" + children +
+            ", linkedList=" + linkedList +
+            '}';
     }
 
     @Override
@@ -324,7 +326,7 @@ public class MenuNode implements Comparable {
     public static List<MenuNode> clearBtn(List<MenuNode> nodes) {
         ArrayList<MenuNode> noBtns = new ArrayList<MenuNode>();
         for (MenuNode node : nodes) {
-            if(node.getIsmenu() == IsMenu.YES.getCode()){
+            if (node.getIsmenu() == IsMenu.YES.getCode()) {
                 noBtns.add(node);
             }
         }

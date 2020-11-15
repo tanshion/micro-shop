@@ -1,4 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.abc1236.ms.dao.system.MenuDAO">
+    <select id="selectMenusByRoleIds" resultType="com.abc1236.ms.bo.MenuBO">
+        SELECT m1.id AS id,
+        m1.icon AS icon,
+        (IF((m2.id = 0 OR m2.id IS NULL), 0, m2.id)) AS parentId,
+        m1.name AS name,
+        m1.url AS url,
+        m1.levels AS levels,
+        m1.ismenu AS ismenu,
+        m1.num AS num,
+        m1.code AS code,
+        m1.status AS status,
+        m1.component AS component,
+        m1.hidden AS hidden
+        FROM t_sys_menu m1
+        LEFT JOIN t_sys_menu m2 on m1.pcode = m2.code
+        WHERE m1.component is not null and m1.component != ''
+        and m1.id IN(SELECT DISTINCT(menuid)
+        FROM t_sys_relation WHERE roleid IN
+        <foreach collection="roleIds" item="id" index="index" open="(" close=")" separator=",">
+            #{id}
+        </foreach>)
+        ORDER BY levels, num ASC;
+    </select>
 </mapper>

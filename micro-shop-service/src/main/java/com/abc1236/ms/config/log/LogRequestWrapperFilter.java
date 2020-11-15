@@ -107,8 +107,8 @@ public class LogRequestWrapperFilter extends OncePerRequestFilter {
 
     private static String getRequestBody(HttpServletRequest httpServletRequest) {
         RequestWrapper request = RequestWrapper.getWrapper(httpServletRequest);
-        if (StrUtil.equalsAnyIgnoreCase(request.getContentType(),HttpMediaType.APPLICATION_JSON_VALUE,
-            HttpMediaType.APPLICATION_JSON_UTF8_VALUE)){
+        if (StrUtil.equalsAnyIgnoreCase(request.getContentType(), HttpMediaType.APPLICATION_JSON_VALUE,
+            HttpMediaType.APPLICATION_JSON_UTF8_VALUE)) {
             try {
                 ServletInputStream inputStream = request.getInputStream();
                 return IoUtil.read(inputStream, StandardCharsets.UTF_8);

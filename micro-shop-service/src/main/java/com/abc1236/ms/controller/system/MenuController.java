@@ -1,14 +1,20 @@
 package com.abc1236.ms.controller.system;
 
+import com.abc1236.ms.bo.JwtUser;
+import com.abc1236.ms.constant.PermissionConstant;
+import com.abc1236.ms.core.result.ResultEntity;
 import com.abc1236.ms.service.system.MenuService;
+import com.abc1236.ms.util.HttpUtil;
+import com.abc1236.ms.vo.node.MenuNode;
+import com.abc1236.ms.vo.node.RouterMenu;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * MenuController
@@ -26,21 +32,23 @@ public class MenuController {
     //@Autowired
     //private TokenCache tokenCache;
 
+    /**
+     * 路由列表
+     */
     @RequestMapping(value = "/listForRouter", method = RequestMethod.GET)
-    public Object listForRouter() {
-        //AuthorizationUser shiroUser = tokenCache.getUser(HttpUtil.getToken());
-        //
-        //List<RouterMenu> list = menuService.getSideBarMenus(shiroUser.getRoleList());
-        //return Rets.success(list);
-        return null;
+    public ResultEntity<List<RouterMenu>> listForRouter() {
+        JwtUser jwtUser = HttpUtil.getJwtUser();
+        List<RouterMenu> list = menuService.getSideBarMenus(jwtUser.getRoleList());
+        return ResultEntity.success(list);
     }
-    //@RequestMapping(value = "/list", method = RequestMethod.GET)
-    //@RequiresPermissions(value = {Permission.MENU})
-    //public Object list() {
-    //    List<MenuNode> list = menuService.getMenus();
-    //    return Rets.success(list);
-    //}
-    //
+
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('" + PermissionConstant.MENU + "')")
+    public Object list() {
+        List<MenuNode> list = menuService.getMenus();
+        return ResultEntity.success(list);
+    }
+
     //@RequestMapping(method = RequestMethod.POST)
     //@BussinessLog(value = "编辑菜单", key = "name")
     //@RequiresPermissions(value = {Permission.MENU_EDIT})

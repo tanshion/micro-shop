@@ -32,7 +32,8 @@ public enum ResultStatus {
     AUTH_LOGIN_APPLYTOKEN_FAIL(310007, "申请令牌失败！"),
     AUTH_LOGIN_TOKEN_SAVE_FAIL(310008, "存储令牌失败！"),
     AUTH_LOGOUT_FAIL(310009, "退出失败！"),
-    ERROR_310009(310010, "无法获取用户信息！");
+    TASK_CONFIG_ERROR(310010, "定时任务配置错误！"),
+    ERROR_310009(310000, "无法获取用户信息！");
 
     //操作代码
     @ApiModelProperty(value = "操作代码", example = "310001", required = true)
