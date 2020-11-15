@@ -1,6 +1,8 @@
 package com.abc1236.ms.service.system.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
+import com.abc1236.ms.bo.MenuBO;
 import com.abc1236.ms.config.mybatis.wrapper.QueryChain;
 import com.abc1236.ms.controller.state.MenuStatus;
 import com.abc1236.ms.controller.system.LogObjectHolder;
@@ -11,9 +13,13 @@ import com.abc1236.ms.exception.ServiceException;
 import com.abc1236.ms.query.MenuQuery;
 import com.abc1236.ms.service.system.MenuService;
 import com.abc1236.ms.util.StringUtil;
+import com.abc1236.ms.vo.MenuTreeVO;
 import com.abc1236.ms.vo.node.MenuNode;
+import com.abc1236.ms.vo.node.Node;
 import com.abc1236.ms.vo.node.RouterMenu;
+import com.abc1236.ms.vo.node.ZTreeNode;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.google.common.collect.Lists;
 import com.tuyang.beanutils.BeanCopyUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -58,6 +64,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
      * 清理缓存
      */
     private void cleanCache(Menu menu) {
+
     }
 
     /**
@@ -65,7 +72,8 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
      */
     @Override
     public List<RouterMenu> getSideBarMenus(List<Long> roleIds) {
-        List<RouterMenu> list = Optional.ofNullable(menuDAO.selectMenuByRoleIds(roleIds))
+        List<MenuBO> menuBOList = menuDAO.selectMenuByRoleIds(roleIds);
+        List<RouterMenu> list = Optional.ofNullable(menuBOList)
             .orElse(new ArrayList<>()).stream()
             .map(RouterMenu::new)
             .collect(Collectors.toList());
@@ -79,7 +87,8 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
      */
     @Override
     public List<MenuNode> getMenus() {
-        List<MenuNode> list = Optional.ofNullable(menuDAO.selectMenu())
+        List<MenuBO> menuBOList = menuDAO.selectMenu();
+        List<MenuNode> list = Optional.ofNullable(menuBOList)
             .orElse(new ArrayList<>()).stream()
             .map(MenuNode::new)
             .collect(Collectors.toList());
@@ -120,8 +129,69 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         delMenuContainSubMenus(id);
     }
 
+    @Override
+    public MenuTreeVO menuTreeListByRoleId(Long roleId) {
+        List<Long> menuIds = menuDAO.selectMenuIdByRoleId(roleId);
+        List<ZTreeNode> roleTreeList;
+        if (menuIds == null || menuIds.isEmpty()) {
+            roleTreeList = menuDAO.selectMenuTreeList();
+        } else {
+            roleTreeList = menuDAO.selectMenuTreeListInMenuIds(menuIds);
+        }
+        List<Node> list = generateMenuTreeForRole(roleTreeList);
+        //element-ui中tree控件中如果选中父节点会默认选中所有子节点，所以这里将所有非叶子节点去掉
+        Map<Long, ZTreeNode> map = CollectionUtil.toMap(roleTreeList, new HashMap<>(20), ZTreeNode::getId);
+        Map<Long, List<ZTreeNode>> group = roleTreeList.stream().collect(
+            Collectors.groupingBy(ZTreeNode::getpId, Collectors.mapping(zTreeNode -> zTreeNode, Collectors.toList())));
+        for (Map.Entry<Long, List<ZTreeNode>> entry : group.entrySet()) {
+            if (entry.getValue().size() > 1) {
+                roleTreeList.remove(map.get(entry.getKey()));
+            }
+        }
+        List<Long> checkedIds = Lists.newArrayList();
+        for (ZTreeNode zTreeNode : roleTreeList) {
+            if (zTreeNode.getChecked() != null && zTreeNode.getChecked()
+                && zTreeNode.getpId().intValue() != 0) {
+                checkedIds.add(zTreeNode.getId());
+            }
+        }
+        MenuTreeVO menuTreeVO = new MenuTreeVO();
+        menuTreeVO.setTreeData(list);
+        menuTreeVO.setCheckedIds(checkedIds);
+        return menuTreeVO;
+    }
 
-    public void delMenuContainSubMenus(Long menuId) {
+    private List<Node> generateMenuTreeForRole(List<ZTreeNode> list) {
+
+        List<Node> nodes = new ArrayList<>(20);
+        for (ZTreeNode menu : list) {
+            Node permissionNode = new Node();
+            permissionNode.setId(menu.getId());
+            permissionNode.setName(menu.getName());
+            permissionNode.setPid(menu.getpId());
+            permissionNode.setChecked(menu.getChecked());
+            nodes.add(permissionNode);
+        }
+        for (Node permissionNode : nodes) {
+            for (Node child : nodes) {
+                if (child.getPid().intValue() == permissionNode.getId().intValue()) {
+                    permissionNode.getChildren().add(child);
+                }
+            }
+        }
+        List<Node> result = new ArrayList<>(20);
+        for (Node node : nodes) {
+            if (node.getPid().intValue() == 0) {
+                result.add(node);
+            }
+        }
+        return result;
+
+
+    }
+
+
+    private void delMenuContainSubMenus(Long menuId) {
         Menu menu = getById(menuId);
         //删除所有子菜单
         List<Menu> menus = new QueryChain<>(baseMapper)

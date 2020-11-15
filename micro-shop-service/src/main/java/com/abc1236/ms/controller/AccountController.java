@@ -8,6 +8,8 @@ import com.abc1236.ms.core.result.ResultEntity;
 import com.abc1236.ms.service.system.AccountService;
 import com.abc1236.ms.util.HttpUtil;
 import com.abc1236.ms.vo.UserInfoVO;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@Api(tags = "账户")
 @RequiredArgsConstructor
 @Slf4j
 @RestController
@@ -24,9 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AccountController {
     private final AccountService accountService;
 
-    /**
-     * 用户登录<br>
-     */
+    @ApiOperation("用户登录")
     @PreAuthorize("permitAll")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResultEntity<AccessToken> login(@RequestParam("username") String userName,
@@ -35,9 +36,7 @@ public class AccountController {
         return ResultEntity.success(accessToken);
     }
 
-    /**
-     * 退出登录
-     */
+    @ApiOperation("退出登录")
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
     public ResultEntity<String> logout() {
         String token = HttpUtil.getToken();
@@ -47,6 +46,7 @@ public class AccountController {
         return ResultEntity.success();
     }
 
+    @ApiOperation("用户信息")
     @RequestMapping(value = "/info", method = RequestMethod.GET)
     public ResultEntity<UserInfoVO> info() {
         JwtUser jwtUser = HttpUtil.getJwtUser();
@@ -54,6 +54,7 @@ public class AccountController {
         return ResultEntity.success(userInfoVO);
     }
 
+    @ApiOperation("重置密码")
     @RequestMapping(value = "/updatePwd", method = RequestMethod.POST)
     public ResultEntity<String> updatePwd(String oldPassword, String password, String rePassword) {
         accountService.updatePwd(oldPassword, password, rePassword);

@@ -8,8 +8,14 @@ import com.abc1236.ms.exception.ServiceException;
 import com.abc1236.ms.query.MenuQuery;
 import com.abc1236.ms.service.system.MenuService;
 import com.abc1236.ms.util.HttpUtil;
+import com.abc1236.ms.vo.MenuTreeVO;
 import com.abc1236.ms.vo.node.MenuNode;
 import com.abc1236.ms.vo.node.RouterMenu;
+import com.abc1236.ms.vo.node.ZTreeNode;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Map;
 
 /**
  * MenuController
@@ -26,6 +33,7 @@ import java.util.List;
  * @author enilu
  * @version 2018/9/12 0012
  */
+@Api(tags = "菜单")
 @Slf4j
 @RequiredArgsConstructor
 @Validated
@@ -34,12 +42,8 @@ import java.util.List;
 public class MenuController {
 
     private final MenuService menuService;
-    //@Autowired
-    //private TokenCache tokenCache;
 
-    /**
-     * 路由列表
-     */
+    @ApiOperation("路由列表")
     @RequestMapping(value = "/listForRouter", method = RequestMethod.GET)
     public ResultEntity<List<RouterMenu>> listForRouter() {
         JwtUser jwtUser = HttpUtil.getJwtUser();
@@ -47,6 +51,7 @@ public class MenuController {
         return ResultEntity.success(list);
     }
 
+    @ApiOperation("菜单列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('" + PermissionConstant.MENU + "')")
     public ResultEntity<List<MenuNode>> list() {
@@ -54,6 +59,7 @@ public class MenuController {
         return ResultEntity.success(list);
     }
 
+    @ApiOperation("编辑菜单")
     @RequestMapping(method = RequestMethod.POST)
     @BussinessLog(value = "编辑菜单", key = "name")
     @PreAuthorize("hasAuthority('" + PermissionConstant.MENU_EDIT + "')")
@@ -62,6 +68,7 @@ public class MenuController {
         return ResultEntity.success();
     }
 
+    @ApiOperation("删除菜单")
     @RequestMapping(method = RequestMethod.DELETE)
     @BussinessLog(value = "删除菜单", key = "id")
     @PreAuthorize("hasAuthority('" + PermissionConstant.MENU_DEL + "')")
@@ -75,38 +82,11 @@ public class MenuController {
         return ResultEntity.success();
     }
 
-    ///**
-    // * 获取菜单树
-    // */
-    //@RequestMapping(value = "/menuTreeListByRoleId", method = RequestMethod.GET)
-    //@RequiresPermissions(value = {Permission.MENU})
-    //public Object menuTreeListByRoleId(Integer roleId) {
-    //    List<Long> menuIds = menuService.getMenuIdsByRoleId(roleId);
-    //    List<ZTreeNode> roleTreeList = null;
-    //    if (menuIds==null||menuIds.isEmpty()) {
-    //        roleTreeList = menuService.menuTreeList(null);
-    //    } else {
-    //        roleTreeList = menuService.menuTreeList(menuIds);
-    //
-    //    }
-    //    List<Node> list = menuService.generateMenuTreeForRole(roleTreeList);
-    //
-    //    //element-ui中tree控件中如果选中父节点会默认选中所有子节点，所以这里将所有非叶子节点去掉
-    //    Map<Long,ZTreeNode> map = cn.enilu.flash.utils.Lists.toMap(roleTreeList,"id");
-    //    Map<Long,List<ZTreeNode>> group = cn.enilu.flash.utils.Lists.group(roleTreeList,"pId");
-    //    for(Map.Entry<Long,List<ZTreeNode>> entry:group.entrySet()){
-    //        if(entry.getValue().size()>1){
-    //            roleTreeList.remove(map.get(entry.getKey()));
-    //        }
-    //    }
-    //
-    //    List<Long> checkedIds = Lists.newArrayList();
-    //    for (ZTreeNode zTreeNode : roleTreeList) {
-    //        if (zTreeNode.getChecked() != null && zTreeNode.getChecked()
-    //                &&zTreeNode.getpId().intValue()!=0) {
-    //            checkedIds.add(zTreeNode.getId());
-    //        }
-    //    }
-    //    return Rets.success(Maps.newHashMap("treeData", list, "checkedIds", checkedIds));
-    //}
+    @ApiOperation("获取菜单树")
+    @RequestMapping(value = "/menuTreeListByRoleId", method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('" + PermissionConstant.MENU + "')")
+    public ResultEntity<MenuTreeVO> menuTreeListByRoleId(Long roleId) {
+        MenuTreeVO menuTreeVO = menuService.menuTreeListByRoleId(roleId);
+        return ResultEntity.success(menuTreeVO);
+    }
 }
