@@ -1,16 +1,15 @@
 package com.abc1236.ms.service.system.impl;
 
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import com.abc1236.ms.bo.MenuBO;
-import com.abc1236.ms.config.mybatis.wrapper.QueryChain;
-import com.abc1236.ms.controller.state.MenuStatus;
-import com.abc1236.ms.controller.system.LogObjectHolder;
+import com.abc1236.ms.config.mybatis.DaoWrapper;
+import com.abc1236.ms.constant.state.MenuStatus;
 import com.abc1236.ms.dao.mapper.system.MenuMapper;
 import com.abc1236.ms.dao.system.MenuDAO;
 import com.abc1236.ms.entity.system.Menu;
 import com.abc1236.ms.exception.ServiceException;
 import com.abc1236.ms.query.MenuQuery;
+import com.abc1236.ms.service.system.LogObjectHolder;
 import com.abc1236.ms.service.system.MenuService;
 import com.abc1236.ms.util.StringUtil;
 import com.abc1236.ms.vo.MenuTreeVO;
@@ -18,46 +17,51 @@ import com.abc1236.ms.vo.node.MenuNode;
 import com.abc1236.ms.vo.node.Node;
 import com.abc1236.ms.vo.node.RouterMenu;
 import com.abc1236.ms.vo.node.ZTreeNode;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.google.common.collect.Lists;
 import com.tuyang.beanutils.BeanCopyUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements MenuService {
+public class MenuServiceImpl implements MenuService {
+    private final MenuMapper menuMapper;
 
     private final MenuDAO menuDAO;
 
     @Override
-    public boolean updateById(Menu entity) {
-        //cleanCache(entity);
-        return super.updateById(entity);
+    public boolean updateById(Menu menu) {
+        return SqlHelper.retBool(menuMapper.updateById(menu));
     }
 
     @Override
-    public boolean save(Menu entity) {
-        //cleanCache(entity);
-        return super.save(entity);
+    public boolean save(Menu menu) {
+        return SqlHelper.retBool(menuMapper.insert(menu));
     }
 
     @Override
-    public boolean removeById(Serializable id) {
-        //cleanCache(entity);
-        return super.removeById(id);
+    public boolean removeById(Long id) {
+        return SqlHelper.retBool(menuMapper.deleteById(id));
     }
 
     @Override
-    public boolean removeByIds(Collection<? extends Serializable> idList) {
-        //cleanCache(entity);
-        return super.removeByIds(idList);
+    public boolean removeByIds(Collection<Long> idList) {
+        if (CollectionUtils.isEmpty(idList)) {
+            return false;
+        }
+        return SqlHelper.retBool(menuMapper.deleteBatchIds(idList));
+    }
+
+    @Override
+    public Menu getById(Long id) {
+        return menuMapper.selectById(id);
     }
 
     /**
@@ -102,7 +106,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         Menu menu = BeanCopyUtils.copyBean(menuQuery, Menu.class);
         //判断是否存在该编号
         if (menu.getId() == null) {
-            Menu existedMenu = new QueryChain<>(baseMapper)
+            Menu existedMenu = DaoWrapper.query(menuMapper)
                 .eq(Menu::getCode, menu.getCode())
                 .one();
             if (existedMenu != null) {
@@ -141,8 +145,8 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         List<Node> list = generateMenuTreeForRole(roleTreeList);
         //element-ui中tree控件中如果选中父节点会默认选中所有子节点，所以这里将所有非叶子节点去掉
         Map<Long, ZTreeNode> map = CollectionUtil.toMap(roleTreeList, new HashMap<>(20), ZTreeNode::getId);
-        Map<Long, List<ZTreeNode>> group = roleTreeList.stream().collect(
-            Collectors.groupingBy(ZTreeNode::getpId, Collectors.mapping(zTreeNode -> zTreeNode, Collectors.toList())));
+        Map<Long, List<ZTreeNode>> group = roleTreeList.stream()
+            .collect(Collectors.groupingBy(ZTreeNode::getpId));
         for (Map.Entry<Long, List<ZTreeNode>> entry : group.entrySet()) {
             if (entry.getValue().size() > 1) {
                 roleTreeList.remove(map.get(entry.getKey()));
@@ -194,7 +198,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     private void delMenuContainSubMenus(Long menuId) {
         Menu menu = getById(menuId);
         //删除所有子菜单
-        List<Menu> menus = new QueryChain<>(baseMapper)
+        List<Menu> menus = DaoWrapper.query(menuMapper)
             .like(Menu::getCode, "%[" + menu.getCode() + "]%")
             .list();
         List<Long> ids = Optional.ofNullable(menus)
@@ -213,7 +217,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
             menu.setPcodes("[0],");
             menu.setLevels(1);
         } else {
-            Menu pMenu = new QueryChain<>(baseMapper)
+            Menu pMenu = DaoWrapper.query(menuMapper)
                 .eq(Menu::getCode, menu.getPcode())
                 .one();
             Integer pLevels = pMenu.getLevels();

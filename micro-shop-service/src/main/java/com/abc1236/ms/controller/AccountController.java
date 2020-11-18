@@ -6,6 +6,7 @@ import com.abc1236.ms.core.log.LogManager;
 import com.abc1236.ms.core.log.LogTaskFactory;
 import com.abc1236.ms.core.result.ResultEntity;
 import com.abc1236.ms.service.system.AccountService;
+import com.abc1236.ms.service.system.UserService;
 import com.abc1236.ms.util.HttpUtil;
 import com.abc1236.ms.vo.UserInfoVO;
 import io.swagger.annotations.Api;
@@ -13,10 +14,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Api(tags = "账户")
 @RequiredArgsConstructor
@@ -26,10 +24,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/account")
 public class AccountController {
     private final AccountService accountService;
+    private final UserService userService;
 
     @ApiOperation("用户登录")
     @PreAuthorize("permitAll")
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @PostMapping(value = "/login")
     public ResultEntity<AccessToken> login(@RequestParam("username") String userName,
         @RequestParam("password") String password) {
         AccessToken accessToken = accountService.login(userName, password);
@@ -37,7 +36,7 @@ public class AccountController {
     }
 
     @ApiOperation("退出登录")
-    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    @PostMapping(value = "/logout")
     public ResultEntity<String> logout() {
         String token = HttpUtil.getToken();
         accountService.logout(token);
@@ -47,7 +46,7 @@ public class AccountController {
     }
 
     @ApiOperation("用户信息")
-    @RequestMapping(value = "/info", method = RequestMethod.GET)
+    @GetMapping(value = "/info")
     public ResultEntity<UserInfoVO> info() {
         JwtUser jwtUser = HttpUtil.getJwtUser();
         UserInfoVO userInfoVO = accountService.info(jwtUser);
@@ -55,9 +54,11 @@ public class AccountController {
     }
 
     @ApiOperation("重置密码")
-    @RequestMapping(value = "/updatePwd", method = RequestMethod.POST)
+    @PostMapping(value = "/updatePwd")
     public ResultEntity<String> updatePwd(String oldPassword, String password, String rePassword) {
-        accountService.updatePwd(oldPassword, password, rePassword);
+        JwtUser jwtUser = HttpUtil.getJwtUser();
+        Long userId = jwtUser.getId();
+        accountService.updatePwd(userId, oldPassword, password, rePassword);
         return ResultEntity.success();
     }
 }

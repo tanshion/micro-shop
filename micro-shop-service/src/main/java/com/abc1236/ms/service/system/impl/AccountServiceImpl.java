@@ -71,9 +71,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void updatePwd(String oldPassword, String password, String rePassword) {
-        Long id = HttpUtil.getJwtUser().getId();
-        User user = userService.findById(id);
+    public void updatePwd(Long userId, String oldPassword, String password, String rePassword) {
+        User user = userService.findById(userId);
         MyAssert.isTrue(passwordEncoder.matches(oldPassword, user.getPassword()), "旧密码输入错误");
         MyAssert.isTrue(StrUtil.equals(password, rePassword), "新密码前后不一致");
         user.setPassword(passwordEncoder.encode(password));

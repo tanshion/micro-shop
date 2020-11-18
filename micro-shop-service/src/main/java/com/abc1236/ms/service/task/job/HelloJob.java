@@ -22,9 +22,9 @@ public class HelloJob extends JobExecuter {
 
     @Override
     public void execute(Map<String, Object> dataMap) {
-        Cfg cfg = cfgService.getCgfById(1L);
+        Cfg cfg = cfgService.getById(1L);
         cfg.setCfgDesc("应用名称");
-        cfgService.update(cfg);
+        cfgService.updateById(cfg);
         log.info("hello :" + JsonUtils.to(dataMap));
     }
 }

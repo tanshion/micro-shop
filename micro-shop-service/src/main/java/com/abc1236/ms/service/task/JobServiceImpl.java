@@ -105,7 +105,7 @@ public class JobServiceImpl implements JobService {
                 //是否允许并发执行
                 Class<? extends Job> clazz = job.isConcurrent() ? BaseJob.class : NoConurrentBaseJob.class;
                 JobDetail jobDetail = JobBuilder.newJob(clazz).withIdentity(job.getJobName(), job.getJobGroup()).build();
-                jobDetail.getJobDataMap().put("job", job);
+                jobDetail.getJobDataMap().put("job", JsonUtils.to(job));
                 // 表达式调度构建器
                 CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(job.getCronExpression());
                 // 按新的表达式构建一个新的trigger

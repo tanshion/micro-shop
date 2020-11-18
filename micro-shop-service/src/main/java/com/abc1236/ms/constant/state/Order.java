@@ -1,4 +1,4 @@
-package com.abc1236.ms.controller.state;
+package com.abc1236.ms.constant.state;
 
 /**
  * 数据库排序

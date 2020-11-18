@@ -9,5 +9,5 @@ import com.abc1236.ms.entity.system.TaskLog;
  * @author tanshion
  */
 public interface TaskLogService {
-    void save(TaskLog taskLog);
+    boolean save(TaskLog entity);
 }

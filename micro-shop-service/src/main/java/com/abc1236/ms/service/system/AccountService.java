@@ -11,5 +11,5 @@ public interface AccountService {
 
     UserInfoVO info(JwtUser jwtUser);
 
-    void updatePwd(String oldPassword, String password, String rePassword);
+    void updatePwd(Long userId, String oldPassword, String password, String rePassword);
 }

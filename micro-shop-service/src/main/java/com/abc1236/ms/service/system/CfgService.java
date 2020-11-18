@@ -3,7 +3,7 @@ package com.abc1236.ms.service.system;
 import com.abc1236.ms.entity.system.Cfg;
 
 public interface CfgService {
-    Cfg getCgfById(long id);
+    boolean updateById(Cfg cfg);
 
-    void update(Cfg cfg);
+    Cfg getById(long id);
 }

@@ -3,6 +3,7 @@ package com.abc1236.ms.service.system.impl;
 import com.abc1236.ms.dao.mapper.system.CfgMapper;
 import com.abc1236.ms.entity.system.Cfg;
 import com.abc1236.ms.service.system.CfgService;
+import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -15,12 +16,13 @@ public class CfgServiceImpl implements CfgService {
     private final CfgMapper cfgMapper;
 
     @Override
-    public Cfg getCgfById(long id) {
-        return cfgMapper.selectById(id);
+    public boolean updateById(Cfg cfg) {
+        return SqlHelper.retBool(cfgMapper.updateById(cfg));
     }
 
     @Override
-    public void update(Cfg cfg) {
-        cfgMapper.updateById(cfg);
+    public Cfg getById(long id) {
+        return cfgMapper.selectById(id);
     }
+
 }

@@ -1,19 +1,20 @@
-package com.abc1236.ms.controller.state;
+package com.abc1236.ms.constant.state;
 
 /**
- * 管理员的状态
+ * 菜单的状态
  *
  * @author fengshuonan
- * @Date 2017年1月10日 下午9:54:13
+ * @Date 2017年1月22日 下午12:14:59
  */
-public enum ManagerStatus {
+public enum MenuStatus {
 
-    OK(1, "启用"), FREEZED(2, "冻结"), DELETED(3, "被删除");
+    ENABLE(1, "启用"),
+    DISABLE(0, "禁用");
 
     int code;
     String message;
 
-    ManagerStatus(int code, String message) {
+    MenuStatus(int code, String message) {
         this.code = code;
         this.message = message;
     }
@@ -34,13 +35,13 @@ public enum ManagerStatus {
         this.message = message;
     }
 
-    public static String valueOf(Integer value) {
-        if (value == null) {
+    public static String valueOf(Integer status) {
+        if (status == null) {
             return "";
         } else {
-            for (ManagerStatus ms : ManagerStatus.values()) {
-                if (ms.getCode() == value) {
-                    return ms.getMessage();
+            for (MenuStatus s : MenuStatus.values()) {
+                if (s.getCode() == status) {
+                    return s.getMessage();
                 }
             }
             return "";

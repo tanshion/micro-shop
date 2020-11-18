@@ -7,7 +7,7 @@ package com.abc1236.ms.constant;
  * @author ：enilu
  * @date ：Created in 2019/7/31 11:05
  */
-public interface PermissionConstant {
+public interface Permission {
 
     //系统管理
     String CFG = "cfg";

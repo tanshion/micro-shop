@@ -1,4 +1,4 @@
-package com.abc1236.ms.controller.system;
+package com.abc1236.ms.service.system;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.abc1236.ms.core.SpringContextHolder;

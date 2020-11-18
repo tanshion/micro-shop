@@ -1,9 +1,9 @@
 package com.abc1236.ms.core.aop;
 
 import cn.hutool.core.util.StrUtil;
-import com.abc1236.ms.controller.system.LogObjectHolder;
 import com.abc1236.ms.core.log.LogManager;
 import com.abc1236.ms.core.log.LogTaskFactory;
+import com.abc1236.ms.service.system.LogObjectHolder;
 import com.abc1236.ms.util.BeanUtil;
 import com.abc1236.ms.util.HttpUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
