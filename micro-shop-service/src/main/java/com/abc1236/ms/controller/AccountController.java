@@ -37,7 +37,7 @@ public class AccountController {
 
     @ApiOperation("退出登录")
     @PostMapping(value = "/logout")
-    public ResultEntity<String> logout() {
+    public ResultEntity<Object> logout() {
         String token = HttpUtil.getToken();
         accountService.logout(token);
         Long idUser = HttpUtil.getJwtUser().getId();
@@ -55,7 +55,7 @@ public class AccountController {
 
     @ApiOperation("重置密码")
     @PostMapping(value = "/updatePwd")
-    public ResultEntity<String> updatePwd(String oldPassword, String password, String rePassword) {
+    public ResultEntity<Object> updatePwd(String oldPassword, String password, String rePassword) {
         JwtUser jwtUser = HttpUtil.getJwtUser();
         Long userId = jwtUser.getId();
         accountService.updatePwd(userId, oldPassword, password, rePassword);

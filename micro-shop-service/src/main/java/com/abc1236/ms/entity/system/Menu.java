@@ -33,7 +33,7 @@ public class Menu {
     private String component;
 
     @ApiModelProperty(value = "是否隐藏")
-    private boolean hidden;
+    private Boolean hidden;
 
     @ApiModelProperty(value = "图标")
     private String icon;

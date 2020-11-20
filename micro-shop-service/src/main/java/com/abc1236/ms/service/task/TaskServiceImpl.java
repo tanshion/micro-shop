@@ -5,6 +5,7 @@ import com.abc1236.ms.config.mybatis.DaoWrapper;
 import com.abc1236.ms.dao.mapper.system.TaskMapper;
 import com.abc1236.ms.entity.system.Task;
 import com.abc1236.ms.exception.MyAssert;
+import com.abc1236.ms.service.system.LogObjectHolder;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -56,7 +57,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public List<Task> queryAll(boolean disabled) {
         return DaoWrapper.query(taskMapper)
-            .eq(Task::isDisabled, disabled)
+            .eq(Task::getDisabled, disabled)
             .list();
     }
 
@@ -74,7 +75,49 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public void addTask(Task task) {
+        if(task.getId()==null) {
+            save(task);
+        }else{
+            Task old = getById(task.getId());
+            LogObjectHolder.me().set(old);
+            old.setName(task.getName());
+            old.setCron(task.getCron());
+            old.setJobClass(task.getJobClass());
+            old.setNote(task.getNote());
+            old.setData(task.getData());
+            updateById(old);
+        }
+    }
 
+    @Override
+    public boolean updateById(Task task) {
+        MyAssert.notNull(taskMapper.selectById(task.getId()),"数据不存在");
+        return SqlHelper.retBool(taskMapper.updateById(task));
+    }
+
+    @Override
+    public boolean deleteById(Long id) {
+        return SqlHelper.retBool(taskMapper.deleteById(id));
+    }
+
+    @Override
+    public boolean disable(Long taskId) {
+        Task task = taskMapper.selectById(taskId);
+        MyAssert.notNull(taskMapper.selectById(task.getId()),"数据不存在");
+        return DaoWrapper.update(taskMapper)
+            .eq(Task::getId, task)
+            .set(Task::getDisabled, true)
+            .update();
+    }
+
+    @Override
+    public boolean enable(Long taskId) {
+        Task task = taskMapper.selectById(taskId);
+        MyAssert.notNull(taskMapper.selectById(task.getId()),"数据不存在");
+        return DaoWrapper.update(taskMapper)
+            .eq(Task::getId, task)
+            .set(Task::getDisabled, false)
+            .update();
     }
 
 

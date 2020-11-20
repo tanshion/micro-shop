@@ -12,6 +12,7 @@ import javax.annotation.Nonnull;
  * @email 843565561@qq.com
  * SpringMVC 枚举类型-反序列化
  */
+@SuppressWarnings({"ALL","unchecked"})
 public final class MyIntegerToEnumConverterFactory implements ConverterFactory<Integer, IEnum> {
 
     @Override

@@ -9,11 +9,12 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
+ * 菜单的节点
+ *
  * @author fengshuonan
- * @Description 菜单的节点
  * @date 2016年12月6日 上午11:34:17
  */
-public class MenuNode implements Comparable {
+public class MenuNode implements Comparable<Object> {
 
     public MenuNode(MenuBO source) {
         this.setId(source.getId());
@@ -27,7 +28,7 @@ public class MenuNode implements Comparable {
         this.setCode(source.getCode());
         this.setStatus(source.getStatus());
         this.setComponent(source.getComponent());
-        this.setHidden(source.isHidden());
+        this.setHidden(source.getHidden());
     }
 
     /**

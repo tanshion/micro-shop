@@ -1,7 +1,7 @@
 package com.abc1236.ms.core.result;
 
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.purgerteam.log.trace.starter.Constants;
 import com.purgerteam.log.trace.starter.TraceContentFactory;
@@ -11,7 +11,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * @author tanshion
@@ -28,8 +27,8 @@ public class ResultEntity<T> implements Serializable {
     private String msg;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String traceId;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Long total;
+    //@JsonInclude(JsonInclude.Include.NON_NULL)
+    //private Long total;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private T data;
 
@@ -53,10 +52,8 @@ public class ResultEntity<T> implements Serializable {
         return new ResultEntity<>(result, ResultStatus.SUCCESS);
     }
 
-    public static <T> ResultEntity<List<T>> success(IPage<T> page) {
-        ResultEntity<List<T>> resultEntity = new ResultEntity<>(page.getRecords(), ResultStatus.SUCCESS);
-        resultEntity.setTotal(page.getTotal());
-        return resultEntity;
+    public static <T> ResultEntity<Page<T>> success(Page<T> page) {
+        return new ResultEntity<>(page,ResultStatus.SUCCESS);
     }
 
     public static <T> ResultEntity<T> fail() {

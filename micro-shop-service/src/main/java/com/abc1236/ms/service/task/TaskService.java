@@ -18,4 +18,12 @@ public interface TaskService {
     boolean saveOrUpdate(Task task);
 
     Task getById(Long id);
+
+    boolean updateById(Task task);
+
+    boolean deleteById(Long id);
+
+    boolean disable(Long taskId);
+
+    boolean enable(Long taskId);
 }

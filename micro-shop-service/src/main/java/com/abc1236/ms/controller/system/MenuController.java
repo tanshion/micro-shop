@@ -60,7 +60,7 @@ public class MenuController {
     @PostMapping
     @BussinessLog(value = "编辑菜单", key = "name")
     @PreAuthorize("hasAuthority('" + Permission.MENU_EDIT + "')")
-    public ResultEntity<String> save(@ModelAttribute @Valid MenuQuery menu) {
+    public ResultEntity<Object> save(@ModelAttribute @Valid MenuQuery menu) {
         menuService.saveMenu(menu);
         return ResultEntity.success();
     }
@@ -69,7 +69,7 @@ public class MenuController {
     @DeleteMapping
     @BussinessLog(value = "删除菜单", key = "id")
     @PreAuthorize("hasAuthority('" + Permission.MENU_DEL + "')")
-    public ResultEntity<String> remove(@NotNull(message = "id不能为空") @RequestParam Long id) {
+    public ResultEntity<Object> remove(@NotNull(message = "id不能为空") @RequestParam Long id) {
         //演示环境不允许删除初始化的菜单
         if (id.intValue() < 70) {
             throw new ServiceException("演示环境不允许删除初始菜单");

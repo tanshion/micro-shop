@@ -68,10 +68,10 @@ public class JobServiceImpl implements JobService {
             job.setJobName(String.valueOf(task.getId()));
             job.setJobGroup(task.getJobGroup());
             job.setCronExpression(task.getCron());
-            job.setConcurrent(task.isConcurrent());
+            job.setConcurrent(task.getConcurrent());
             job.setJobClass(task.getJobClass());
             job.setDescription(task.getName());
-            job.setDisabled(task.isDisabled());
+            job.setDisabled(task.getDisabled());
             if (StrUtil.isNotEmpty(task.getData())) {
                 try {
                     Map<String, Object> dataMap = JsonUtils.from(task.getData(), new TypeReference<Map<String, Object>>() {});

@@ -38,6 +38,6 @@ public class RouterMenu {
         this.setComponent(source.getComponent());
         this.setId(source.getId());
         this.setMeta(meta);
-        this.setHidden(source.isHidden());
+        this.setHidden(source.getHidden());
     }
 }

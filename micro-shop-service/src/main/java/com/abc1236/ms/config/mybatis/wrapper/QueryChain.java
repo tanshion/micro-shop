@@ -21,6 +21,7 @@ import java.util.function.Predicate;
  * @author tanshion
  * @email 843565561@qq.com
  */
+@SuppressWarnings("unchecked")
 public class QueryChain<T> extends AbstractChainWrapper<T, SFunction<T, ?>, QueryChain<T>, LambdaQueryWrapper<T>>
     implements ChainQuery<T>, Query<QueryChain<T>, T, SFunction<T, ?>> {
     protected Log log = LogFactory.getLog(this.getClass());

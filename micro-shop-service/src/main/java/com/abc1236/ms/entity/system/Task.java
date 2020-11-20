@@ -27,13 +27,13 @@ public class Task {
     private Date modifyTime;
 
     @ApiModelProperty(value = "是否允许并发")
-    private boolean concurrent;
+    private Boolean concurrent;
 
     @ApiModelProperty(value = "定时规则")
     private String cron;
 
     @ApiModelProperty(value = "是否禁用")
-    private boolean disabled;
+    private Boolean disabled;
 
     @ApiModelProperty(value = "执行时间")
     private Date execAt;

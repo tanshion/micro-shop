@@ -1,7 +1,9 @@
 package com.abc1236.ms.service.task;
 
+import com.abc1236.ms.config.mybatis.DaoWrapper;
 import com.abc1236.ms.dao.mapper.system.TaskLogMapper;
 import com.abc1236.ms.entity.system.TaskLog;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,5 +18,12 @@ public class TaskLogServiceImpl implements TaskLogService {
     @Override
     public boolean save(TaskLog entity) {
         return SqlHelper.retBool(taskLogMapper.insert(entity));
+    }
+
+    @Override
+    public Page<TaskLog> queryPage(Long taskId, Page<TaskLog> page) {
+        return DaoWrapper.query(taskLogMapper)
+            .eq(TaskLog::getId, taskId)
+            .page(page);
     }
 }
