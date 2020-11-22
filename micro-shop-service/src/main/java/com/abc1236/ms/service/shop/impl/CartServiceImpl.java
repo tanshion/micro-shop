@@ -13,11 +13,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class CartServiceImpl implements CartService {
     private final CartMapper cartMapper;
+
     @Override
     public Integer count(Long userId) {
-        Integer count = DaoWrapper.query(cartMapper)
+        return DaoWrapper.query(cartMapper)
             .eq(Cart::getIdUser, userId)
             .count();
-        return count;
     }
 }
