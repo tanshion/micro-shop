@@ -1,8 +1,8 @@
 package com.abc1236.ms.service.shop.impl;
 
 import com.abc1236.ms.config.mybatis.DaoWrapper;
-import com.abc1236.ms.dao.mapper.shop.CartMapper;
 import com.abc1236.ms.entity.shop.Cart;
+import com.abc1236.ms.mapper.shop.CartMapper;
 import com.abc1236.ms.service.shop.CartService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

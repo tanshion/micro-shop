@@ -1,0 +1,133 @@
+package com.abc1236.ms.controller.shop;
+
+import com.abc1236.ms.core.result.ResultEntity;
+import com.abc1236.ms.entity.shop.Category;
+import com.abc1236.ms.service.shop.CategoryService;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@Api(tags = "商品类别")
+@Slf4j
+@RequiredArgsConstructor
+@RestController
+@RequestMapping("/shop/category")
+public class CategoryController {
+    private final CategoryService categoryService;
+    //@Autowired
+    //private CategoryBannerRelService categoryBannerRelService;
+    //@Autowired
+    //private AttrKeyService attrKeyService;
+    //@Autowired
+    //private GoodsService goodsService;
+
+
+    @ApiOperation("商品类别列表")
+    @GetMapping(value = "/list")
+    public ResultEntity<Page<Category>> list(Long page, Long limit) {
+        Page<Category> categoryPage = categoryService.queryPage(page, limit);
+        return ResultEntity.success(categoryPage);
+    }
+
+    //@RequestMapping(value = "/getAll", method = RequestMethod.GET)
+    //public Object getAll() {
+    //
+    //    List<Category> categories = categoryService.queryAll();
+    //    return Rets.success(categories);
+    //}
+    //
+    //@RequestMapping(method = RequestMethod.POST)
+    //@BussinessLog(value = "编辑商品类别", key = "name")
+    //@RequiresPermissions(value = {Permission.CATEGORY_EDIT})
+    //public Object save(@ModelAttribute Category category) {
+    //    if (category.getId() == null) {
+    //        categoryService.insert(category);
+    //    } else {
+    //        categoryService.update(category);
+    //    }
+    //    return Rets.success();
+    //}
+    //
+    //@RequestMapping(method = RequestMethod.DELETE)
+    //@BussinessLog(value = "删除商品类别", key = "id")
+    //@RequiresPermissions(value = {Permission.CATEGORY_EDIT})
+    //public Object remove(Long id) {
+    //    if (id == null) {
+    //        throw new ApplicationException(ApplicationExceptionEnum.REQUEST_NULL);
+    //    }
+    //    long goodsCount = goodsService.count(SearchFilter.build("idCategory", id));
+    //    if (goodsCount > 0) {
+    //        throw new ApplicationException(ApplicationExceptionEnum.DATA_CANNOT_REMOVE);
+    //    }
+    //    categoryService.deleteById(id);
+    //    return Rets.success();
+    //}
+    //
+    //@RequestMapping(value = "/getBanners/{idCategory}", method = RequestMethod.GET)
+    //public Object getBanners(@PathVariable("idCategory") Long idCategory) {
+    //    if (idCategory == null) {
+    //        throw new ApplicationException(ApplicationExceptionEnum.REQUEST_NULL);
+    //    }
+    //    List<CategoryBannerRel> relList = categoryBannerRelService.queryAll(SearchFilter.build("idCategory", SearchFilter.Operator.EQ, idCategory));
+    //    List<Banner> bannerList = Lists.newArrayList();
+    //    relList.forEach(item -> {
+    //        bannerList.add(item.getBanner());
+    //    });
+    //
+    //    return Rets.success(bannerList);
+    //}
+    //
+    //@RequestMapping(value = "getAttrKeys/{idCategory}", method = RequestMethod.GET)
+    //public Object getAttrKeys(@PathVariable("idCategory") Long idCategory) {
+    //    if (idCategory == null) {
+    //        throw new ApplicationException(ApplicationExceptionEnum.REQUEST_NULL);
+    //    }
+    //    List<AttrKey> list = attrKeyService.queryBy(idCategory);
+    //    return Rets.success(list);
+    //
+    //}
+    //
+    //@RequestMapping(value = "/removeBanner/{idCategory}/{idBanner}", method = RequestMethod.DELETE)
+    //@RequiresPermissions(value = {Permission.CATEGORY_EDIT})
+    //public Object removeBanner(@PathVariable("idCategory") Long idCategory,
+    //    @PathVariable("idBanner") Long idBanner) {
+    //    if (idCategory == null) {
+    //        throw new ApplicationException(ApplicationExceptionEnum.REQUEST_NULL);
+    //    }
+    //    CategoryBannerRel rel = categoryBannerRelService.get(Lists.newArrayList(
+    //        SearchFilter.build("idCategory", idCategory),
+    //        SearchFilter.build("idBanner", idBanner)
+    //    ));
+    //    if (rel != null) {
+    //        categoryBannerRelService.delete(rel);
+    //    }
+    //    return Rets.success();
+    //}
+    //
+    //@RequestMapping(value = "/setBanner/{idCategory}/{idBanner}", method = RequestMethod.POST)
+    //@RequiresPermissions(value = {Permission.CATEGORY_EDIT})
+    //public Object setBanner(@PathVariable("idCategory") Long idCategory,
+    //    @PathVariable("idBanner") Long idBanner) {
+    //    if (idCategory == null) {
+    //        throw new ApplicationException(ApplicationExceptionEnum.REQUEST_NULL);
+    //    }
+    //    CategoryBannerRel rel = categoryBannerRelService.get(Lists.newArrayList(
+    //        SearchFilter.build("idCategory", idCategory),
+    //        SearchFilter.build("idBanner", idBanner)
+    //    ));
+    //    if (rel != null) {
+    //        return Rets.success();
+    //    }
+    //    rel = new CategoryBannerRel();
+    //    rel.setIdCategory(idCategory);
+    //    rel.setIdBanner(idBanner);
+    //    categoryBannerRelService.insert(rel);
+    //    return Rets.success();
+    //}
+
+}

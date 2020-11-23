@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CfgController {
     private final CfgService cfgService;
     //@Autowired
-    //private FileService fileService;
+    //private FileService fileService;screenshots
     //
     ///**
     // * 查询参数列表

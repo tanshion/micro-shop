@@ -1,8 +1,8 @@
 package com.abc1236.ms.service.task;
 
 import com.abc1236.ms.config.mybatis.DaoWrapper;
-import com.abc1236.ms.dao.mapper.system.TaskLogMapper;
 import com.abc1236.ms.entity.system.TaskLog;
+import com.abc1236.ms.mapper.system.TaskLogMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import lombok.RequiredArgsConstructor;

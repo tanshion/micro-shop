@@ -2,8 +2,8 @@ package com.abc1236.ms.service.shop.impl;
 
 import cn.hutool.core.date.DateUtil;
 import com.abc1236.ms.config.mybatis.DaoWrapper;
-import com.abc1236.ms.dao.mapper.shop.ShopUserMapper;
 import com.abc1236.ms.entity.shop.ShopUser;
+import com.abc1236.ms.mapper.shop.ShopUserMapper;
 import com.abc1236.ms.query.ShopUserListQuery;
 import com.abc1236.ms.service.shop.ShopUserService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

@@ -4,10 +4,9 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.abc1236.ms.bo.MenuBO;
 import com.abc1236.ms.config.mybatis.DaoWrapper;
 import com.abc1236.ms.constant.state.MenuStatus;
-import com.abc1236.ms.dao.mapper.system.MenuMapper;
-import com.abc1236.ms.dao.system.MenuDAO;
 import com.abc1236.ms.entity.system.Menu;
 import com.abc1236.ms.exception.ServiceException;
+import com.abc1236.ms.mapper.system.MenuMapper;
 import com.abc1236.ms.query.MenuQuery;
 import com.abc1236.ms.service.system.LogObjectHolder;
 import com.abc1236.ms.service.system.MenuService;
@@ -33,8 +32,6 @@ import java.util.stream.Collectors;
 @Service
 public class MenuServiceImpl implements MenuService {
     private final MenuMapper menuMapper;
-
-    private final MenuDAO menuDAO;
 
     @Override
     public boolean updateById(Menu menu) {
@@ -76,7 +73,7 @@ public class MenuServiceImpl implements MenuService {
      */
     @Override
     public List<RouterMenu> getSideBarMenus(List<Long> roleIds) {
-        List<MenuBO> menuBOList = menuDAO.selectMenuByRoleIds(roleIds);
+        List<MenuBO> menuBOList = menuMapper.selectMenuByRoleIds(roleIds);
         List<RouterMenu> list = Optional.ofNullable(menuBOList)
             .orElse(new ArrayList<>()).stream()
             .map(RouterMenu::new)
@@ -91,7 +88,7 @@ public class MenuServiceImpl implements MenuService {
      */
     @Override
     public List<MenuNode> getMenus() {
-        List<MenuBO> menuBOList = menuDAO.selectMenu();
+        List<MenuBO> menuBOList = menuMapper.selectMenu();
         List<MenuNode> list = Optional.ofNullable(menuBOList)
             .orElse(new ArrayList<>()).stream()
             .map(MenuNode::new)
@@ -135,12 +132,12 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public MenuTreeVO menuTreeListByRoleId(Long roleId) {
-        List<Long> menuIds = menuDAO.selectMenuIdByRoleId(roleId);
+        List<Long> menuIds = menuMapper.selectMenuIdByRoleId(roleId);
         List<ZTreeNode> roleTreeList;
         if (menuIds == null || menuIds.isEmpty()) {
-            roleTreeList = menuDAO.selectMenuTreeList();
+            roleTreeList = menuMapper.selectMenuTreeList();
         } else {
-            roleTreeList = menuDAO.selectMenuTreeListInMenuIds(menuIds);
+            roleTreeList = menuMapper.selectMenuTreeListInMenuIds(menuIds);
         }
         List<Node> list = generateMenuTreeForRole(roleTreeList);
         //element-ui中tree控件中如果选中父节点会默认选中所有子节点，所以这里将所有非叶子节点去掉

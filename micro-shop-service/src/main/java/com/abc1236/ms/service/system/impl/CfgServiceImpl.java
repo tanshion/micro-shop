@@ -1,7 +1,7 @@
 package com.abc1236.ms.service.system.impl;
 
-import com.abc1236.ms.dao.mapper.system.CfgMapper;
 import com.abc1236.ms.entity.system.Cfg;
+import com.abc1236.ms.mapper.system.CfgMapper;
 import com.abc1236.ms.service.system.CfgService;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import lombok.RequiredArgsConstructor;
