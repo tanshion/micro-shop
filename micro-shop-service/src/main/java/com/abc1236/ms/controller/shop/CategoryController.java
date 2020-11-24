@@ -10,7 +10,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @Api(tags = "商品类别")
 @Slf4j
@@ -27,20 +30,20 @@ public class CategoryController {
     //private GoodsService goodsService;
 
 
-    @ApiOperation("商品类别列表")
+    @ApiOperation("商品类别列表分页")
     @GetMapping(value = "/list")
     public ResultEntity<Page<Category>> list(Long page, Long limit) {
         Page<Category> categoryPage = categoryService.queryPage(page, limit);
         return ResultEntity.success(categoryPage);
     }
+    @ApiOperation("所有商品类别列表")
+    @GetMapping(value = "/getAll")
+    public ResultEntity<List<Category>> getAll() {
 
-    //@RequestMapping(value = "/getAll", method = RequestMethod.GET)
-    //public Object getAll() {
-    //
-    //    List<Category> categories = categoryService.queryAll();
-    //    return Rets.success(categories);
-    //}
-    //
+        List<Category> categories = categoryService.queryAll();
+        return ResultEntity.success(categories);
+    }
+
     //@RequestMapping(method = RequestMethod.POST)
     //@BussinessLog(value = "编辑商品类别", key = "name")
     //@RequiresPermissions(value = {Permission.CATEGORY_EDIT})

@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -19,5 +21,10 @@ public class CategoryServiceImpl implements CategoryService {
     public Page<Category> queryPage(Long page, Long limit) {
         return DaoWrapper.query(categoryMapper)
             .page(new Page<>(page, limit));
+    }
+
+    @Override
+    public List<Category> queryAll() {
+        return DaoWrapper.query(categoryMapper).list();
     }
 }
