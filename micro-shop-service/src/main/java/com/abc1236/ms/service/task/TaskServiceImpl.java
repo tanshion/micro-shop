@@ -4,11 +4,13 @@ package com.abc1236.ms.service.task;
 import com.abc1236.ms.config.mybatis.DaoWrapper;
 import com.abc1236.ms.entity.system.Task;
 import com.abc1236.ms.exception.MyAssert;
+import com.abc1236.ms.exception.ServiceException;
 import com.abc1236.ms.mapper.system.TaskMapper;
 import com.abc1236.ms.service.system.LogObjectHolder;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.quartz.SchedulerException;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,48 +33,6 @@ public class TaskServiceImpl implements TaskService {
     @Resource
     private JobService jobService;
 
-
-    @Transactional(rollbackFor = Exception.class)
-    @Override
-    public boolean saveOrUpdate(Task task) {
-        if (null != task.getId()) {
-            MyAssert.notNull(taskMapper.selectById(task.getId()), "数据不存在");
-            return SqlHelper.retBool(taskMapper.updateById(task));
-        } else {
-            return SqlHelper.retBool(taskMapper.insert(task));
-        }
-    }
-
-    @Override
-    public Task getById(Long id) {
-        return taskMapper.selectById(id);
-    }
-
-
-    @Override
-    public boolean save(Task task) {
-        return SqlHelper.retBool(taskMapper.insert(task));
-    }
-
-    @Override
-    public List<Task> queryAll(boolean disabled) {
-        return DaoWrapper.query(taskMapper)
-            .eq(Task::getDisabled, disabled)
-            .list();
-    }
-
-    @Override
-    public List<Task> queryAll() {
-        return DaoWrapper.query(taskMapper).list();
-    }
-
-    @Override
-    public List<Task> queryAllByNameLike(String name) {
-        return DaoWrapper.query(taskMapper)
-            .like(Task::getName, "%" + name + "%")
-            .list();
-    }
-
     @Override
     public void addTask(Task task) {
         if(task.getId()==null) {
@@ -87,6 +47,18 @@ public class TaskServiceImpl implements TaskService {
             old.setData(task.getData());
             updateById(old);
         }
+    }
+
+    @Override
+    public boolean save(Task task) {
+        boolean success = SqlHelper.retBool(taskMapper.insert(task));
+        try {
+            jobService.addJob(jobService.getJob(task));
+        } catch (SchedulerException e) {
+            log.error("添加定时任务失败",e);
+            throw new ServiceException("添加定时任务失败");
+        }
+        return success;
     }
 
     @Override
@@ -120,5 +92,38 @@ public class TaskServiceImpl implements TaskService {
             .update();
     }
 
+    @Override
+    public List<Task> queryAllByNameLike(String name) {
+        return DaoWrapper.query(taskMapper)
+            .like(Task::getName, "%" + name + "%")
+            .list();
+    }
 
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public boolean saveOrUpdate(Task task) {
+        if (null != task.getId()) {
+            MyAssert.notNull(taskMapper.selectById(task.getId()), "数据不存在");
+            return SqlHelper.retBool(taskMapper.updateById(task));
+        } else {
+            return SqlHelper.retBool(taskMapper.insert(task));
+        }
+    }
+
+    @Override
+    public Task getById(Long id) {
+        return taskMapper.selectById(id);
+    }
+
+    @Override
+    public List<Task> queryAll(boolean disabled) {
+        return DaoWrapper.query(taskMapper)
+            .eq(Task::getDisabled, disabled)
+            .list();
+    }
+
+    @Override
+    public List<Task> queryAll() {
+        return DaoWrapper.query(taskMapper).list();
+    }
 }

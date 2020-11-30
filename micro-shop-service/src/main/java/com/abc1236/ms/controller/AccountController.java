@@ -5,7 +5,7 @@ import com.abc1236.ms.core.authentication.token.AccessToken;
 import com.abc1236.ms.core.log.LogManager;
 import com.abc1236.ms.core.log.LogTaskFactory;
 import com.abc1236.ms.core.result.ResultEntity;
-import com.abc1236.ms.service.system.AccountService;
+import com.abc1236.ms.service.AccountService;
 import com.abc1236.ms.service.system.UserService;
 import com.abc1236.ms.util.HttpUtil;
 import com.abc1236.ms.vo.UserInfoVO;
@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/account")
 public class AccountController {
     private final AccountService accountService;
-    private final UserService userService;
 
     @ApiOperation("用户登录")
     @PreAuthorize("permitAll")

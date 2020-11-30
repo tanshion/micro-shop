@@ -1,4 +1,4 @@
-package com.abc1236.ms.service.impl;
+package com.abc1236.ms.service;
 
 import com.abc1236.ms.core.authentication.constant.TokenConstant;
 import com.abc1236.ms.core.authentication.service.TokenService;

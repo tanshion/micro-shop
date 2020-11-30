@@ -1,4 +1,4 @@
-package com.abc1236.ms.service.impl;
+package com.abc1236.ms.service;
 
 import cn.hutool.core.util.StrUtil;
 import com.abc1236.ms.bo.JwtUser;
@@ -11,7 +11,6 @@ import com.abc1236.ms.core.result.ResultEntity;
 import com.abc1236.ms.entity.system.User;
 import com.abc1236.ms.exception.MyAssert;
 import com.abc1236.ms.exception.ServiceException;
-import com.abc1236.ms.service.system.AccountService;
 import com.abc1236.ms.service.system.UserService;
 import com.abc1236.ms.util.HttpUtil;
 import com.abc1236.ms.vo.Profile;

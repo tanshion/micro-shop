@@ -1,4 +1,4 @@
-package com.abc1236.ms.service.impl;
+package com.abc1236.ms.service;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
