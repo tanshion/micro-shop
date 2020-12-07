@@ -49,15 +49,7 @@ public class ShopUserController {
     @GetMapping(value = "/info/{id}")
     public ResultEntity<UserDetailsVO> getInfo(@NotNull(message = "id不能为空")
     @Min(value = 1, message = "id必须为正整数") @PathVariable("id") Long id) {
-        ShopUser shopUser = shopUserService.get(id);
-        shopUser.setPassword("");
-        shopUser.setSalt("");
-        Integer cartCount = cartService.count(id);
-        Integer orderCount = orderService.count(id);
-        UserDetailsVO user = new UserDetailsVO();
-        user.setShopUser(shopUser);
-        user.setCartCount(cartCount);
-        user.setOrderCount(orderCount);
-        return ResultEntity.success(user);
+        return shopUserService.getInfo(id);
+
     }
 }

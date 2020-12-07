@@ -16,7 +16,7 @@ public class AddressServiceImpl implements AddressService {
     private final AddressMapper addressMapper;
 
     @Override
-    public Page<Address> queryPage(Long idUser, Long page, Long limit) {
+    public Page<Address> getPagedList(Long idUser, Long page, Long limit) {
         return DaoWrapper.query(addressMapper)
             .eq(Address::getIdUser, idUser)
             .page(new Page<>(page, limit));

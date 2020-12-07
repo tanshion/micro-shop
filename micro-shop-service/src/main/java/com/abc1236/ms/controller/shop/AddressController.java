@@ -21,7 +21,7 @@ public class AddressController {
     @ApiOperation("地址列表")
     @GetMapping(value = "/list")
     public ResultEntity<Page<Address>> list(@RequestParam(required = false) Long idUser, Long page, Long limit) {
-        Page<Address> addressPage = addressService.queryPage(idUser, page, limit);
+        Page<Address> addressPage = addressService.getPagedList(idUser, page, limit);
         return ResultEntity.success(addressPage);
     }
 }

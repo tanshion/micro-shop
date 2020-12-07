@@ -12,12 +12,5 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 public class OrderServiceImpl implements OrderService {
-    private final OrderMapper orderMapper;
 
-    @Override
-    public Integer count(Long userId) {
-        return DaoWrapper.query(orderMapper)
-            .eq(Order::getIdUser, userId)
-            .count();
-    }
 }
