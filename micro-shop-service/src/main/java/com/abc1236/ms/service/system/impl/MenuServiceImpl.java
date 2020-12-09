@@ -2,7 +2,7 @@ package com.abc1236.ms.service.system.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.abc1236.ms.bo.MenuBO;
-import com.abc1236.ms.config.mybatis.DaoWrapper;
+import com.abc1236.ms.config.mybatis.SqlWrapper;
 import com.abc1236.ms.constant.state.MenuStatus;
 import com.abc1236.ms.entity.system.Menu;
 import com.abc1236.ms.exception.ServiceException;
@@ -103,7 +103,7 @@ public class MenuServiceImpl implements MenuService {
         Menu menu = BeanCopyUtils.copyBean(menuQuery, Menu.class);
         //判断是否存在该编号
         if (menu.getId() == null) {
-            Menu existedMenu = DaoWrapper.query(menuMapper)
+            Menu existedMenu = SqlWrapper.query(menuMapper)
                 .eq(Menu::getCode, menu.getCode())
                 .one();
             if (existedMenu != null) {
@@ -195,7 +195,7 @@ public class MenuServiceImpl implements MenuService {
     private void delMenuContainSubMenus(Long menuId) {
         Menu menu = getById(menuId);
         //删除所有子菜单
-        List<Menu> menus = DaoWrapper.query(menuMapper)
+        List<Menu> menus = SqlWrapper.query(menuMapper)
             .like(Menu::getCode, "%[" + menu.getCode() + "]%")
             .list();
         List<Long> ids = Optional.ofNullable(menus)
@@ -214,7 +214,7 @@ public class MenuServiceImpl implements MenuService {
             menu.setPcodes("[0],");
             menu.setLevels(1);
         } else {
-            Menu pMenu = DaoWrapper.query(menuMapper)
+            Menu pMenu = SqlWrapper.query(menuMapper)
                 .eq(Menu::getCode, menu.getPcode())
                 .one();
             Integer pLevels = pMenu.getLevels();

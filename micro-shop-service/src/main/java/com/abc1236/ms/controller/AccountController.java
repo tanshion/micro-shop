@@ -6,7 +6,6 @@ import com.abc1236.ms.core.log.LogManager;
 import com.abc1236.ms.core.log.LogTaskFactory;
 import com.abc1236.ms.core.result.ResultEntity;
 import com.abc1236.ms.service.AccountService;
-import com.abc1236.ms.service.system.UserService;
 import com.abc1236.ms.util.HttpUtil;
 import com.abc1236.ms.vo.UserInfoVO;
 import io.swagger.annotations.Api;

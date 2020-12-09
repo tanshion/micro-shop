@@ -1,7 +1,5 @@
 package com.abc1236.ms.service.shop.impl;
 
-import com.abc1236.ms.config.mybatis.DaoWrapper;
-import com.abc1236.ms.entity.shop.Cart;
 import com.abc1236.ms.mapper.shop.CartMapper;
 import com.abc1236.ms.service.shop.CartService;
 import lombok.RequiredArgsConstructor;
@@ -14,10 +12,4 @@ import org.springframework.stereotype.Service;
 public class CartServiceImpl implements CartService {
     private final CartMapper cartMapper;
 
-    @Override
-    public Integer count(Long userId) {
-        return DaoWrapper.query(cartMapper)
-            .eq(Cart::getIdUser, userId)
-            .count();
-    }
 }

@@ -1,6 +1,6 @@
 package com.abc1236.ms.manager.shop.impl;
 
-import com.abc1236.ms.config.mybatis.DaoWrapper;
+import com.abc1236.ms.config.mybatis.SqlWrapper;
 import com.abc1236.ms.entity.shop.Cart;
 import com.abc1236.ms.manager.shop.CartManager;
 import com.abc1236.ms.mapper.shop.CartMapper;
@@ -14,7 +14,7 @@ public class CartManagerImpl implements CartManager {
 
     @Override
     public Integer count(Long userId) {
-        return DaoWrapper.query(cartMapper)
+        return SqlWrapper.query(cartMapper)
             .eq(Cart::getIdUser, userId)
             .count();
     }

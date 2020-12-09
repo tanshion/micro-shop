@@ -1,6 +1,6 @@
 package com.abc1236.ms.service.task;
 
-import com.abc1236.ms.config.mybatis.DaoWrapper;
+import com.abc1236.ms.config.mybatis.SqlWrapper;
 import com.abc1236.ms.entity.system.TaskLog;
 import com.abc1236.ms.mapper.system.TaskLogMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -22,7 +22,7 @@ public class TaskLogServiceImpl implements TaskLogService {
 
     @Override
     public Page<TaskLog> queryPage(Long taskId, Page<TaskLog> page) {
-        return DaoWrapper.query(taskLogMapper)
+        return SqlWrapper.query(taskLogMapper)
             .eq(TaskLog::getId, taskId)
             .page(page);
     }

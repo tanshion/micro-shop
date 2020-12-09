@@ -11,9 +11,9 @@ import com.baomidou.mybatisplus.extension.conditions.update.LambdaUpdateChainWra
  * @since 2019-11-28
  * @since 3.3.0
  */
-public final class DaoWrapper {
+public final class SqlWrapper {
 
-    private DaoWrapper() {
+    private SqlWrapper() {
         // ignore
     }
 

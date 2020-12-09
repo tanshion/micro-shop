@@ -1,7 +1,7 @@
 package com.abc1236.ms.service.shop.impl;
 
 import cn.hutool.core.date.DateUtil;
-import com.abc1236.ms.config.mybatis.DaoWrapper;
+import com.abc1236.ms.config.mybatis.SqlWrapper;
 import com.abc1236.ms.core.result.ResultEntity;
 import com.abc1236.ms.entity.shop.ShopUser;
 import com.abc1236.ms.manager.shop.CartManager;
@@ -26,7 +26,7 @@ public class ShopUserServiceImpl implements ShopUserService {
     private final OrderManager orderManager;
     @Override
     public Page<ShopUser> queryPage(ShopUserListQuery query) {
-        return DaoWrapper.query(shopUserMapper)
+        return SqlWrapper.query(shopUserMapper)
             .eq(ShopUser::getMobile, query.getMobile())
             .eq(ShopUser::getNickName, query.getNickName())
             .ge(query.getStartRegDate() != null, ShopUser::getCreateTime,

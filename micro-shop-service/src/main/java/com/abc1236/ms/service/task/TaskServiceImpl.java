@@ -1,7 +1,7 @@
 package com.abc1236.ms.service.task;
 
 
-import com.abc1236.ms.config.mybatis.DaoWrapper;
+import com.abc1236.ms.config.mybatis.SqlWrapper;
 import com.abc1236.ms.entity.system.Task;
 import com.abc1236.ms.exception.MyAssert;
 import com.abc1236.ms.exception.ServiceException;
@@ -83,7 +83,7 @@ public class TaskServiceImpl implements TaskService {
     public boolean disable(Long taskId) {
         Task task = taskMapper.selectById(taskId);
         MyAssert.notNull(taskMapper.selectById(task.getId()),"数据不存在");
-        boolean success = DaoWrapper.update(taskMapper)
+        boolean success = SqlWrapper.update(taskMapper)
             .eq(Task::getId, task)
             .set(Task::getDisabled, true)
             .update();
@@ -103,7 +103,7 @@ public class TaskServiceImpl implements TaskService {
     public boolean enable(Long taskId) {
         Task task = taskMapper.selectById(taskId);
         MyAssert.notNull(taskMapper.selectById(task.getId()),"数据不存在");
-        boolean success = DaoWrapper.update(taskMapper)
+        boolean success = SqlWrapper.update(taskMapper)
             .eq(Task::getId, task)
             .set(Task::getDisabled, false)
             .update();
@@ -142,7 +142,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<Task> queryAllByNameLike(String name) {
-        return DaoWrapper.query(taskMapper)
+        return SqlWrapper.query(taskMapper)
             .like(Task::getName, "%" + name + "%")
             .list();
     }
@@ -165,13 +165,13 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<Task> queryAll(boolean disabled) {
-        return DaoWrapper.query(taskMapper)
+        return SqlWrapper.query(taskMapper)
             .eq(Task::getDisabled, disabled)
             .list();
     }
 
     @Override
     public List<Task> queryAll() {
-        return DaoWrapper.query(taskMapper).list();
+        return SqlWrapper.query(taskMapper).list();
     }
 }
