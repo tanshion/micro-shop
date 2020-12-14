@@ -28,8 +28,6 @@ import javax.validation.constraints.NotNull;
 @RequestMapping("/shop/user")
 public class ShopUserController {
     private final ShopUserService shopUserService;
-    private final CartService cartService;
-    private final OrderService orderService;
 
     @ApiOperation("用户列表")
     @GetMapping(value = "/list")

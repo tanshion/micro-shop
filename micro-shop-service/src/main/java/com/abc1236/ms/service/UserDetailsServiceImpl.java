@@ -6,6 +6,7 @@ import com.abc1236.ms.config.mybatis.wrapper.QueryChain;
 import com.abc1236.ms.core.authentication.service.MyUserDetailsService;
 import com.abc1236.ms.core.authentication.token.AuthorizationUser;
 import com.abc1236.ms.entity.system.*;
+import com.abc1236.ms.manager.system.UserManager;
 import com.abc1236.ms.mapper.system.DeptMapper;
 import com.abc1236.ms.mapper.system.MenuMapper;
 import com.abc1236.ms.mapper.system.RelationMapper;
@@ -26,7 +27,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class UserDetailsServiceImpl implements MyUserDetailsService {
 
-    private final UserService userService;
+    private final UserManager userManager;
     private final DeptMapper deptMapper;
     private final RoleMapper roleMapper;
     private final MenuMapper menuMapper;
@@ -35,19 +36,19 @@ public class UserDetailsServiceImpl implements MyUserDetailsService {
     @Override
     public User getSysUserByUsername(String username) {
         log.debug("根据用户名查询用户");
-        return userService.findByAccount(username);
+        return userManager.findByAccount(username);
     }
 
     @Override
     public User getSysUserByMobile(String mobile) throws UsernameNotFoundException {
         log.debug("根据手机号查询用户");
-        return userService.findByPhone(mobile);
+        return userManager.findByPhone(mobile);
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.debug("根据用户名查询用户");
-        User user = userService.findByAccount(username);
+        User user = userManager.findByAccount(username);
         return getUserDetails(user);
     }
 

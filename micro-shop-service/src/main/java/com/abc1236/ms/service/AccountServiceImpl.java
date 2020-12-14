@@ -11,6 +11,7 @@ import com.abc1236.ms.core.result.ResultEntity;
 import com.abc1236.ms.entity.system.User;
 import com.abc1236.ms.exception.MyAssert;
 import com.abc1236.ms.exception.ServiceException;
+import com.abc1236.ms.manager.system.UserManager;
 import com.abc1236.ms.service.system.UserService;
 import com.abc1236.ms.util.HttpUtil;
 import com.abc1236.ms.vo.Profile;
@@ -29,7 +30,7 @@ public class AccountServiceImpl implements AccountService {
     private final PasswordEncoder passwordEncoder;
     private final AuthClient authClient;
     private final TokenService tokenService;
-    private final UserService userService;
+    private final UserManager userManager;
 
     /**
      * 用户登录<br>
@@ -43,7 +44,7 @@ public class AccountServiceImpl implements AccountService {
         if (!resultEntity.isSuccess()) {
             throw new ServiceException(resultEntity.getMsg());
         }
-        User user = userService.findByAccount(username);
+        User user = userManager.findByAccount(username);
         LogManager.me().executeLog(LogTaskFactory.loginLog(user.getId(), HttpUtil.getIp()));
         return resultEntity.getData();
     }
@@ -56,7 +57,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public UserInfoVO info(JwtUser jwtUser) {
         MyAssert.notEmpty(jwtUser.getRoleList(), "该用户未配置权限");
-        User user = userService.findById(jwtUser.getId());
+        User user = userManager.findById(jwtUser.getId());
         UserInfoVO userInfoVO = new UserInfoVO();
         userInfoVO.setName(jwtUser.getName());
         userInfoVO.setRole("admin");
@@ -71,10 +72,10 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void updatePwd(Long userId, String oldPassword, String password, String rePassword) {
-        User user = userService.findById(userId);
+        User user = userManager.findById(userId);
         MyAssert.isTrue(passwordEncoder.matches(oldPassword, user.getPassword()), "旧密码输入错误");
         MyAssert.isTrue(StrUtil.equals(password, rePassword), "新密码前后不一致");
         user.setPassword(passwordEncoder.encode(password));
-        userService.updateById(user);
+        userManager.updateById(user);
     }
 }
