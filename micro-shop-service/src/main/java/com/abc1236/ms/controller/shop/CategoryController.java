@@ -1,5 +1,7 @@
 package com.abc1236.ms.controller.shop;
 
+import com.abc1236.ms.constant.Permission;
+import com.abc1236.ms.core.aop.BussinessLog;
 import com.abc1236.ms.core.result.ResultEntity;
 import com.abc1236.ms.entity.shop.Category;
 import com.abc1236.ms.service.shop.CategoryService;
@@ -8,9 +10,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -38,23 +39,23 @@ public class CategoryController {
     @ApiOperation("所有商品类别列表")
     @GetMapping(value = "/getAll")
     public ResultEntity<List<Category>> getAll() {
-
         List<Category> categories = categoryService.queryAll();
         return ResultEntity.success(categories);
     }
 
-    //@RequestMapping(method = RequestMethod.POST)
-    //@BussinessLog(value = "编辑商品类别", key = "name")
-    //@RequiresPermissions(value = {Permission.CATEGORY_EDIT})
-    //public Object save(@ModelAttribute Category category) {
-    //    if (category.getId() == null) {
-    //        categoryService.insert(category);
-    //    } else {
-    //        categoryService.update(category);
-    //    }
-    //    return Rets.success();
-    //}
-    //
+    @PostMapping
+    @ApiOperation("编辑商品类别")
+    @BussinessLog(value = "编辑商品类别", key = "name")
+    @PreAuthorize("hasAuthority('" + Permission.CATEGORY_EDIT + "')")
+    public ResultEntity<String> save(@ModelAttribute Category category) {
+        if (category.getId() == null) {
+            categoryService.insert(category);
+        } else {
+            categoryService.update(category);
+        }
+        return ResultEntity.success();
+    }
+
     //@RequestMapping(method = RequestMethod.DELETE)
     //@BussinessLog(value = "删除商品类别", key = "id")
     //@RequiresPermissions(value = {Permission.CATEGORY_EDIT})

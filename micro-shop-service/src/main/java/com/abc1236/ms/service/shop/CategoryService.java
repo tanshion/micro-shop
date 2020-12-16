@@ -9,4 +9,8 @@ public interface CategoryService {
     Page<Category> queryPage(Long page, Long limit);
 
     List<Category> queryAll();
+
+    boolean insert(Category category);
+
+    boolean update(Category category);
 }
