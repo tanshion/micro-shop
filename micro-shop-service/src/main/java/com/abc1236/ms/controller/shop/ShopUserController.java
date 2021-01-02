@@ -47,7 +47,9 @@ public class ShopUserController {
     @GetMapping(value = "/info/{id}")
     public ResultEntity<UserDetailsVO> getInfo(@NotNull(message = "id不能为空")
     @Min(value = 1, message = "id必须为正整数") @PathVariable("id") Long id) {
-        return shopUserService.getInfo(id);
+        UserDetailsVO info = shopUserService.getInfo(id);
+        return ResultEntity.success(info);
+
 
     }
 }

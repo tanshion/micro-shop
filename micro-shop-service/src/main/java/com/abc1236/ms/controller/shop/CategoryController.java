@@ -36,6 +36,7 @@ public class CategoryController {
         Page<Category> categoryPage = categoryService.queryPage(page, limit);
         return ResultEntity.success(categoryPage);
     }
+
     @ApiOperation("所有商品类别列表")
     @GetMapping(value = "/getAll")
     public ResultEntity<List<Category>> getAll() {
@@ -43,8 +44,8 @@ public class CategoryController {
         return ResultEntity.success(categories);
     }
 
-    @PostMapping
     @ApiOperation("编辑商品类别")
+    @PostMapping
     @BussinessLog(value = "编辑商品类别", key = "name")
     @PreAuthorize("hasAuthority('" + Permission.CATEGORY_EDIT + "')")
     public ResultEntity<String> save(@ModelAttribute Category category) {

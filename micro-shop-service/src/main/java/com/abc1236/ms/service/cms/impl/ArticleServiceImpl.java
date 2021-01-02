@@ -3,7 +3,6 @@ package com.abc1236.ms.service.cms.impl;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import com.abc1236.ms.config.mybatis.SqlWrapper;
-import com.abc1236.ms.core.result.ResultEntity;
 import com.abc1236.ms.entity.cms.Article;
 import com.abc1236.ms.mapper.cms.ArticleMapper;
 import com.abc1236.ms.service.cms.ArticleService;
@@ -17,7 +16,7 @@ public class ArticleServiceImpl implements ArticleService {
     private final ArticleMapper articleMgrMapper;
 
     @Override
-    public ResultEntity<Object> save(Article article) {
+    public void save(Article article) {
         if (article.getId() != null) {
             Article old = articleMgrMapper.selectById(article.getId());
             old.setAuthor(article.getAuthor());
@@ -29,23 +28,21 @@ public class ArticleServiceImpl implements ArticleService {
         } else {
             articleMgrMapper.insert(article);
         }
-        return ResultEntity.success();
     }
 
     @Override
-    public ResultEntity<Object> remove(Long id) {
+    public void remove(Long id) {
         articleMgrMapper.deleteById(id);
-        return ResultEntity.success();
     }
 
     @Override
-    public ResultEntity<Article> get(Long id) {
+    public Article get(Long id) {
         Article article = articleMgrMapper.selectById(id);
-        return ResultEntity.success(article);
+        return article;
     }
 
     @Override
-    public ResultEntity<Page<Article>> list(Long page, Long limit, String title, String author, String startDate, String endDate) {
+    public Page<Article> list(Long page, Long limit, String title, String author, String startDate, String endDate) {
         Page<Article> articlePage = SqlWrapper.query(articleMgrMapper)
             .like(StrUtil.isNotBlank(title), Article::getTitle, title)
             .eq(StrUtil.isNotBlank(author), Article::getAuthor, author)
@@ -53,6 +50,6 @@ public class ArticleServiceImpl implements ArticleService {
             .le(StrUtil.isNotBlank(startDate), Article::getCreateTime, DateUtil.parse(endDate, "yyyyMMddHHmmss"))
             .page(new Page<>(page, limit));
 
-        return ResultEntity.success(articlePage);
+        return articlePage;
     }
 }

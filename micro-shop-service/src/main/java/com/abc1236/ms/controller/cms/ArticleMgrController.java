@@ -26,22 +26,23 @@ public class ArticleMgrController {
     @BussinessLog(value = "编辑文章", key = "name")
     @PreAuthorize("hasAuthority('" + Permission.ARTICLE_EDIT + "')")
     public ResultEntity<Object> save(@RequestBody Article article) {
-
-        return articleService.save(article);
-
+        articleService.save(article);
+        return ResultEntity.success();
     }
 
     @DeleteMapping
     @BussinessLog(value = "删除文章", key = "id")
     @PreAuthorize("hasAuthority('" + Permission.ARTICLE_DEL + "')")
     public ResultEntity<Object> remove(Long id) {
-        return articleService.remove(id);
+        articleService.remove(id);
+        return ResultEntity.success();
     }
 
     @GetMapping
     @PreAuthorize("hasAuthority('" + Permission.ARTICLE + "')")
     public ResultEntity<Article> get(Long id) {
-        return articleService.get(id);
+        Article article = articleService.get(id);
+        return ResultEntity.success(article);
     }
 
     @GetMapping(value = "/list")
@@ -53,6 +54,7 @@ public class ArticleMgrController {
         @RequestParam(required = false) String startDate,
         @RequestParam(required = false) String endDate
     ) {
-        return articleService.list(page,limit,title, author, startDate, endDate);
+        Page<Article> list = articleService.list(page, limit, title, author, startDate, endDate);
+        return ResultEntity.success(list);
     }
 }

@@ -46,7 +46,7 @@ public class ShopUserServiceImpl implements ShopUserService {
     }
 
     @Override
-    public ResultEntity<UserDetailsVO> getInfo(Long id) {
+    public UserDetailsVO getInfo(Long id) {
         ShopUser shopUser = shopUserManager.getShopUser(id);
         shopUser.setPassword("");
         shopUser.setSalt("");
@@ -56,6 +56,6 @@ public class ShopUserServiceImpl implements ShopUserService {
         user.setShopUser(shopUser);
         user.setCartCount(cartCount);
         user.setOrderCount(orderCount);
-        return ResultEntity.success(user);
+        return user;
     }
 }
