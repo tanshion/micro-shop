@@ -7,6 +7,7 @@ import com.abc1236.ms.entity.cms.Article;
 import com.abc1236.ms.service.cms.ArticleService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,6 +23,7 @@ public class ArticleMgrController {
 
     private final ArticleService articleService;
 
+    @ApiOperation("编辑文章")
     @PostMapping
     @BussinessLog(value = "编辑文章", key = "name")
     @PreAuthorize("hasAuthority('" + Permission.ARTICLE_EDIT + "')")
@@ -30,6 +32,7 @@ public class ArticleMgrController {
         return ResultEntity.success();
     }
 
+    @ApiOperation("删除文章")
     @DeleteMapping
     @BussinessLog(value = "删除文章", key = "id")
     @PreAuthorize("hasAuthority('" + Permission.ARTICLE_DEL + "')")
