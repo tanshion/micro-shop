@@ -12,7 +12,6 @@ import com.abc1236.ms.entity.system.User;
 import com.abc1236.ms.exception.MyAssert;
 import com.abc1236.ms.exception.ServiceException;
 import com.abc1236.ms.manager.system.UserManager;
-import com.abc1236.ms.service.system.UserService;
 import com.abc1236.ms.util.HttpUtil;
 import com.abc1236.ms.vo.Profile;
 import com.abc1236.ms.vo.UserInfoVO;
@@ -40,12 +39,15 @@ public class AccountServiceImpl implements AccountService {
      */
     @Override
     public AccessToken login(String username, String password) {
+        log.info("调用远程登录");
         ResultEntity<AccessToken> resultEntity = authClient.loginByUsername(username, password);
         if (!resultEntity.isSuccess()) {
+            log.info("登录失败");
             throw new ServiceException(resultEntity.getMsg());
         }
         User user = userManager.findByAccount(username);
         LogManager.me().executeLog(LogTaskFactory.loginLog(user.getId(), HttpUtil.getIp()));
+        log.info("登录成功");
         return resultEntity.getData();
     }
 

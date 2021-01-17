@@ -59,7 +59,7 @@ public class UsernameAuthenticationProvider implements AuthenticationProvider {
         }
         User sysUser = myUserDetailsService.getSysUserByUsername(username);
         if (sysUser == null) {
-            log.info("用户: {},未找到" + username);
+            log.info("用户: {},查不到", username);
             throw new AuthException("用户名或密码错误");
         }
         String presentedPassword = authToken.getCredentials().toString();

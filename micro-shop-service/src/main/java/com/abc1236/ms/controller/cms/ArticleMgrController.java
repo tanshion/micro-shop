@@ -27,7 +27,7 @@ public class ArticleMgrController {
     @PostMapping
     @BussinessLog(value = "编辑文章", key = "name")
     @PreAuthorize("hasAuthority('" + Permission.ARTICLE_EDIT + "')")
-    public ResultEntity<Object> save(@RequestBody Article article) {
+    public ResultEntity<String> save(@RequestBody Article article) {
         articleService.save(article);
         return ResultEntity.success();
     }
@@ -36,11 +36,12 @@ public class ArticleMgrController {
     @DeleteMapping
     @BussinessLog(value = "删除文章", key = "id")
     @PreAuthorize("hasAuthority('" + Permission.ARTICLE_DEL + "')")
-    public ResultEntity<Object> remove(Long id) {
+    public ResultEntity<String> remove(Long id) {
         articleService.remove(id);
         return ResultEntity.success();
     }
 
+    @ApiOperation("获取文章")
     @GetMapping
     @PreAuthorize("hasAuthority('" + Permission.ARTICLE + "')")
     public ResultEntity<Article> get(Long id) {
@@ -48,6 +49,7 @@ public class ArticleMgrController {
         return ResultEntity.success(article);
     }
 
+    @ApiOperation("文章列表")
     @GetMapping(value = "/list")
     @PreAuthorize("hasAuthority('" + Permission.ARTICLE + "')")
     public ResultEntity<Page<Article>> list(

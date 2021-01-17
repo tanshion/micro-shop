@@ -174,7 +174,7 @@ public class ExceptionCatch {
 
     ResultEntity<Object> getResultData(ResultEntity<Object> resultEntity, Exception exception) {
         String exceptionMessage = exception.getMessage();
-        log.info("异常信息: {}", exceptionMessage);
+        log.warn("异常信息: {}", exceptionMessage);
         if (exception instanceof ServiceException) {
             resultEntity.message(exceptionMessage);
         } else {

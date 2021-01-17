@@ -37,9 +37,9 @@ logging:
   level:
     io.swagger.models.parameters.AbstractSerializableParameter: error
     com.alibaba.nacos.client.naming: warn
-    #    org.springframework.security: info
+    #org.springframework.security: info
     com.abc1236: debug
-    com.abc1236.service.auth.authentication: info
+    #com.abc1236.ms.core.authentication: info
   file.path: logs/${spring.application.name}
 spring.trace.log.format: X-B3-TraceId
 # 数据源
