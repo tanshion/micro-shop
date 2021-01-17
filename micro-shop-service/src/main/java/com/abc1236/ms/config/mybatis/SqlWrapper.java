@@ -7,9 +7,8 @@ import com.baomidou.mybatisplus.extension.conditions.update.LambdaUpdateChainWra
 /**
  * 快捷构造 chain 式调用的工具类
  *
- * @author miemie
- * @since 2019-11-28
- * @since 3.3.0
+ * @author tanshion
+ * @email 843565561@qq.com
  */
 public final class SqlWrapper {
 

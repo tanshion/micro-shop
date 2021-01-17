@@ -1,12 +1,10 @@
 package com.abc1236.ms.bo;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.Set;
 
-@NoArgsConstructor
 @Data
 public class JwtUser {
 

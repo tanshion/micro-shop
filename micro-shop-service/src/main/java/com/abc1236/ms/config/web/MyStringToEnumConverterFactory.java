@@ -30,7 +30,7 @@ public final class MyStringToEnumConverterFactory implements ConverterFactory<St
 
         @Override
         public T convert(@Nonnull String source) {
-            source = source.trim();// 去除首尾空白字符
+            source = source.trim();
             return source.isEmpty() ? null : EnumValue.valueOf(this.enumType, source);
         }
     }

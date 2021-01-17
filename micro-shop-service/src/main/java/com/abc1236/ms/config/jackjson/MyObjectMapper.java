@@ -44,7 +44,6 @@ public class MyObjectMapper extends ObjectMapper {
                 //反射获取字段类型
                 Field field = ReflectionUtils.findField(gen.getCurrentValue().getClass(), fieldName);
                 if (field != null && Objects.equals(field.getType(), String.class)) {
-                    //字符串型空值""
                     gen.writeString("");
                 } else {
                     gen.writeNull();

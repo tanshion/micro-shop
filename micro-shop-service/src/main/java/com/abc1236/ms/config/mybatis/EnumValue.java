@@ -12,6 +12,7 @@ import java.util.Objects;
  * <p>
  * 用于扫描、序列化、反序列化实际枚举类
  */
+@SuppressWarnings({"rawtypes"})
 public interface EnumValue extends IEnum {
 
 

@@ -19,7 +19,8 @@ public class LogConfig {
     public FilterRegistrationBean<LogRequestWrapperFilter> filterRegistrationBean() {
         FilterRegistrationBean<LogRequestWrapperFilter> filterRegistrationBean = new FilterRegistrationBean<>();
         filterRegistrationBean.setFilter(logRequestWrapperFilter());
-        filterRegistrationBean.setOrder(-1000);//order的数值越小 则优先级越高
+        //order的数值越小 则优先级越高
+        filterRegistrationBean.setOrder(-1000);
         return filterRegistrationBean;
     }
 
@@ -27,7 +28,8 @@ public class LogConfig {
     public FilterRegistrationBean<TraceFilter> traceFilterRegistrationBean(TraceFilter traceFilter) {
         FilterRegistrationBean<TraceFilter> filterRegistrationBean = new FilterRegistrationBean<>();
         filterRegistrationBean.setFilter(traceFilter);
-        filterRegistrationBean.setOrder(-10000);//order的数值越小 则优先级越高
+        //order的数值越小 则优先级越高
+        filterRegistrationBean.setOrder(-10000);
         return filterRegistrationBean;
     }
 }
