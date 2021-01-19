@@ -45,7 +45,6 @@
 
         <javaModelGenerator targetPackage="com.abc1236.ms.entity" targetProject="src/main/java">
             <property name="enableSubPackages" value="false"/>
-            <property name="trimStrings" value="true"/>
         </javaModelGenerator>
 
         <sqlMapGenerator targetPackage="com.abc1236.ms.mapper" targetProject="src/main/resources">
@@ -76,10 +75,10 @@
         <!--    <domainObjectRenamingRule searchString="^TPromotion" replaceString=""/>-->
         <!--</table>-->
 
-        <table tableName="t_sys%" domainObjectName="system.">
-            <property name="modelOnly" value="true"/>
-            <domainObjectRenamingRule searchString="^TSys" replaceString=""/>
-        </table>
+        <!--<table tableName="t_sys%" domainObjectName="system.">-->
+        <!--    <property name="modelOnly" value="true"/>-->
+        <!--    <domainObjectRenamingRule searchString="^TSys" replaceString=""/>-->
+        <!--</table>-->
 
         <!--<table tableName="t_shop_address" domainObjectName="shop.Address">-->
         <!--    <property name="modelOnly" value="true"/>-->
