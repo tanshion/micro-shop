@@ -7,8 +7,6 @@
     <context id="DB2Tables" targetRuntime="MyBatis3">
         <property name="javaFileEncoding" value="UTF-8"/>
 
-        <plugin type="com.itfsw.mybatis.generator.plugins.ext.OverIsMergeablePlugin"/>
-
         <!-- Lombok插件 -->
         <plugin type="com.itfsw.mybatis.generator.plugins.LombokPlugin">
             <property name="@Data" value="true"/>
@@ -18,28 +16,20 @@
         <plugin type="com.itfsw.mybatis.generator.plugins.ext.MybatisPlusPlugin">
             <property name="tableName" value="true"/>
             <property name="tableIdType" value="AUTO"/>
+            <property name="baseMapper" value="com.baomidou.mybatisplus.core.mapper.BaseMapper"/>
         </plugin>
 
         <!-- Swagger插件 -->
         <plugin type="com.itfsw.mybatis.generator.plugins.ext.SwaggerPlugin"/>
 
-        <!-- 注释插件 -->
-        <!--        <plugin type="com.itfsw.mybatis.generator.plugins.CommentPlugin">-->
-        <!--            <property name="template" value="src/main/resources/comment.ftl"/>-->
-        <!--        </plugin>-->
-
         <plugin type="com.itfsw.mybatis.generator.plugins.ext.EnumTypeStatusPlugin">
             <!-- 这里可以定义全局需要检查生成枚举类的列名 -->
-            <!--<property name="enumColumns" value="type, status"/>-->
+            <!-- <property name="enumColumns" value="type, status"/> -->
             <property name="baseEnum" value="com.baomidou.mybatisplus.annotation.IEnum"/>
-            <!--            <property name="toEnumField" value="true"/>-->
+            <!-- <property name="toEnumField" value="true"/> -->
         </plugin>
 
-        <commentGenerator>
-            <property name="addRemarkComments" value="false"/>
-            <property name="suppressAllComments" value="true"/>
-        </commentGenerator>
-
+        <commentGenerator type="com.itfsw.mybatis.generator.plugins.ext.MyCommentGenerator"/>
 
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
                         connectionURL="jdbc:mysql://dev.abc1236.com:3306/linjiashop?useSSL=false"
@@ -53,52 +43,83 @@
             <property name="TINYINT" value="java.lang.Boolean"/>
         </javaTypeResolver>
 
-        <!--生成实体类 指定包名 以及生成的地址 （可以自定义地址，但是路径不存在不会自动创建  使用Maven生成在target目录下，会自动创建） -->
         <javaModelGenerator targetPackage="com.abc1236.ms.entity" targetProject="src/main/java">
             <property name="enableSubPackages" value="false"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
-        <!--<sqlMapGenerator targetPackage="com.abc1236.ms.abc" targetProject="src/main/java" >-->
-        <!--    <property name="enableSubPackages" value="true" />-->
-        <!--</sqlMapGenerator>-->
-        <!--<javaClientGenerator type="XMLMAPPER" targetPackage="com.abc1236.ms.abc" targetProject="src/main/resources">-->
-        <!--    <property name="enableSubPackages" value="false"/>-->
-        <!--</javaClientGenerator>-->
+
+        <sqlMapGenerator targetPackage="com.abc1236.ms.mapper" targetProject="src/main/resources">
+            <property name="enableSubPackages" value="false"/>
+        </sqlMapGenerator>
+
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.abc1236.ms.mapper" targetProject="src/main/java">
+            <property name="enableSubPackages" value="false"/>
+        </javaClientGenerator>
 
 
         <!--========================================================================================================================-->
 
         <!--<table tableName="sys_%"/>-->
 
-        <table tableName="t_cms%">
-            <domainObjectRenamingRule searchString="^TCms" replaceString="cms."/>
+        <table tableName="t_cms%" domainObjectName="cms.">
+            <property name="modelOnly" value="true"/>
+            <domainObjectRenamingRule searchString="^TCms" replaceString=""/>
         </table>
 
-        <table tableName="t_message%">
-            <domainObjectRenamingRule searchString="^T" replaceString="message."/>
+        <!--<table tableName="t_message%" domainObjectName="message.">-->
+        <!--    <property name="modelOnly" value="true"/>-->
+        <!--    <domainObjectRenamingRule searchString="^T" replaceString=""/>-->
+        <!--</table>-->
+
+        <!--<table tableName="t_promotion%" domainObjectName="promotion.">-->
+        <!--    <property name="modelOnly" value="true"/>-->
+        <!--    <domainObjectRenamingRule searchString="^TPromotion" replaceString=""/>-->
+        <!--</table>-->
+
+        <table tableName="t_sys%" domainObjectName="system.">
+            <property name="modelOnly" value="true"/>
+            <domainObjectRenamingRule searchString="^TSys" replaceString=""/>
         </table>
 
-        <table tableName="t_promotion%">
-            <domainObjectRenamingRule searchString="^TPromotion" replaceString="promotion."/>
-        </table>
-
-        <table tableName="t_sys%">
-            <domainObjectRenamingRule searchString="^TSys" replaceString="system."/>
-        </table>
-
-        <table tableName="t_shop_address" domainObjectName="shop.Address"/>
-        <table tableName="t_shop_attr_key" domainObjectName="shop.AttrKey"/>
-        <table tableName="t_shop_attr_val" domainObjectName="shop.AttrVal"/>
-        <table tableName="t_shop_cart" domainObjectName="shop.Cart"/>
-        <table tableName="t_shop_category" domainObjectName="shop.Category"/>
-        <table tableName="t_shop_category_banner_rel" domainObjectName="shop.CategoryBannerRel"/>
-        <table tableName="t_shop_favorite" domainObjectName="shop.Favorite"/>
-        <table tableName="t_shop_goods" domainObjectName="shop.Goods"/>
-        <table tableName="t_shop_goods_sku" domainObjectName="shop.GoodsSku"/>
-        <table tableName="t_shop_order" domainObjectName="shop.Order"/>
-        <table tableName="t_shop_order_item" domainObjectName="shop.OrderItem"/>
-        <table tableName="t_shop_order_log" domainObjectName="shop.OrderLog"/>
-        <table tableName="t_shop_user" domainObjectName="shop.ShopUser"/>
+        <!--<table tableName="t_shop_address" domainObjectName="shop.Address">-->
+        <!--    <property name="modelOnly" value="true"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_shop_attr_key" domainObjectName="shop.AttrKey">-->
+        <!--    <property name="modelOnly" value="true"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_shop_attr_val" domainObjectName="shop.AttrVal">-->
+        <!--    <property name="modelOnly" value="true"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_shop_cart" domainObjectName="shop.Cart">-->
+        <!--    <property name="modelOnly" value="true"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_shop_category" domainObjectName="shop.Category">-->
+        <!--    <property name="modelOnly" value="true"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_shop_category_banner_rel" domainObjectName="shop.CategoryBannerRel">-->
+        <!--    <property name="modelOnly" value="true"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_shop_favorite" domainObjectName="shop.Favorite">-->
+        <!--    <property name="modelOnly" value="true"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_shop_goods" domainObjectName="shop.Goods">-->
+        <!--    <property name="modelOnly" value="true"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_shop_goods_sku" domainObjectName="shop.GoodsSku">-->
+        <!--    <property name="modelOnly" value="true"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_shop_order" domainObjectName="shop.Order">-->
+        <!--    <property name="modelOnly" value="true"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_shop_order_item" domainObjectName="shop.OrderItem">-->
+        <!--    <property name="modelOnly" value="true"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_shop_order_log" domainObjectName="shop.OrderLog">-->
+        <!--    <property name="modelOnly" value="true"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_shop_user" domainObjectName="shop.ShopUser">-->
+        <!--    <property name="modelOnly" value="true"/>-->
+        <!--</table>-->
 
 
     </context>
