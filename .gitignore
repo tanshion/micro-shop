@@ -63,4 +63,4 @@ node_modules
 
 ### config ####
 bootstrap-dev.yml
-generatorConfig.xml
+datasource.properties
