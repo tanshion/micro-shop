@@ -216,7 +216,7 @@
                     <dependency>
                         <groupId>com.github.tanshion</groupId>
                         <artifactId>mybatis-generator-plugin</artifactId>
-                        <version>1.3.7-SNAPSHOT</version>
+                        <version>1.3.10-SNAPSHOT</version>
                     </dependency>
                 </dependencies>
             </plugin>
