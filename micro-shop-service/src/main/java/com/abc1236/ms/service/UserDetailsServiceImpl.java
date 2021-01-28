@@ -11,7 +11,6 @@ import com.abc1236.ms.mapper.system.DeptMapper;
 import com.abc1236.ms.mapper.system.MenuMapper;
 import com.abc1236.ms.mapper.system.RelationMapper;
 import com.abc1236.ms.mapper.system.RoleMapper;
-import com.abc1236.ms.service.system.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.AuthorityUtils;

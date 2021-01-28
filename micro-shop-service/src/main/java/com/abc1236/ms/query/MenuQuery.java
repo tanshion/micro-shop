@@ -13,6 +13,10 @@ import java.util.Date;
 @Data
 @TableName(value = "t_sys_menu")
 public class MenuQuery {
+    /**
+     * copy from {@link com.abc1236.ms.entity.system.Menu}
+     */
+
     @TableId(type = IdType.AUTO)
     private Long id;
 

@@ -32,7 +32,11 @@
       <!-- <property name="toEnumField" value="true"/> -->
     </plugin>
 
-    <commentGenerator type="com.itfsw.mybatis.generator.plugins.ext.MyCommentGenerator"/>
+    <commentGenerator type="com.itfsw.mybatis.generator.plugins.ext.MyCommentGenerator">
+      <property name="suppressDate" value="true"/>
+      <!--<property name="suppressAllComments" value="false"/>-->
+      <!--<property name="addRemarkComments" value="true"/>-->
+    </commentGenerator>
 
     <jdbcConnection driverClass="${db.driverClassName}"
                     connectionURL="${db.url}"
@@ -62,70 +66,73 @@
     <!--========================================================================================================================-->
 
 
-    <table tableName="t_cms%" domainObjectName="cms.">
-      <property name="modelOnly" value="true"/>
-      <!--<property name="generatedController" value="true"/>-->
-      <!--<property name="generatedService" value="true"/>-->
-      <domainObjectRenamingRule searchString="^TCms" replaceString=""/>
-    </table>
+    <!--<table tableName="t_cms%" domainObjectName="cms.">-->
+    <!--  &lt;!&ndash;<property name="generatedController" value="true"/>&ndash;&gt;-->
+    <!--  &lt;!&ndash;<property name="generatedService" value="true"/>&ndash;&gt;-->
+    <!--  <domainObjectRenamingRule searchString="^TCms" replaceString=""/>-->
+    <!--</table>-->
 
     <!--<table tableName="t_message%" domainObjectName="message.">-->
-    <!--  <property name="modelOnly" value="true"/>-->
     <!--  <property name="generatedController" value="true"/>-->
     <!--  <property name="generatedService" value="true"/>-->
     <!--  <domainObjectRenamingRule searchString="^T" replaceString=""/>-->
     <!--</table>-->
 
     <!--<table tableName="t_promotion%" domainObjectName="promotion.">-->
-    <!--  <property name="modelOnly" value="true"/>-->
     <!--  <domainObjectRenamingRule searchString="^TPromotion" replaceString=""/>-->
     <!--</table>-->
 
     <!--<table tableName="t_sys%" domainObjectName="system.">-->
-    <!--  <property name="modelOnly" value="true"/>-->
     <!--  <domainObjectRenamingRule searchString="^TSys" replaceString=""/>-->
     <!--</table>-->
 
+    <!--<table tableName="t_sys_file_info" domainObjectName="system.FileInfo">-->
+    <!--  &lt;!&ndash;<property name="generatedController" value="true"/>&ndash;&gt;-->
+    <!--  &lt;!&ndash;<property name="generatedService" value="true"/>&ndash;&gt;-->
+    <!--</table>-->
+
+
     <!--<table tableName="t_shop_address" domainObjectName="shop.Address">-->
-    <!--  <property name="modelOnly" value="true"/>-->
-    <!--  <property name="generatedController" value="true"/>-->
-    <!--  <property name="serviceTargetPackage" value="true"/>-->
+    <!--  &lt;!&ndash;<property name="generatedController" value="true"/>&ndash;&gt;-->
+    <!--  &lt;!&ndash;<property name="serviceTargetPackage" value="true"/>&ndash;&gt;-->
     <!--</table>-->
+
     <!--<table tableName="t_shop_attr_key" domainObjectName="shop.AttrKey">-->
-    <!--  <property name="modelOnly" value="true"/>-->
+    <!--    <property name="generatedController" value="true"/>-->
+    <!--    <property name="generatedService" value="true"/>-->
     <!--</table>-->
+
     <!--<table tableName="t_shop_attr_val" domainObjectName="shop.AttrVal">-->
-    <!--  <property name="modelOnly" value="true"/>-->
     <!--</table>-->
+
     <!--<table tableName="t_shop_cart" domainObjectName="shop.Cart">-->
-    <!--  <property name="modelOnly" value="true"/>-->
     <!--</table>-->
+
     <!--<table tableName="t_shop_category" domainObjectName="shop.Category">-->
-    <!--  <property name="modelOnly" value="true"/>-->
     <!--</table>-->
+
     <!--<table tableName="t_shop_category_banner_rel" domainObjectName="shop.CategoryBannerRel">-->
-    <!--  <property name="modelOnly" value="true"/>-->
     <!--</table>-->
+
     <!--<table tableName="t_shop_favorite" domainObjectName="shop.Favorite">-->
-    <!--  <property name="modelOnly" value="true"/>-->
     <!--</table>-->
+
     <!--<table tableName="t_shop_goods" domainObjectName="shop.Goods">-->
-    <!--  <property name="modelOnly" value="true"/>-->
     <!--</table>-->
+
     <!--<table tableName="t_shop_goods_sku" domainObjectName="shop.GoodsSku">-->
-    <!--  <property name="modelOnly" value="true"/>-->
     <!--</table>-->
+
     <!--<table tableName="t_shop_order" domainObjectName="shop.Order">-->
-    <!--  <property name="modelOnly" value="true"/>-->
     <!--</table>-->
+
     <!--<table tableName="t_shop_order_item" domainObjectName="shop.OrderItem">-->
-    <!--  <property name="modelOnly" value="true"/>-->
     <!--</table>-->
+
     <!--<table tableName="t_shop_order_log" domainObjectName="shop.OrderLog">-->
-    <!--  <property name="modelOnly" value="true"/>-->
     <!--</table>-->
+
     <!--<table tableName="t_shop_user" domainObjectName="shop.ShopUser">-->
-    <!--  <property name="modelOnly" value="true"/>-->
     <!--</table>-->
 
 
