@@ -6,6 +6,7 @@ import com.abc1236.ms.entity.cms.Banner;
 import com.abc1236.ms.mapper.cms.BannerMapper;
 import com.abc1236.ms.query.BannerQuery;
 import com.abc1236.ms.service.cms.BannerService;
+import com.abc1236.ms.vo.BannerVO;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.tuyang.beanutils.BeanCopyUtils;
 import lombok.RequiredArgsConstructor;
@@ -38,5 +39,10 @@ public class BannerServiceImpl implements BannerService {
         return SqlWrapper.query(bannerMapper)
             .like(StrUtil.isNotBlank(title), Banner::getTitle, title)
             .list();
+    }
+
+    @Override
+    public BannerVO queryBanner(String value) {
+        return null;
     }
 }

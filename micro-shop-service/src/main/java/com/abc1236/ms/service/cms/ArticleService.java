@@ -11,4 +11,6 @@ public interface ArticleService {
     Article get(Long id);
 
     Page<Article> list(Long page, Long limit, String title, String author, String startDate, String endDate);
+
+    Page<Article> query(Long page, Long limit, Long id);
 }

@@ -52,4 +52,13 @@ public class ArticleServiceImpl implements ArticleService {
 
         return articlePage;
     }
+
+    @Override
+    public Page<Article> query(Long page, Long limit, Long id) {
+        Page<Article> pageList = SqlWrapper.query(articleMgrMapper)
+            .eq(Article::getIdChannel, id)
+            .orderByAsc(Article::getId)
+            .page(new Page<>(page, limit));
+        return pageList;
+    }
 }

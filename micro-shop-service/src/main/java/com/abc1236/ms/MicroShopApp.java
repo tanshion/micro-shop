@@ -8,10 +8,10 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @SpringBootApplication
 @EnableFeignClients
 @MapperScan(basePackages = "com.abc1236.ms.mapper")
-public class MicroShopServiceApplication {
+public class MicroShopApp {
 
     public static void main(String[] args) {
-        SpringApplication.run(MicroShopServiceApplication.class, args);
+        SpringApplication.run(MicroShopApp.class, args);
     }
 
 }
