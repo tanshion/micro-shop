@@ -5,4 +5,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 public interface ContactsService {
     Page<Contacts> queryPage(Long page, Long limit, String userName, String mobile, String startDate, String endDate);
+
+    boolean insert(Contacts contacts);
 }

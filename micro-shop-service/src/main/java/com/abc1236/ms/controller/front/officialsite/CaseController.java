@@ -10,6 +10,7 @@ import com.abc1236.ms.vo.BannerVO;
 import com.abc1236.ms.vo.CaseVO;
 import com.abc1236.ms.vo.Product;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+@Api(tags = "offcialsite")
 @Slf4j
 @RequiredArgsConstructor
 @RestController

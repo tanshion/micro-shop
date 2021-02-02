@@ -6,6 +6,7 @@ import com.abc1236.ms.entity.cms.Contacts;
 import com.abc1236.ms.mapper.cms.ContactsMapper;
 import com.abc1236.ms.service.cms.ContactsService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,5 +25,10 @@ public class ContactsServiceImpl implements ContactsService {
             .eq(Contacts::getUserName, userName)
             .eq(Contacts::getMobile, mobile)
             .page(new Page<>(page, limit));
+    }
+
+    @Override
+    public boolean insert(Contacts contacts) {
+        return SqlHelper.retBool(contactsMapper.insert(contacts));
     }
 }
