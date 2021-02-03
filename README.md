@@ -24,7 +24,9 @@
 | lombok                 | 1.18.8 | 简化对象封装工具                        |
 | hutool                 | 4.5.0  | 更适合国人的java工具集                  |
 
+## 开发工具
 
+<a href="https://www.jetbrains.com/?from=micro-shop" target="_blank"><img src="https://s3.ax1x.com/2021/02/03/yKYjW8.png" width="200px" /></a>
 
 ## License
 
