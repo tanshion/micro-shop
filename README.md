@@ -26,7 +26,7 @@
 
 ## 开发工具
 
-<a href="https://www.jetbrains.com/?from=micro-shop" target="_blank"><img src="https://s3.ax1x.com/2021/02/03/yKYjW8.png" width="200px" /></a>
+<a href="https://www.jetbrains.com/?from=micro-shop" target="_blank"><img src="https://s3.ax1x.com/2021/02/03/yKYjW8.png" width="150px" /></a>
 
 ## License
 
