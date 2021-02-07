@@ -1,4 +1,4 @@
-package com.abc1236.ms.vo;
+package com.abc1236.ms.vo.offcialsite;
 
 import lombok.Data;
 

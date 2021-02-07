@@ -2,7 +2,7 @@ package com.abc1236.ms.service.cms;
 
 import com.abc1236.ms.entity.cms.Banner;
 import com.abc1236.ms.query.BannerQuery;
-import com.abc1236.ms.vo.BannerVO;
+import com.abc1236.ms.vo.offcialsite.BannerVO;
 
 import java.util.List;
 

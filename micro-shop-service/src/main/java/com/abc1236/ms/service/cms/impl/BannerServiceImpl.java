@@ -6,7 +6,7 @@ import com.abc1236.ms.entity.cms.Banner;
 import com.abc1236.ms.mapper.cms.BannerMapper;
 import com.abc1236.ms.query.BannerQuery;
 import com.abc1236.ms.service.cms.BannerService;
-import com.abc1236.ms.vo.BannerVO;
+import com.abc1236.ms.vo.offcialsite.BannerVO;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.tuyang.beanutils.BeanCopyUtils;
 import lombok.RequiredArgsConstructor;
@@ -43,6 +43,12 @@ public class BannerServiceImpl implements BannerService {
 
     @Override
     public BannerVO queryBanner(String value) {
-        return null;
+        BannerVO banner = new BannerVO();
+        List<Banner> bannerList = SqlWrapper.query(bannerMapper)
+            .eq(Banner::getType, value)
+            .list();
+        banner.setIndex(0);
+        banner.setList(bannerList);
+        return banner;
     }
 }

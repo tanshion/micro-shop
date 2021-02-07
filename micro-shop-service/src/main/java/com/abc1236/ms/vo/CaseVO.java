@@ -1,5 +1,7 @@
 package com.abc1236.ms.vo;
 
+import com.abc1236.ms.vo.offcialsite.BannerVO;
+import com.abc1236.ms.vo.offcialsite.Product;
 import lombok.Data;
 
 import java.util.ArrayList;
