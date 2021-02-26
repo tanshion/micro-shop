@@ -14,4 +14,6 @@ public interface BannerService {
     List<Banner> queryAllLike(String title);
 
     BannerVO queryBanner(String value);
+
+    BannerVO queryIndexBanner();
 }

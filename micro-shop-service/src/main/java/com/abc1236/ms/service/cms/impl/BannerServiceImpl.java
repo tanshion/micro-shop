@@ -3,6 +3,7 @@ package com.abc1236.ms.service.cms.impl;
 import cn.hutool.core.util.StrUtil;
 import com.abc1236.ms.config.mybatis.SqlWrapper;
 import com.abc1236.ms.entity.cms.Banner;
+import com.abc1236.ms.enumeration.cms.BannerTypeEnum;
 import com.abc1236.ms.mapper.cms.BannerMapper;
 import com.abc1236.ms.query.BannerQuery;
 import com.abc1236.ms.service.cms.BannerService;
@@ -50,5 +51,10 @@ public class BannerServiceImpl implements BannerService {
         banner.setIndex(0);
         banner.setList(bannerList);
         return banner;
+    }
+
+    @Override
+    public BannerVO queryIndexBanner() {
+        return queryBanner(BannerTypeEnum.INDEX.getValue());
     }
 }

@@ -4,11 +4,14 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import com.abc1236.ms.config.mybatis.SqlWrapper;
 import com.abc1236.ms.entity.cms.Article;
+import com.abc1236.ms.enumeration.cms.ChannelEnum;
 import com.abc1236.ms.mapper.cms.ArticleMapper;
 import com.abc1236.ms.service.cms.ArticleService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -60,5 +63,11 @@ public class ArticleServiceImpl implements ArticleService {
             .orderByAsc(Article::getId)
             .page(new Page<>(page, limit));
         return pageList;
+    }
+
+    @Override
+    public List<Article> queryIndexNews() {
+        Page<Article> page = query(1L, 5L, ChannelEnum.NEWS.getId());
+        return page.getRecords();
     }
 }
