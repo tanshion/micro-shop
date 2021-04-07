@@ -1,11 +1,17 @@
 package com.abc1236.ms.controller.system;
 
 
+import com.abc1236.ms.core.result.ResultEntity;
+import com.abc1236.ms.mapper.system.CfgMapper;
 import com.abc1236.ms.service.system.CfgService;
+import com.abc1236.ms.vo.UserTestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * @author tanshion
@@ -16,6 +22,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/cfg")
 public class CfgController {
     private final CfgService cfgService;
+    private final CfgMapper cfgMapper;
+
+    @GetMapping("/test")
+    public ResultEntity<List<UserTestDto>> getUserTestDto(){
+        return cfgMapper.getUserTestDto();
+    }
     //@Autowired
     //private FileService fileService;screenshots
     //
