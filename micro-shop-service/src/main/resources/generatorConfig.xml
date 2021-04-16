@@ -129,13 +129,13 @@
     <!--<table tableName="t_shop_order_item" domainObjectName="shop.OrderItem">-->
     <!--</table>-->
 
-    <table tableName="t_shop_order_log" domainObjectName="shop.OrderLog">
-        <property name="generatedController" value="test.OrderLogController"/>
-        <property name="generatedService" value="test.OrderLogService"/>
-    </table>
-
-    <!--<table tableName="t_shop_user" domainObjectName="shop.ShopUser">-->
+    <!--<table tableName="t_shop_order_log" domainObjectName="shop.OrderLog">-->
+    <!--    <property name="generatedController" value="test.OrderLogController"/>-->
+    <!--    <property name="generatedService" value="test.OrderLogService"/>-->
     <!--</table>-->
+
+    <table tableName="t_shop_user" domainObjectName="shop.ShopUser" alias="SU">
+    </table>
 
 
   </context>
