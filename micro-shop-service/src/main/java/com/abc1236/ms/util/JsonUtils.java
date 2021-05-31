@@ -1,7 +1,7 @@
 package com.abc1236.ms.util;
 
 import cn.hutool.core.util.StrUtil;
-import com.abc1236.ms.config.jackjson.MyObjectMapper;
+import com.abc1236.ms.config.jackjson.JacksonConfig;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -25,7 +25,7 @@ import java.util.*;
 public class JsonUtils {
     private static final Logger log = LoggerFactory.getLogger(JsonUtils.class);
 
-    private static final ObjectMapper mapper = new MyObjectMapper();
+    private static final ObjectMapper mapper = JacksonConfig.createObjectMapper();
 
     /**
      * JSON反序列化
