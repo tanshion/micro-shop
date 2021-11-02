@@ -14,7 +14,7 @@ continuation_indent_size = 4
 [**/resources/com/**.{xml, xsd}]
 indent_style = space
 indent_size = 2
-# end_of_line = lf
+end_of_line = lf
 # trim_trailing_whitespace = true
 continuation_indent_size = 2
 
