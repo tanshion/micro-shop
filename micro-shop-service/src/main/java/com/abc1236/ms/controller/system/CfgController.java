@@ -1,12 +1,21 @@
 package com.abc1236.ms.controller.system;
 
 
+import com.abc1236.ms.constant.Permission;
+import com.abc1236.ms.core.result.ResultEntity;
+import com.abc1236.ms.entity.shop.Category;
+import com.abc1236.ms.entity.system.Cfg;
 import com.abc1236.ms.mapper.system.CfgMapper;
 import com.abc1236.ms.service.system.CfgService;
+import com.abc1236.ms.service.system.FileService;
+import com.abc1236.ms.util.StringUtil;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.sun.jndi.toolkit.dir.SearchFilter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author tanshion
@@ -19,25 +28,18 @@ public class CfgController {
     private final CfgService cfgService;
     private final CfgMapper cfgMapper;
 
-    //@Autowired
-    //private FileService fileService;screenshots
-    //
-    ///**
-    // * 查询参数列表
-    // */
-    //@RequestMapping(value = "/list",method = RequestMethod.GET)
-    //@RequiresPermissions(value = {Permission.CFG})
-    //public Object list(@RequestParam(required = false) String cfgName, @RequestParam(required = false) String cfgValue) {
-    //    Page<Cfg> page = new PageFactory<Cfg>().defaultPage();
-    //    if(StringUtil.isNotEmpty(cfgName)){
-    //        page.addFilter(SearchFilter.build("cfgName", SearchFilter.Operator.LIKE, cfgName));
-    //    }
-    //    if(StringUtil.isNotEmpty(cfgValue)){
-    //        page.addFilter(SearchFilter.build("cfgValue", SearchFilter.Operator.LIKE, cfgValue));
-    //    }
-    //    page = cfgService.queryPage(page);
-    //    return Rets.success(page);
-    //}
+    @Autowired
+    private FileService fileService;
+
+    /**
+     * 查询参数列表
+     */
+    @GetMapping(value = "/list")
+    @PreAuthorize("hasAuthority('" + Permission.CFG + "')")
+    public ResultEntity<Page<Cfg>> list(Long page, Long limit,@RequestParam(required = false) String cfgName, @RequestParam(required = false) String cfgValue) {
+        Page<Cfg> entity = cfgService.queryPage(new Page<>(page, limit), cfgName, cfgValue);
+        return ResultEntity.success(entity);
+    }
     //
     ///**
     // * 分组查询参数

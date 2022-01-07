@@ -13,7 +13,7 @@ public class OrderManagerImpl implements OrderManager {
     private final OrderMapper orderMapper;
 
     @Override
-    public Integer count(Long userId) {
+    public Long count(Long userId) {
         return SqlWrapper.query(orderMapper)
             .eq(Order::getIdUser, userId)
             .count();

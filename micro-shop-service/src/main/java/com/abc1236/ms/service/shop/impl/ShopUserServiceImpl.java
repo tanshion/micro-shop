@@ -49,8 +49,8 @@ public class ShopUserServiceImpl implements ShopUserService {
         ShopUser shopUser = shopUserManager.getShopUser(id);
         shopUser.setPassword("");
         shopUser.setSalt("");
-        Integer cartCount = cartManager.count(id);
-        Integer orderCount = orderManager.count(id);
+        Long cartCount = cartManager.count(id);
+        Long orderCount = orderManager.count(id);
         UserDetailsVO user = new UserDetailsVO();
         user.setShopUser(shopUser);
         user.setCartCount(cartCount);

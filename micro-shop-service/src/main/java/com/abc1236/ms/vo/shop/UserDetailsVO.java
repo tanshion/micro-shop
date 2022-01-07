@@ -5,8 +5,8 @@ import lombok.Data;
 
 @Data
 public class UserDetailsVO {
-    private Integer cartCount;
-    private Integer orderCount;
+    private Long cartCount;
+    private Long orderCount;
     private ShopUser shopUser;
 
 }

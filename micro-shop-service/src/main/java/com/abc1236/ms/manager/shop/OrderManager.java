@@ -1,5 +1,5 @@
 package com.abc1236.ms.manager.shop;
 
 public interface OrderManager {
-    Integer count(Long userId);
+    Long count(Long userId);
 }

@@ -13,7 +13,7 @@ public class CartManagerImpl implements CartManager {
     private final CartMapper cartMapper;
 
     @Override
-    public Integer count(Long userId) {
+    public Long count(Long userId) {
         return SqlWrapper.query(cartMapper)
             .eq(Cart::getIdUser, userId)
             .count();
