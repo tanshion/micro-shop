@@ -3,12 +3,11 @@ package com.abc1236.ms.core.result;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.purgerteam.log.trace.starter.Constants;
-import com.purgerteam.log.trace.starter.TraceContentFactory;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.slf4j.MDC;
 
 import java.io.Serializable;
 
@@ -41,7 +40,7 @@ public class ResultEntity<T> implements Serializable {
         this.code = status.code();
         this.msg = status.message();
         this.success = ResultStatus.SUCCESS == status;
-        this.traceId = TraceContentFactory.assemblyTraceContentStatic().get(Constants.LEGACY_TRACE_ID_NAME);
+        this.traceId = MDC.get("traceId");
     }
 
     public static <T> ResultEntity<T> success() {

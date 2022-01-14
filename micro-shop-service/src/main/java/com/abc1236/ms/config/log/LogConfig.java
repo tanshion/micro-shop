@@ -1,7 +1,6 @@
 package com.abc1236.ms.config.log;
 
 
-import com.purgerteam.log.trace.starter.filter.TraceFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,15 +20,6 @@ public class LogConfig {
         filterRegistrationBean.setFilter(logRequestWrapperFilter());
         //order的数值越小 则优先级越高
         filterRegistrationBean.setOrder(-1000);
-        return filterRegistrationBean;
-    }
-
-    @Bean
-    public FilterRegistrationBean<TraceFilter> traceFilterRegistrationBean(TraceFilter traceFilter) {
-        FilterRegistrationBean<TraceFilter> filterRegistrationBean = new FilterRegistrationBean<>();
-        filterRegistrationBean.setFilter(traceFilter);
-        //order的数值越小 则优先级越高
-        filterRegistrationBean.setOrder(-10000);
         return filterRegistrationBean;
     }
 }
