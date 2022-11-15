@@ -98,17 +98,16 @@ public class GlobalErrorController extends AbstractErrorController {
 	 * @return if the stacktrace attribute should be included
 	 */
 	@SuppressWarnings("deprecation")
-	protected boolean isIncludeStackTrace(HttpServletRequest request, MediaType produces) {
-		switch (getErrorProperties().getIncludeStacktrace()) {
-		case ALWAYS:
-			return true;
-		case ON_PARAM:
-		case ON_TRACE_PARAM:
-			return getTraceParameter(request);
-		default:
-			return false;
-		}
-	}
+    protected boolean isIncludeStackTrace(HttpServletRequest request, MediaType produces) {
+        switch (this.getErrorProperties().getIncludeStacktrace()) {
+            case ALWAYS:
+                return true;
+            case ON_PARAM:
+                return this.getTraceParameter(request);
+            default:
+                return false;
+        }
+    }
 
 	/**
 	 * Determine if the message attribute should be included.
@@ -151,10 +150,4 @@ public class GlobalErrorController extends AbstractErrorController {
 	protected ErrorProperties getErrorProperties() {
 		return this.errorProperties;
 	}
-
-	@SuppressWarnings("deprecation")
-    @Override
-    public String getErrorPath() {
-        return null;
-    }
 }
