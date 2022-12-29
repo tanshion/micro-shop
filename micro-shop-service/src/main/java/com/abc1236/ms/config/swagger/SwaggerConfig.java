@@ -73,25 +73,6 @@ public class SwaggerConfig {
             .pathMapping("/");
     }
 
-    private static class OrPredicate<T> implements Predicate<T>, Serializable {
-        private final List<? extends Predicate<? super T>> components;
-
-        private OrPredicate(List<? extends Predicate<? super T>> components) {
-            this.components = components;
-        }
-
-        @Override
-        public boolean test(@Nullable T t) {
-            for (Predicate<? super T> component : components) {
-                if (component.test(t)) {
-                    return true;
-                }
-            }
-            return false;
-        }
-    }
-
-
     /**
      * 通过Swagger2的securitySchemes配置全局参数：如下列代码所示，
      * securitySchemes的ApiKey中增加一个名为“Access-Token”，type为“header”的参数。
@@ -100,7 +81,6 @@ public class SwaggerConfig {
         return Collections.singletonList(
             new ApiKey(TokenConstant.HEADER_NAME_TOKEN, TokenConstant.HEADER_NAME_TOKEN, "header"));
     }
-
 
     /**
      * 在Swagger2的securityContexts中通过正则表达式，设置需要使用参数的接口（或者说，是去除掉不需要使用参数的接口），如下列代码所示，
@@ -126,6 +106,7 @@ public class SwaggerConfig {
         authorizationScopes[0] = authorizationScope;
         return Collections.singletonList(new SecurityReference(TokenConstant.HEADER_NAME_TOKEN, authorizationScopes));
     }
+
     /**
      * 增加如下配置可解决Spring Boot 6.x 与Swagger 3.0.0 不兼容问题
      **/
@@ -141,7 +122,26 @@ public class SwaggerConfig {
         boolean shouldRegisterLinksMapping = this.shouldRegisterLinksMapping(webEndpointProperties, environment, basePath);
         return new WebMvcEndpointHandlerMapping(endpointMapping, webEndpoints, endpointMediaTypes, corsProperties.toCorsConfiguration(), new EndpointLinksResolver(allEndpoints, basePath), shouldRegisterLinksMapping, null);
     }
+
     private boolean shouldRegisterLinksMapping(WebEndpointProperties webEndpointProperties, Environment environment, String basePath) {
         return webEndpointProperties.getDiscovery().isEnabled() && (StringUtils.hasText(basePath) || ManagementPortType.get(environment).equals(ManagementPortType.DIFFERENT));
+    }
+
+    private static class OrPredicate<T> implements Predicate<T>, Serializable {
+        private final List<? extends Predicate<? super T>> components;
+
+        private OrPredicate(List<? extends Predicate<? super T>> components) {
+            this.components = components;
+        }
+
+        @Override
+        public boolean test(@Nullable T t) {
+            for (Predicate<? super T> component : components) {
+                if (component.test(t)) {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

@@ -24,9 +24,8 @@ import java.util.function.Predicate;
 @SuppressWarnings("unchecked")
 public class QueryChain<T> extends AbstractChainWrapper<T, SFunction<T, ?>, QueryChain<T>, LambdaQueryWrapper<T>>
     implements ChainQuery<T>, Query<QueryChain<T>, T, SFunction<T, ?>> {
-    protected Log log = LogFactory.getLog(this.getClass());
-
     private final BaseMapper<T> baseMapper;
+    protected Log log = LogFactory.getLog(this.getClass());
 
     public QueryChain(BaseMapper<T> baseMapper) {
         super();

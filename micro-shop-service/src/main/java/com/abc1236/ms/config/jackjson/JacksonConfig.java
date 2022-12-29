@@ -1,4 +1,5 @@
 package com.abc1236.ms.config.jackjson;
+
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.*;
@@ -27,17 +28,6 @@ import java.util.List;
  */
 @Configuration
 public class JacksonConfig {
-
-    /**
-     * 表示优先使用这个自定义mapper
-     */
-    @ConditionalOnMissingBean(ObjectMapper.class)
-    @Primary
-    @Bean
-    public ObjectMapper objectMapper() {
-        ObjectMapper objectMapper = createObjectMapper();
-        return objectMapper;
-    }
 
     public static ObjectMapper createObjectMapper() {
         ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json().build();
@@ -104,6 +94,16 @@ public class JacksonConfig {
         return objectMapper;
     }
 
+    /**
+     * 表示优先使用这个自定义mapper
+     */
+    @ConditionalOnMissingBean(ObjectMapper.class)
+    @Primary
+    @Bean
+    public ObjectMapper objectMapper() {
+        ObjectMapper objectMapper = createObjectMapper();
+        return objectMapper;
+    }
 
     public static class MyBeanSerializerModifier extends BeanSerializerModifier {
 

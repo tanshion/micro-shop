@@ -26,6 +26,51 @@ public class LogRequestWrapperFilter extends OncePerRequestFilter {
 
     AntPathMatcher antPathMatcher = new AntPathMatcher();
 
+    private static String getParameterMessage(HttpServletRequest request) {
+        String parameterMessage;
+        String requestBody = getRequestBody(request);
+        String requestParametersJson = "";
+        Map<String, String> requestParameters = getRequestParameters(request);
+        if (MapUtil.isNotEmpty(requestParameters)) {
+            requestParametersJson = JsonUtils.to(requestParameters);
+        }
+        if (StrUtil.isAllNotBlank(requestBody, requestParametersJson)) {
+            parameterMessage = "[" + requestParametersJson + "," + requestBody + "]";
+        } else {
+            parameterMessage = requestParametersJson + requestBody;
+        }
+        return parameterMessage;
+    }
+
+    /**
+     * 获取所有请求的值
+     */
+    public static Map<String, String> getRequestParameters(HttpServletRequest request) {
+        HashMap<String, String> values = new HashMap<>(20);
+        Enumeration<String> enums = request.getParameterNames();
+        while (enums.hasMoreElements()) {
+            String paramName = enums.nextElement();
+            String paramValue = request.getParameter(paramName);
+            values.put(paramName, paramValue);
+        }
+        return values;
+    }
+
+    private static String getRequestBody(HttpServletRequest httpServletRequest) {
+        RequestWrapper request = RequestWrapper.getWrapper(httpServletRequest);
+        if (StrUtil.equalsAnyIgnoreCase(request.getContentType(), HttpMediaType.APPLICATION_JSON_VALUE,
+            HttpMediaType.APPLICATION_JSON_UTF8_VALUE)) {
+            try {
+                ServletInputStream inputStream = request.getInputStream();
+                return IoUtil.read(inputStream, StandardCharsets.UTF_8);
+            } catch (IOException e) {
+                log.error("读取HttpServletRequest的body参数出错", e);
+            }
+        }
+
+        return "";
+    }
+
     @Override
     protected void doFilterInternal(@Nonnull HttpServletRequest httpServletRequest, @Nonnull HttpServletResponse
         httpServletResponse, @Nonnull FilterChain filterChain) throws ServletException, IOException {
@@ -73,51 +118,6 @@ public class LogRequestWrapperFilter extends OncePerRequestFilter {
             map.put(name, headerList);
         }
         return map;
-    }
-
-    private static String getParameterMessage(HttpServletRequest request) {
-        String parameterMessage;
-        String requestBody = getRequestBody(request);
-        String requestParametersJson = "";
-        Map<String, String> requestParameters = getRequestParameters(request);
-        if (MapUtil.isNotEmpty(requestParameters)) {
-            requestParametersJson = JsonUtils.to(requestParameters);
-        }
-        if (StrUtil.isAllNotBlank(requestBody, requestParametersJson)) {
-            parameterMessage = "[" + requestParametersJson + "," + requestBody + "]";
-        } else {
-            parameterMessage = requestParametersJson + requestBody;
-        }
-        return parameterMessage;
-    }
-
-    /**
-     * 获取所有请求的值
-     */
-    public static Map<String, String> getRequestParameters(HttpServletRequest request) {
-        HashMap<String, String> values = new HashMap<>(20);
-        Enumeration<String> enums = request.getParameterNames();
-        while (enums.hasMoreElements()) {
-            String paramName = enums.nextElement();
-            String paramValue = request.getParameter(paramName);
-            values.put(paramName, paramValue);
-        }
-        return values;
-    }
-
-    private static String getRequestBody(HttpServletRequest httpServletRequest) {
-        RequestWrapper request = RequestWrapper.getWrapper(httpServletRequest);
-        if (StrUtil.equalsAnyIgnoreCase(request.getContentType(), HttpMediaType.APPLICATION_JSON_VALUE,
-            HttpMediaType.APPLICATION_JSON_UTF8_VALUE)) {
-            try {
-                ServletInputStream inputStream = request.getInputStream();
-                return IoUtil.read(inputStream, StandardCharsets.UTF_8);
-            } catch (IOException e) {
-                log.error("读取HttpServletRequest的body参数出错", e);
-            }
-        }
-
-        return "";
     }
 
 
