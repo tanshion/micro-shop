@@ -20,6 +20,19 @@ public enum BizLogType {
         this.message = message;
     }
 
+    public static String valueOf(Integer value) {
+        if (value == null) {
+            return null;
+        } else {
+            for (BizLogType bizLogType : BizLogType.values()) {
+                if (bizLogType.getVal().equals(value)) {
+                    return bizLogType.getMessage();
+                }
+            }
+            return null;
+        }
+    }
+
     public String getMessage() {
         return message;
     }
@@ -34,18 +47,5 @@ public enum BizLogType {
 
     public void setVal(Integer val) {
         this.val = val;
-    }
-
-    public static String valueOf(Integer value) {
-        if (value == null) {
-            return null;
-        } else {
-            for (BizLogType bizLogType : BizLogType.values()) {
-                if (bizLogType.getVal().equals(value)) {
-                    return bizLogType.getMessage();
-                }
-            }
-            return null;
-        }
     }
 }

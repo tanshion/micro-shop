@@ -25,7 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/offcialsite")
-public class OffcialSiteController{
+public class OffcialSiteController {
 
     private final BannerService bannerService;
     private final ArticleService articleService;
@@ -33,7 +33,7 @@ public class OffcialSiteController{
     @GetMapping
     public ResultEntity<IndexVO> index() {
 
-        IndexVO indexVO  = new IndexVO();
+        IndexVO indexVO = new IndexVO();
         BannerVO banner = bannerService.queryIndexBanner();
 
         indexVO.setBanner(banner);

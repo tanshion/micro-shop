@@ -19,6 +19,19 @@ public enum MenuStatus {
         this.message = message;
     }
 
+    public static String valueOf(Integer status) {
+        if (status == null) {
+            return "";
+        } else {
+            for (MenuStatus s : MenuStatus.values()) {
+                if (s.getCode() == status) {
+                    return s.getMessage();
+                }
+            }
+            return "";
+        }
+    }
+
     public int getCode() {
         return code;
     }
@@ -33,18 +46,5 @@ public enum MenuStatus {
 
     public void setMessage(String message) {
         this.message = message;
-    }
-
-    public static String valueOf(Integer status) {
-        if (status == null) {
-            return "";
-        } else {
-            for (MenuStatus s : MenuStatus.values()) {
-                if (s.getCode() == status) {
-                    return s.getMessage();
-                }
-            }
-            return "";
-        }
     }
 }

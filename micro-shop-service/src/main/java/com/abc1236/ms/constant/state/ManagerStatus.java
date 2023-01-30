@@ -18,6 +18,19 @@ public enum ManagerStatus {
         this.message = message;
     }
 
+    public static String valueOf(Integer value) {
+        if (value == null) {
+            return "";
+        } else {
+            for (ManagerStatus ms : ManagerStatus.values()) {
+                if (ms.getCode() == value) {
+                    return ms.getMessage();
+                }
+            }
+            return "";
+        }
+    }
+
     public int getCode() {
         return code;
     }
@@ -32,18 +45,5 @@ public enum ManagerStatus {
 
     public void setMessage(String message) {
         this.message = message;
-    }
-
-    public static String valueOf(Integer value) {
-        if (value == null) {
-            return "";
-        } else {
-            for (ManagerStatus ms : ManagerStatus.values()) {
-                if (ms.getCode() == value) {
-                    return ms.getMessage();
-                }
-            }
-            return "";
-        }
     }
 }

@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/fileMgr")
-public class FileMgrController{
+public class FileMgrController {
     private final FileService fileService;
 
     @ApiOperation("文件列表")
@@ -30,7 +30,7 @@ public class FileMgrController{
         @RequestParam(required = false) String originalFileName
 
     ) {
-        Page<FileInfo> res = fileService.queryPageByLike(page,limit,originalFileName);
+        Page<FileInfo> res = fileService.queryPageByLike(page, limit, originalFileName);
         return ResultEntity.success(res);
     }
 }

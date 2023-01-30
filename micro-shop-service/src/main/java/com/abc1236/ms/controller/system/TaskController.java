@@ -81,7 +81,7 @@ public class TaskController {
     @PreAuthorize("hasAuthority('" + Permission.TASK + "')")
     public ResultEntity<Page<TaskLog>> logList(@RequestParam Long taskId,
         @RequestParam(defaultValue = "1") Long page, @RequestParam(defaultValue = "20") Long limit) {
-        Page<TaskLog> iPage = taskLogService.queryPage(taskId,new Page<>(page,limit));
+        Page<TaskLog> iPage = taskLogService.queryPage(taskId, new Page<>(page, limit));
         return ResultEntity.success(iPage);
     }
 

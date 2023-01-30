@@ -25,7 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/banner")
-public class BannerMgrController{
+public class BannerMgrController {
     private final BannerService bannerService;
 
     @ApiOperation("编辑banner")
@@ -33,8 +33,8 @@ public class BannerMgrController{
     @BussinessLog(value = "编辑banner", key = "title")
     @PreAuthorize("hasAuthority('" + Permission.BANNER_EDIT + "')")
     public ResultEntity<Object> save(@ModelAttribute @Valid BannerQuery bannerQuery) {
-        if(StringUtil.isNotEmpty(bannerQuery.getParam())){
-            if(!JsonUtils.isJson(bannerQuery.getParam())){
+        if (StringUtil.isNotEmpty(bannerQuery.getParam())) {
+            if (!JsonUtils.isJson(bannerQuery.getParam())) {
                 throw new ServiceException("参数必须为json格式");
             }
         }

@@ -3,19 +3,19 @@ package com.abc1236.ms.controller.system;
 
 import com.abc1236.ms.constant.Permission;
 import com.abc1236.ms.core.result.ResultEntity;
-import com.abc1236.ms.entity.shop.Category;
 import com.abc1236.ms.entity.system.Cfg;
 import com.abc1236.ms.mapper.system.CfgMapper;
 import com.abc1236.ms.service.system.CfgService;
 import com.abc1236.ms.service.system.FileService;
-import com.abc1236.ms.util.StringUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.sun.jndi.toolkit.dir.SearchFilter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author tanshion
@@ -36,7 +36,7 @@ public class CfgController {
      */
     @GetMapping(value = "/list")
     @PreAuthorize("hasAuthority('" + Permission.CFG + "')")
-    public ResultEntity<Page<Cfg>> list(Long page, Long limit,@RequestParam(required = false) String cfgName, @RequestParam(required = false) String cfgValue) {
+    public ResultEntity<Page<Cfg>> list(Long page, Long limit, @RequestParam(required = false) String cfgName, @RequestParam(required = false) String cfgValue) {
         Page<Cfg> entity = cfgService.queryPage(new Page<>(page, limit), cfgName, cfgValue);
         return ResultEntity.success(entity);
     }

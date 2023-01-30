@@ -25,7 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/offcialsite/news")
-public class NewsController  {
+public class NewsController {
     private final BannerService bannerService;
     private final ArticleService articleService;
 
@@ -43,7 +43,7 @@ public class NewsController  {
             news.setSrc("static/images/icon/user.png");
             newsList.add(news);
         }
-        newsVO.setNewsList( newsList);
+        newsVO.setNewsList(newsList);
         return ResultEntity.success(newsVO);
     }
 }
