@@ -2,12 +2,12 @@ package com.abc1236.ms.service.cms.impl;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
-import com.abc1236.ms.config.mybatis.SqlWrapper;
 import com.abc1236.ms.entity.cms.Article;
 import com.abc1236.ms.enumeration.cms.ChannelEnum;
 import com.abc1236.ms.mapper.cms.ArticleMapper;
 import com.abc1236.ms.service.cms.ArticleService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.toolkit.Db;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -46,7 +46,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Page<Article> list(Long page, Long limit, String title, String author, String startDate, String endDate) {
-        Page<Article> articlePage = SqlWrapper.query(articleMgrMapper)
+        Page<Article> articlePage = Db.lambdaQuery(Article.class)
             .like(StrUtil.isNotBlank(title), Article::getTitle, title)
             .eq(StrUtil.isNotBlank(author), Article::getAuthor, author)
             .ge(StrUtil.isNotBlank(startDate), Article::getCreateTime, DateUtil.parse(startDate, "yyyyMMddHHmmss"))
@@ -58,7 +58,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Page<Article> query(Long page, Long limit, Long id) {
-        Page<Article> pageList = SqlWrapper.query(articleMgrMapper)
+        Page<Article> pageList = Db.lambdaQuery(Article.class)
             .eq(Article::getIdChannel, id)
             .orderByAsc(Article::getId)
             .page(new Page<>(page, limit));
