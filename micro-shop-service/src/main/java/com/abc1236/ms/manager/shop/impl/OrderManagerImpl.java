@@ -4,6 +4,7 @@ import com.abc1236.ms.config.mybatis.SqlWrapper;
 import com.abc1236.ms.entity.shop.Order;
 import com.abc1236.ms.manager.shop.OrderManager;
 import com.abc1236.ms.mapper.shop.OrderMapper;
+import com.baomidou.mybatisplus.extension.toolkit.Db;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +15,7 @@ public class OrderManagerImpl implements OrderManager {
 
     @Override
     public Long count(Long userId) {
-        return SqlWrapper.query(orderMapper)
+        return Db.lambdaQuery(Order.class)
             .eq(Order::getIdUser, userId)
             .count();
     }

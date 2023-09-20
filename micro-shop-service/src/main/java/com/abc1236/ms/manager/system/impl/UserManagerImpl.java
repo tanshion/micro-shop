@@ -1,9 +1,9 @@
 package com.abc1236.ms.manager.system.impl;
 
-import com.abc1236.ms.config.mybatis.wrapper.QueryChain;
 import com.abc1236.ms.entity.system.User;
 import com.abc1236.ms.manager.system.UserManager;
 import com.abc1236.ms.mapper.system.UserMapper;
+import com.baomidou.mybatisplus.extension.toolkit.Db;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,9 +25,10 @@ public class UserManagerImpl implements UserManager {
         //    .one();
         //cacheDao.set(MessageFormat.format(DBCacheKey.sys_user_account, username), user);
         //return user;
-        return new QueryChain<>(userMapper)
-            .eq(User::getAccount, username)
-            .one();
+        return Db.lambdaQuery(User.class)
+                .eq(User::getAccount, username)
+                .one();
+
     }
 
     @Override
@@ -42,9 +43,9 @@ public class UserManagerImpl implements UserManager {
         //    .one();
         //cacheDao.set(MessageFormat.format(DBCacheKey.sys_user_id, id), id);
         //return user;
-        return new QueryChain<>(userMapper)
-            .eq(User::getId, id)
-            .one();
+        return Db.lambdaQuery(User.class)
+                .eq(User::getId, id)
+                .one();
     }
 
     @Override
@@ -55,9 +56,9 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     public User findByPhone(String mobile) {
-        return new QueryChain<>(userMapper)
-            .eq(User::getPhone, mobile)
-            .one();
+        return Db.lambdaQuery(User.class)
+                .eq(User::getPhone, mobile)
+                .one();
     }
 
     //private void deflectCache(User user) {
