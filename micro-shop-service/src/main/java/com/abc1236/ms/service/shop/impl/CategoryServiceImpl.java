@@ -1,11 +1,12 @@
 package com.abc1236.ms.service.shop.impl;
 
-import com.abc1236.ms.config.mybatis.SqlWrapper;
+
 import com.abc1236.ms.entity.shop.Category;
 import com.abc1236.ms.exception.MyAssert;
 import com.abc1236.ms.mapper.shop.CategoryMapper;
 import com.abc1236.ms.service.shop.CategoryService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.toolkit.Db;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,13 +22,13 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Page<Category> queryPage(Long page, Long limit) {
-        return SqlWrapper.query(categoryMapper)
+        return Db.lambdaQuery(Category.class)
             .page(new Page<>(page, limit));
     }
 
     @Override
     public List<Category> queryAll() {
-        return SqlWrapper.query(categoryMapper).list();
+        return Db.lambdaQuery(Category.class).list();
     }
 
     @Override

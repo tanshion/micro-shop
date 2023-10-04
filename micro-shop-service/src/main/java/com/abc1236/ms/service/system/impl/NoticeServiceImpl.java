@@ -1,10 +1,10 @@
 package com.abc1236.ms.service.system.impl;
 
 import cn.hutool.core.util.StrUtil;
-import com.abc1236.ms.config.mybatis.wrapper.QueryChain;
 import com.abc1236.ms.entity.system.Notice;
 import com.abc1236.ms.mapper.system.NoticeMapper;
 import com.abc1236.ms.service.system.NoticeService;
+import com.baomidou.mybatisplus.extension.toolkit.Db;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,15 +19,8 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Override
     public List<Notice> getNoticeList(String condition) {
-        List<Notice> list;
-        if (StrUtil.isBlank(condition)) {
-            list = new QueryChain<>(noticeMapper)
+        return Db.lambdaQuery(Notice.class)
+                .like(StrUtil.isBlank(condition), Notice::getTitle, "%" + condition + "%")
                 .list();
-        } else {
-            list = new QueryChain<>(noticeMapper)
-                .like(Notice::getTitle, "%" + condition + "%")
-                .list();
-        }
-        return list;
     }
 }

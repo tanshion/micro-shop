@@ -1,13 +1,14 @@
 package com.abc1236.ms.service.cms.impl;
 
 import cn.hutool.core.util.StrUtil;
-import com.abc1236.ms.config.mybatis.SqlWrapper;
+
 import com.abc1236.ms.entity.cms.Banner;
 import com.abc1236.ms.enumeration.cms.BannerTypeEnum;
 import com.abc1236.ms.mapper.cms.BannerMapper;
 import com.abc1236.ms.query.BannerQuery;
 import com.abc1236.ms.service.cms.BannerService;
 import com.abc1236.ms.vo.offcialsite.BannerVO;
+import com.baomidou.mybatisplus.extension.toolkit.Db;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.tuyang.beanutils.BeanCopyUtils;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +38,7 @@ public class BannerServiceImpl implements BannerService {
 
     @Override
     public List<Banner> queryAllLike(String title) {
-        return SqlWrapper.query(bannerMapper)
+        return Db.lambdaQuery(Banner.class)
             .like(StrUtil.isNotBlank(title), Banner::getTitle, title)
             .list();
     }
@@ -45,7 +46,7 @@ public class BannerServiceImpl implements BannerService {
     @Override
     public BannerVO queryBanner(String value) {
         BannerVO banner = new BannerVO();
-        List<Banner> bannerList = SqlWrapper.query(bannerMapper)
+        List<Banner> bannerList = Db.lambdaQuery(Banner.class)
             .eq(Banner::getType, value)
             .list();
         banner.setIndex(0);

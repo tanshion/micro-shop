@@ -1,11 +1,12 @@
 package com.abc1236.ms.service.cms.impl;
 
-import com.abc1236.ms.config.mybatis.SqlWrapper;
+
 import com.abc1236.ms.entity.cms.Channel;
 import com.abc1236.ms.exception.MyAssert;
 import com.abc1236.ms.mapper.cms.ChannelMapper;
 import com.abc1236.ms.query.ChannelQuery;
 import com.abc1236.ms.service.cms.ChannelService;
+import com.baomidou.mybatisplus.extension.toolkit.Db;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.tuyang.beanutils.BeanCopyUtils;
 import lombok.RequiredArgsConstructor;
@@ -45,6 +46,6 @@ public class ChannelServiceImpl implements ChannelService {
     @Override
     public List<Channel> queryAll() {
         log.info("查询所有栏目");
-        return SqlWrapper.query(channelMapper).list();
+        return Db.lambdaQuery(Channel.class).list();
     }
 }

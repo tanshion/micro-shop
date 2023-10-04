@@ -2,7 +2,7 @@ package com.abc1236.ms.service.system.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.abc1236.ms.bo.MenuBO;
-import com.abc1236.ms.config.mybatis.SqlWrapper;
+
 import com.abc1236.ms.constant.state.MenuStatus;
 import com.abc1236.ms.entity.system.Menu;
 import com.abc1236.ms.exception.ServiceException;
@@ -17,6 +17,7 @@ import com.abc1236.ms.vo.node.Node;
 import com.abc1236.ms.vo.node.RouterMenu;
 import com.abc1236.ms.vo.node.ZTreeNode;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.baomidou.mybatisplus.extension.toolkit.Db;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.google.common.collect.Lists;
 import com.tuyang.beanutils.BeanCopyUtils;
@@ -103,7 +104,7 @@ public class MenuServiceImpl implements MenuService {
         Menu menu = BeanCopyUtils.copyBean(menuQuery, Menu.class);
         //判断是否存在该编号
         if (menu.getId() == null) {
-            Menu existedMenu = SqlWrapper.query(menuMapper)
+            Menu existedMenu = Db.lambdaQuery(Menu.class)
                 .eq(Menu::getCode, menu.getCode())
                 .one();
             if (existedMenu != null) {
@@ -195,7 +196,7 @@ public class MenuServiceImpl implements MenuService {
     private void delMenuContainSubMenus(Long menuId) {
         Menu menu = getById(menuId);
         //删除所有子菜单
-        List<Menu> menus = SqlWrapper.query(menuMapper)
+        List<Menu> menus = Db.lambdaQuery(Menu.class)
             .like(Menu::getCode, "%[" + menu.getCode() + "]%")
             .list();
         List<Long> ids = Optional.ofNullable(menus)
@@ -214,7 +215,7 @@ public class MenuServiceImpl implements MenuService {
             menu.setPcodes("[0],");
             menu.setLevels(1);
         } else {
-            Menu pMenu = SqlWrapper.query(menuMapper)
+            Menu pMenu = Db.lambdaQuery(Menu.class)
                 .eq(Menu::getCode, menu.getPcode())
                 .one();
             Integer pLevels = pMenu.getLevels();
