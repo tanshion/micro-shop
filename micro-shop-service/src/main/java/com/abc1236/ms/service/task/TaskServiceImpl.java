@@ -1,13 +1,13 @@
 package com.abc1236.ms.service.task;
 
 
-import com.abc1236.ms.config.mybatis.SqlWrapper;
 import com.abc1236.ms.entity.system.Task;
 import com.abc1236.ms.exception.MyAssert;
 import com.abc1236.ms.exception.ServiceException;
 import com.abc1236.ms.mapper.system.TaskMapper;
 import com.abc1236.ms.service.system.LogObjectHolder;
 import com.abc1236.ms.vo.QuartzJob;
+import com.baomidou.mybatisplus.extension.toolkit.Db;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,9 +36,9 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public void addTask(Task task) {
-        if(task.getId()==null) {
+        if (task.getId() == null) {
             save(task);
-        }else{
+        } else {
             Task old = getById(task.getId());
             LogObjectHolder.me().set(old);
             old.setName(task.getName());
@@ -65,7 +65,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public boolean updateById(Task task) {
         log.info("更新定时任务:{}", task.getName());
-        MyAssert.notNull(taskMapper.selectById(task.getId()),"数据不存在");
+        MyAssert.notNull(taskMapper.selectById(task.getId()), "数据不存在");
         boolean success = SqlHelper.retBool(taskMapper.updateById(task));
         try {
             QuartzJob job = jobService.getJob(task.getId().toString(), task.getJobGroup());
@@ -82,11 +82,11 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public boolean disable(Long taskId) {
         Task task = taskMapper.selectById(taskId);
-        MyAssert.notNull(taskMapper.selectById(task.getId()),"数据不存在");
-        boolean success = SqlWrapper.update(taskMapper)
-            .eq(Task::getId, task)
-            .set(Task::getDisabled, true)
-            .update();
+        MyAssert.notNull(taskMapper.selectById(task.getId()), "数据不存在");
+        boolean success = Db.lambdaUpdate(Task.class)
+                .eq(Task::getId, task)
+                .set(Task::getDisabled, true)
+                .update();
         log.info("禁用定时任务:{}", taskId);
         try {
             QuartzJob job = jobService.getJob(task.getId().toString(), task.getJobGroup());
@@ -102,11 +102,11 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public boolean enable(Long taskId) {
         Task task = taskMapper.selectById(taskId);
-        MyAssert.notNull(taskMapper.selectById(task.getId()),"数据不存在");
-        boolean success = SqlWrapper.update(taskMapper)
-            .eq(Task::getId, task)
-            .set(Task::getDisabled, false)
-            .update();
+        MyAssert.notNull(taskMapper.selectById(task.getId()), "数据不存在");
+        boolean success = Db.lambdaUpdate(Task.class)
+                .eq(Task::getId, task)
+                .set(Task::getDisabled, false)
+                .update();
         log.info("启用定时任务{}", taskId);
         try {
             QuartzJob job = jobService.getJob(task.getId().toString(), task.getJobGroup());
@@ -117,7 +117,7 @@ public class TaskServiceImpl implements TaskService {
                 jobService.addJob(jobService.getJob(task));
             }
         } catch (SchedulerException e) {
-            throw  new ServiceException("定时任务配置错误");
+            throw new ServiceException("定时任务配置错误");
         }
         return success;
     }
@@ -125,7 +125,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public boolean deleteById(Long id) {
         Task task = taskMapper.selectById(id);
-        MyAssert.notNull(taskMapper.selectById(task.getId()),"数据不存在");
+        MyAssert.notNull(taskMapper.selectById(task.getId()), "数据不存在");
         task.setDisabled(true);
         boolean success = SqlHelper.retBool(taskMapper.deleteById(id));
         try {
@@ -142,9 +142,9 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<Task> queryAllByNameLike(String name) {
-        return SqlWrapper.query(taskMapper)
-            .like(Task::getName, "%" + name + "%")
-            .list();
+        return Db.lambdaQuery(Task.class)
+                .like(Task::getName, "%" + name + "%")
+                .list();
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -165,13 +165,13 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<Task> queryAll(boolean disabled) {
-        return SqlWrapper.query(taskMapper)
-            .eq(Task::getDisabled, disabled)
-            .list();
+        return Db.lambdaQuery(Task.class)
+                .eq(Task::getDisabled, disabled)
+                .list();
     }
 
     @Override
     public List<Task> queryAll() {
-        return SqlWrapper.query(taskMapper).list();
+        return Db.lambdaQuery(Task.class).list();
     }
 }
