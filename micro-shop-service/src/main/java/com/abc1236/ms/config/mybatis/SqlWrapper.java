@@ -1,38 +1,46 @@
 package com.abc1236.ms.config.mybatis;
 
-import com.abc1236.ms.config.mybatis.wrapper.QueryChain;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.extension.conditions.update.LambdaUpdateChainWrapper;
+import cn.hutool.core.date.LocalDateTimeUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
+import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 
-/**
- * 快捷构造 chain 式调用的工具类
- *
- * @author tanshion
- * @email 843565561@qq.com
- */
-public final class SqlWrapper {
+import java.time.LocalDateTime;
+import java.util.List;
 
-    private SqlWrapper() {
-        // ignore
+public class SqlWrapper {
+
+    public static <T> void range(LambdaQueryWrapper<T> wrappers, SFunction<T, ?> column, List<LocalDateTime> dateTimes) {
+        LocalDateTime startDateTime = null;
+        LocalDateTime endDateTime = null;
+        if (null != dateTimes) {
+            for (int i = 0; i < dateTimes.size(); ++i) {
+                if (i == 0) {
+                    startDateTime = LocalDateTimeUtil.beginOfDay(dateTimes.get(0));
+                } else if (i == 1) {
+                    endDateTime = LocalDateTimeUtil.endOfDay(dateTimes.get(1));
+                }
+            }
+        }
+        wrappers.ge(null != startDateTime, column, startDateTime)
+            .le(null != endDateTime, column, endDateTime);
     }
 
-    /**
-     * 链式查询 lambda 式
-     * <p>注意：不支持 Kotlin </p>
-     *
-     * @return LambdaQueryWrapper 的包装类
-     */
-    public static <T> QueryChain<T> query(BaseMapper<T> mapper) {
-        return new QueryChain<>(mapper);
+
+    public static <T> void range(LambdaQueryChainWrapper<T> wrappers, SFunction<T, ?> column, List<LocalDateTime> dateTimes) {
+        LocalDateTime startDateTime = null;
+        LocalDateTime endDateTime = null;
+        if (null != dateTimes) {
+            for (int i = 0; i < dateTimes.size(); ++i) {
+                if (i == 0) {
+                    startDateTime = LocalDateTimeUtil.beginOfDay(dateTimes.get(0));
+                } else if (i == 1) {
+                    endDateTime = LocalDateTimeUtil.endOfDay(dateTimes.get(1));
+                }
+            }
+        }
+        wrappers.ge(null != startDateTime, column, startDateTime)
+            .le(null != endDateTime, column, endDateTime);
     }
 
-    /**
-     * 链式更改 lambda 式
-     * <p>注意：不支持 Kotlin </p>
-     *
-     * @return LambdaUpdateWrapper 的包装类
-     */
-    public static <T> LambdaUpdateChainWrapper<T> update(BaseMapper<T> mapper) {
-        return new LambdaUpdateChainWrapper<>(mapper);
-    }
 }
