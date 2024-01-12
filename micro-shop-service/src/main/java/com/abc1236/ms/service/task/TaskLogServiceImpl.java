@@ -1,9 +1,10 @@
 package com.abc1236.ms.service.task;
 
-import com.abc1236.ms.config.mybatis.SqlWrapper;
+
 import com.abc1236.ms.entity.system.TaskLog;
 import com.abc1236.ms.mapper.system.TaskLogMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.toolkit.Db;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +23,7 @@ public class TaskLogServiceImpl implements TaskLogService {
 
     @Override
     public Page<TaskLog> queryPage(Long taskId, Page<TaskLog> page) {
-        return SqlWrapper.query(taskLogMapper)
+        return Db.lambdaQuery(TaskLog.class)
             .eq(TaskLog::getId, taskId)
             .page(page);
     }
