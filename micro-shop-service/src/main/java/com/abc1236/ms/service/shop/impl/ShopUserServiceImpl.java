@@ -1,7 +1,6 @@
 package com.abc1236.ms.service.shop.impl;
 
 import cn.hutool.core.date.DateUtil;
-import com.abc1236.ms.config.mybatis.SqlWrapper;
 import com.abc1236.ms.entity.shop.ShopUser;
 import com.abc1236.ms.manager.shop.CartManager;
 import com.abc1236.ms.manager.shop.OrderManager;
@@ -11,6 +10,7 @@ import com.abc1236.ms.query.ShopUserListQuery;
 import com.abc1236.ms.service.shop.ShopUserService;
 import com.abc1236.ms.vo.shop.UserDetailsVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.toolkit.Db;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,7 @@ public class ShopUserServiceImpl implements ShopUserService {
     private final OrderManager orderManager;
     @Override
     public Page<ShopUser> queryPage(ShopUserListQuery query) {
-        return SqlWrapper.query(shopUserMapper)
+        return Db.lambdaQuery(ShopUser.class)
             .eq(ShopUser::getMobile, query.getMobile())
             .eq(ShopUser::getNickName, query.getNickName())
             .ge(query.getStartRegDate() != null, ShopUser::getCreateTime,
