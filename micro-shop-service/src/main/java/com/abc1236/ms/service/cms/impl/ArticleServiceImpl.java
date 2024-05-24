@@ -27,9 +27,9 @@ public class ArticleServiceImpl implements ArticleService {
             old.setIdChannel(article.getIdChannel());
             old.setImg(article.getImg());
             old.setTitle(article.getTitle());
-            articleMgrMapper.updateById(old);
+            Db.updateById(old);
         } else {
-            articleMgrMapper.insert(article);
+            Db.save(article);
         }
     }
 

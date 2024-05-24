@@ -53,11 +53,11 @@ public class ArticleMgrController {
     @GetMapping(value = "/list")
     @PreAuthorize("hasAuthority('" + Permission.ARTICLE + "')")
     public ResultEntity<Page<Article>> list(
-        Long page, Long limit,
-        @RequestParam(required = false) String title,
-        @RequestParam(required = false) String author,
-        @RequestParam(required = false) String startDate,
-        @RequestParam(required = false) String endDate
+            Long page, Long limit,
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String author,
+            @RequestParam(required = false) String startDate,
+            @RequestParam(required = false) String endDate
     ) {
         Page<Article> list = articleService.list(page, limit, title, author, startDate, endDate);
         return ResultEntity.success(list);
