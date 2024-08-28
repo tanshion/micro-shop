@@ -2,7 +2,6 @@ package com.abc1236.ms.service;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
-import com.abc1236.ms.config.mybatis.wrapper.QueryChain;
 import com.abc1236.ms.core.authentication.service.MyUserDetailsService;
 import com.abc1236.ms.core.authentication.token.AuthorizationUser;
 import com.abc1236.ms.entity.system.*;
@@ -11,6 +10,7 @@ import com.abc1236.ms.mapper.system.DeptMapper;
 import com.abc1236.ms.mapper.system.MenuMapper;
 import com.abc1236.ms.mapper.system.RelationMapper;
 import com.abc1236.ms.mapper.system.RoleMapper;
+import com.baomidou.mybatisplus.extension.toolkit.Db;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -63,20 +63,20 @@ public class UserDetailsServiceImpl implements MyUserDetailsService {
         Set<String> permissions = new HashSet<>();
         Set<String> resUrls = new HashSet<>();
         CollectionUtil.addAll(roleList, roleArray);
-        List<Role> roles = new QueryChain<>(roleMapper)
+        List<Role> roles = Db.lambdaQuery(Role.class)
             .in(Role::getId, roleList)
             .list();
         Optional.ofNullable(roles).orElse(new ArrayList<>()).forEach(role -> {
             roleNameList.add(role.getName());
             roleCodeList.add(role.getTips());
         });
-        List<Relation> relations = new QueryChain<>(relationMapper)
+        List<Relation> relations = Db.lambdaQuery(Relation.class)
             .in(Relation::getRoleid, roleList)
             .list();
         List<Long> menuList = Optional.ofNullable(relations).orElse(new ArrayList<>()).stream()
             .map(Relation::getMenuid)
             .collect(Collectors.toList());
-        List<Menu> menus = new QueryChain<>(menuMapper)
+        List<Menu> menus =  Db.lambdaQuery(Menu.class)
             .in(Menu::getId, menuList)
             .list();
         Optional.ofNullable(menus).orElse(new ArrayList<>()).forEach(menu -> {
