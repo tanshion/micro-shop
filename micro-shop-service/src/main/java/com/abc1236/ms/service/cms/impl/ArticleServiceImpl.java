@@ -21,13 +21,14 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public void save(Article article) {
         if (article.getId() != null) {
-            Article old = articleMgrMapper.selectById(article.getId());
-            old.setAuthor(article.getAuthor());
-            old.setContent(article.getContent());
-            old.setIdChannel(article.getIdChannel());
-            old.setImg(article.getImg());
-            old.setTitle(article.getTitle());
-            Db.updateById(old);
+            Db.lambdaUpdate(Article.class)
+                .eq(Article::getId, article.getId())
+                .set(Article::getAuthor, article.getAuthor())
+                .set(Article::getContent, article.getContent())
+                .set(Article::getIdChannel, article.getIdChannel())
+                .set(Article::getImg, article.getImg())
+                .set(Article::getTitle, article.getTitle())
+                .update();
         } else {
             Db.save(article);
         }
