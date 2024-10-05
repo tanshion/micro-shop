@@ -25,7 +25,7 @@ public class ChannelServiceImpl implements ChannelService {
     public boolean insert(ChannelQuery channelQuery) {
         log.info("新增栏目");
         Channel channel = BeanCopyUtils.copyBean(channelQuery, Channel.class);
-        return SqlHelper.retBool(channelMapper.insert(channel));
+        return Db.save(channel);
     }
 
     @Override
