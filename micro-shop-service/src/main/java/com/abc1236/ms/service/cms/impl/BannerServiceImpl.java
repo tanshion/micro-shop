@@ -25,9 +25,9 @@ public class BannerServiceImpl implements BannerService {
     public boolean save(BannerQuery bannerQuery) {
         Banner banner = BeanCopyUtils.copyBean(bannerQuery, Banner.class);
         if (banner.getId() == null) {
-            return SqlHelper.retBool(bannerMapper.insert(banner));
+            return Db.save(banner);
         } else {
-            return SqlHelper.retBool(bannerMapper.updateById(banner));
+            return Db.updateById(banner);
         }
     }
 
