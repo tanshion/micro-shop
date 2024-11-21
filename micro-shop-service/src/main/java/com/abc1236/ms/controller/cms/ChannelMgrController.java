@@ -11,10 +11,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -28,7 +25,7 @@ public class ChannelMgrController {
     private final ChannelService channelService;
 
     @ApiOperation("编辑栏目")
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping
     @BussinessLog(value = "编辑栏目", key = "name")
     @PreAuthorize("hasAuthority('" + Permission.CHANNEL_EDIT + "')")
     public ResultEntity<String> save(@ModelAttribute @Valid ChannelQuery channelQuery) {
@@ -41,7 +38,7 @@ public class ChannelMgrController {
     }
 
     @ApiOperation("删除栏目")
-    @RequestMapping(method = RequestMethod.DELETE)
+    @DeleteMapping
     @BussinessLog(value = "删除栏目", key = "id")
     @PreAuthorize("hasAuthority('" + Permission.CHANNEL_DEL + "')")
     public ResultEntity<String> remove(Long id) {
