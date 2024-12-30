@@ -38,7 +38,7 @@ public class ChannelServiceImpl implements ChannelService {
     @Override
     public boolean deleteById(Long id) {
         log.info("删除栏目");
-        Channel channel = channelMapper.selectById(id);
+        Channel channel = Db.getById(id, Channel.class);
         MyAssert.notNull(channel, "栏目不存在");
         return SqlHelper.retBool(channelMapper.deleteById(id));
     }
