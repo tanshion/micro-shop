@@ -32,7 +32,7 @@ public class ChannelServiceImpl implements ChannelService {
     public boolean update(ChannelQuery channelQuery) {
         log.info("更新栏目");
         Channel channel = BeanCopyUtils.copyBean(channelQuery, Channel.class);
-        return SqlHelper.retBool(channelMapper.updateById(channel));
+        return Db.updateById(channel);
     }
 
     @Override
