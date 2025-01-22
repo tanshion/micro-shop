@@ -33,7 +33,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public boolean insert(Category category) {
-        return SqlHelper.retBool(categoryMapper.insert(category));
+        return Db.save(category);
     }
 
     @Override
