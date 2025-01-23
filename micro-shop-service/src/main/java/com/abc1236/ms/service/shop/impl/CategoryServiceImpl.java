@@ -38,7 +38,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public boolean update(Category category) {
-        Category c = categoryMapper.selectById(category.getId());
+        Category c = Db.getById(category.getId(), Category.class);
         MyAssert.notNull(c,"不存在");
         return SqlHelper.retBool(categoryMapper.updateById(category));
     }
