@@ -40,6 +40,6 @@ public class CategoryServiceImpl implements CategoryService {
     public boolean update(Category category) {
         Category c = Db.getById(category.getId(), Category.class);
         MyAssert.notNull(c,"不存在");
-        return SqlHelper.retBool(categoryMapper.updateById(category));
+        return Db.updateById(category);
     }
 }
